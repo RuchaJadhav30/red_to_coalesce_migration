@@ -1,0 +1,130 @@
+fileVersion: 1
+id: 96b0b763-2528-41bf-9ffd-cefca3fb7451
+name: LOAD_CATEGORIES_TRADERS_SOUTH
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SRC
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 457a2271-822a-431a-9db8-3068cc2f7199
+          stepCounter: 96b0b763-2528-41bf-9ffd-cefca3fb7451
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: CATEGORYID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5aa6b1f6-08ed-4c58-8906-bd74d20425e4
+          stepCounter: 96b0b763-2528-41bf-9ffd-cefca3fb7451
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: CATEGORYNAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3df189a5-7c88-4004-a568-d244bc6b3a46
+          stepCounter: 96b0b763-2528-41bf-9ffd-cefca3fb7451
+        config: {}
+        dataType: VARCHAR(4000)
+        defaultValue: ""
+        description: ""
+        name: DESCRIPTION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d4333018-5498-457b-88e7-6537a572125f
+          stepCounter: 96b0b763-2528-41bf-9ffd-cefca3fb7451
+        config: {}
+        dataType: BINARY(8388608)
+        defaultValue: ""
+        description: ""
+        name: PICTURE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b7bff239-b928-423f-8918-9f0832970ab2
+          stepCounter: 96b0b763-2528-41bf-9ffd-cefca3fb7451
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e945c9d2-6b98-4693-9023-0d8fa554b7e0
+          stepCounter: 96b0b763-2528-41bf-9ffd-cefca3fb7451
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: LOAD_CATEGORIES_TRADERS_SOUTH
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

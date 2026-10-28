@@ -1,0 +1,193 @@
+fileVersion: 1
+id: fde8b4de-076a-450d-b967-cf9fa7126e0a
+name: STAGE_CATEGORY_TRADERS_NORTH
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_category_traders_north (source: Traders_North.dbo.Categories via load_categories_traders_north)."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c544f929-5b84-48d5-a566-a40fe7a99ff4
+          stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: CAST(NULL AS CHAR(32))"
+        name: HK_H_CATEGORY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(NULL AS CHAR(32))
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d89261c5-32f7-47a8-9cf1-44a11416eeb7
+          stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: CATEGORY_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ecdf5573-287e-4f0e-affb-b299339a374b
+                stepCounter: acb4f616-8058-4f81-ac8c-5447f5983640
+            transform: "\"LOAD_CATEGORIES_TRADERS_NORTH\".\"CATEGORYNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ab331a93-c7af-4e94-bab4-85d8dbc9c00f
+          stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: CATEGORYID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: de936ceb-6d64-45e9-a4b2-0874c98e0d13
+                stepCounter: acb4f616-8058-4f81-ac8c-5447f5983640
+            transform: "\"LOAD_CATEGORIES_TRADERS_NORTH\".\"CATEGORYID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a29deb31-7751-4981-8925-58364ec71248
+          stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+        config: {}
+        dataType: VARCHAR(4000)
+        defaultValue: ""
+        description: ""
+        name: DESCRIPTION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 22bd0ec2-b343-4897-a1f6-52073637a8dc
+                stepCounter: acb4f616-8058-4f81-ac8c-5447f5983640
+            transform: "\"LOAD_CATEGORIES_TRADERS_NORTH\".\"DESCRIPTION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 890181c9-8a59-4c5e-8a85-24e3e3fe587a
+          stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: CAST(NULL AS CHAR(32))"
+        name: DSS_CHANGE_HASH_CATEGORY_LROC_TRADERS_NORTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(NULL AS CHAR(32))
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f5cd6d48-0a41-4d6f-9a30-d3d42ca7efc3
+          stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cd44565b-08fe-4339-8282-09181b5854c2
+                stepCounter: acb4f616-8058-4f81-ac8c-5447f5983640
+            transform: "\"LOAD_CATEGORIES_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 679dfd0b-cbc6-43f8-bfdf-0e4ed621933a
+          stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8340497e-6bea-49fd-949c-b83ee8836ec2
+                stepCounter: acb4f616-8058-4f81-ac8c-5447f5983640
+            transform: "\"LOAD_CATEGORIES_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c120e516-9b34-4992-8600-ca5eaa212ce9
+          stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (procedure run timestamp)"
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_CATEGORIES_TRADERS_NORTH: acb4f616-8058-4f81-ac8c-5447f5983640
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_CATEGORIES_TRADERS_NORTH
+        join:
+          joinCondition: FROM {{ ref('SRC', 'LOAD_CATEGORIES_TRADERS_NORTH') }} "LOAD_CATEGORIES_TRADERS_NORTH"
+        name: STAGE_CATEGORY_TRADERS_NORTH
+        noLinkRefs: []
+  name: STAGE_CATEGORY_TRADERS_NORTH
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
