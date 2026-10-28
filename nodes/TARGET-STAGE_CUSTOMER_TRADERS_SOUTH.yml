@@ -1,0 +1,393 @@
+fileVersion: 1
+id: 3099c79e-0525-4527-84c0-bd2ace23067c
+name: STAGE_CUSTOMER_TRADERS_SOUTH
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_customer_traders_south (source: Traders_South.dbo.Customers via load_customers_traders_south)."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e9adc19e-7365-44fc-adee-1dcaf50c6fbe
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Hub hash key: MD5 of customer_name (companyname) per RED ws_column_relationship (corrects RED template defect that emitted NULL). Snowflake MD5 returns hex text and may differ from SQL Server CAST(HASHBYTES(md5) AS CHAR(32)) binary-to-CHAR output."
+        name: HK_H_CUSTOMER
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4bc0df78-d409-49f8-b428-86aaa401ff63
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "MD5(COALESCE(CAST(\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"COMPANYNAME\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1f6f932d-c1c0-4201-892c-c3252a2d9697
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: CUSTOMER_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4bc0df78-d409-49f8-b428-86aaa401ff63
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"COMPANYNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: df50f1fc-e150-444c-8177-06a844e651fb
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(5)
+        defaultValue: ""
+        description: ""
+        name: CUSTOMERID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: accd1328-bca5-44e5-a4d4-71ef0245b54c
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"CUSTOMERID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ea22fc28-ef18-4234-aec4-60bdb9840c58
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: COUNTRY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 87e19be3-f9e8-45c2-a035-42dd5924ab06
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"COUNTRY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a24ba89e-6bf2-46c0-a7fb-7bea13610a95
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: CONTACTNAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c679dda1-ad4a-4e80-9a06-db70720e2cb9
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"CONTACTNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 15e7ba22-7f1e-4c3d-8fe6-200ffa28e053
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: CONTACTTITLE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0c35bc5a-c03f-475f-887e-7866f1ba375d
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"CONTACTTITLE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: fd93493a-053b-4d55-b274-427c25e390a3
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(60)
+        defaultValue: ""
+        description: ""
+        name: ADDRESS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 422611e0-ad7f-40fa-9563-e3eed31756a6
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"ADDRESS\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4abb5858-b810-44e5-a1ac-062fe333efed
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: CITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 989bb3d9-8421-4444-90e3-2cc6353e46ed
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"CITY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 961c0638-bab0-44d7-aa61-10b2bafde544
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: REGION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2de2db91-4fe7-4308-bf8a-c3237e199565
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"REGION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3f0f2acf-ae39-4cf0-8490-5b7dae944d40
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: POSTALCODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 68635e72-15a7-4518-a49a-07a1a1a5243c
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"POSTALCODE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0ce1aefc-3d91-452b-834c-9128985838bc
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: PHONE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1266775-d825-4028-8583-f08f33454e3b
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"PHONE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a3df9d23-b517-4968-8b4b-b2ea180dab15
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: FAX
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 71ac3f60-d96a-4265-af7d-8a1bd4947dce
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"FAX\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: dc207f43-3af2-41ec-9172-feb18f05aee7
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of customerid per RED ws_column_relationship (corrects RED template defect that emitted NULL). Snowflake MD5 returns hex text and may differ from SQL Server CAST(HASHBYTES(md5) AS CHAR(32)) binary-to-CHAR output."
+        name: DSS_CHANGE_HASH_CUSTOMER_LROC_TRADERS_SOUTH
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: accd1328-bca5-44e5-a4d4-71ef0245b54c
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "MD5(COALESCE(CAST(\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"CUSTOMERID\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: bd24d1f3-c138-4b85-8b2f-0d4b17db36ea
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of country, contactname, contacttitle, address, city, region, postalcode, phone, fax joined with || per RED ws_column_relationship (corrects RED template defect that emitted NULL). Snowflake MD5 returns hex text and may differ from SQL Server CAST(HASHBYTES(md5) AS CHAR(32)) binary-to-CHAR output."
+        name: DSS_CHANGE_HASH_CUSTOMER_MROC_TRADERS_SOUTH
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 87e19be3-f9e8-45c2-a035-42dd5924ab06
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+              - columnCounter: c679dda1-ad4a-4e80-9a06-db70720e2cb9
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+              - columnCounter: 0c35bc5a-c03f-475f-887e-7866f1ba375d
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+              - columnCounter: 422611e0-ad7f-40fa-9563-e3eed31756a6
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+              - columnCounter: 989bb3d9-8421-4444-90e3-2cc6353e46ed
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+              - columnCounter: 2de2db91-4fe7-4308-bf8a-c3237e199565
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+              - columnCounter: 68635e72-15a7-4518-a49a-07a1a1a5243c
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+              - columnCounter: a1266775-d825-4028-8583-f08f33454e3b
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+              - columnCounter: 71ac3f60-d96a-4265-af7d-8a1bd4947dce
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "MD5(COALESCE(CAST(\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"COUNTRY\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"CONTACTNAME\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"CONTACTTITLE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"ADDRESS\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"CITY\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"REGION\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"POSTALCODE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"PHONE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"FAX\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1e46a576-3c92-4c68-bc24-904f575c36f9
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dc54db0a-38a3-47bc-bc5c-89324994d84c
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6a8a5921-0a01-4408-b1c4-a70fac54d781
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 03833027-31a0-48f0-9d92-e7cee33e379a
+                stepCounter: fc861839-a524-4835-b994-0d32883e77de
+            transform: "\"LOAD_CUSTOMERS_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9707d624-848a-4d22-a140-9e565fb9d11d
+          stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (procedure run timestamp)"
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_CUSTOMERS_TRADERS_SOUTH: fc861839-a524-4835-b994-0d32883e77de
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_CUSTOMERS_TRADERS_SOUTH
+        join:
+          joinCondition: FROM {{ ref('SRC', 'LOAD_CUSTOMERS_TRADERS_SOUTH') }} "LOAD_CUSTOMERS_TRADERS_SOUTH"
+        name: STAGE_CUSTOMER_TRADERS_SOUTH
+        noLinkRefs: []
+  name: STAGE_CUSTOMER_TRADERS_SOUTH
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
