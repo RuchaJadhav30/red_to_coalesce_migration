@@ -7,7 +7,7 @@ operation:
     postSQL: ""
     preSQL: ""
     testsEnabled: true
-    truncateBefore: true
+    truncateBefore: false
   database: ""
   deployEnabled: true
   description: "Migrated from WhereScape RED stage table stage_category_traders_north (source: Traders_North.dbo.Categories via load_categories_traders_north)."
@@ -27,13 +27,15 @@ operation:
         config: {}
         dataType: CHAR(32)
         defaultValue: ""
-        description: "RED: CAST(NULL AS CHAR(32))"
+        description: "Hub hash key: MD5 of category_name per RED ws_column_relationship (corrects RED template defect that emitted NULL). Snowflake MD5 returns hex text and may differ from SQL Server CAST(HASHBYTES(md5) AS CHAR(32)) binary-to-CHAR output."
         name: HK_H_CATEGORY
         nullable: true
         primaryKey: false
         sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(NULL AS CHAR(32))
+          - columnReferences:
+              - columnCounter: ecdf5573-287e-4f0e-affb-b299339a374b
+                stepCounter: acb4f616-8058-4f81-ac8c-5447f5983640
+            transform: MD5(COALESCE(CAST("LOAD_CATEGORIES_TRADERS_NORTH"."CATEGORYNAME" AS VARCHAR), 'null'))
         uniqueKey: false
       - acceptedValues:
           strictMatch: true
@@ -105,13 +107,17 @@ operation:
         config: {}
         dataType: CHAR(32)
         defaultValue: ""
-        description: "RED: CAST(NULL AS CHAR(32))"
+        description: "Change hash: MD5 of categoryid, description joined with || per RED ws_column_relationship (corrects RED template defect that emitted NULL). Snowflake MD5 returns hex text and may differ from SQL Server CAST(HASHBYTES(md5) AS CHAR(32)) binary-to-CHAR output."
         name: DSS_CHANGE_HASH_CATEGORY_LROC_TRADERS_NORTH
         nullable: true
         primaryKey: false
         sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(NULL AS CHAR(32))
+          - columnReferences:
+              - columnCounter: de936ceb-6d64-45e9-a4b2-0874c98e0d13
+                stepCounter: acb4f616-8058-4f81-ac8c-5447f5983640
+              - columnCounter: 22bd0ec2-b343-4897-a1f6-52073637a8dc
+                stepCounter: acb4f616-8058-4f81-ac8c-5447f5983640
+            transform: MD5(COALESCE(CAST("LOAD_CATEGORIES_TRADERS_NORTH"."CATEGORYID" AS VARCHAR), 'null') || '||' || COALESCE(CAST("LOAD_CATEGORIES_TRADERS_NORTH"."DESCRIPTION" AS VARCHAR), 'null'))
         uniqueKey: false
       - acceptedValues:
           strictMatch: true

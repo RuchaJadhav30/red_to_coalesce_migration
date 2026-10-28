@@ -1,0 +1,182 @@
+fileVersion: 1
+id: 2d67f85e-ba01-40ea-85a3-660bc74a16a6
+name: H_CATEGORY
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: Migrated from WhereScape RED hub h_category (source mappings src_h_category_b4079c25 / update_src_h_categor_b4079c25 from stage_category_traders_north, and src_h_category_1_d0913297 / update_src_h_categor_d0913297 from stage_category_traders_south).
+  isMultisource: true
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1d40542e-8d6c-45f1-9ade-97740e1b4578
+          stepCounter: 2d67f85e-ba01-40ea-85a3-660bc74a16a6
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hub key, char(32) NOT NULL, primary key h_category_463de2f5_idx_PK"
+        name: HK_H_CATEGORY
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c544f929-5b84-48d5-a566-a40fe7a99ff4
+                stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+            transform: DISTINCT "STAGE_CATEGORY_TRADERS_NORTH"."HK_H_CATEGORY"
+          - columnReferences:
+              - columnCounter: 7a97ceca-b0cf-4a1f-9d84-55a0d5bc23ef
+                stepCounter: eb5340e4-7b22-433c-99bc-61aa4464f301
+            transform: DISTINCT "STAGE_CATEGORY_TRADERS_SOUTH"."HK_H_CATEGORY"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 060d0fbb-7d3c-42db-9cb2-da7534affe82
+          stepCounter: 2d67f85e-ba01-40ea-85a3-660bc74a16a6
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: ""
+        description: "RED: business key, unique index h_category_463de2f5_idx_A"
+        name: CATEGORY_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d89261c5-32f7-47a8-9cf1-44a11416eeb7
+                stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+            transform: "\"STAGE_CATEGORY_TRADERS_NORTH\".\"CATEGORY_NAME\""
+          - columnReferences:
+              - columnCounter: a137b56b-16f0-4824-9c0a-161c223d6b3e
+                stepCounter: eb5340e4-7b22-433c-99bc-61aa4464f301
+            transform: "\"STAGE_CATEGORY_TRADERS_SOUTH\".\"CATEGORY_NAME\""
+        uniqueKey: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: bba4f958-c4c9-4f9e-84c7-2eb5583aa188
+          stepCounter: 2d67f85e-ba01-40ea-85a3-660bc74a16a6
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f5cd6d48-0a41-4d6f-9a30-d3d42ca7efc3
+                stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+            transform: "\"STAGE_CATEGORY_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+          - columnReferences:
+              - columnCounter: c53fbf05-de92-41bb-81d3-e430958094e1
+                stepCounter: eb5340e4-7b22-433c-99bc-61aa4464f301
+            transform: "\"STAGE_CATEGORY_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 10a7feb8-a6d1-419e-a820-f7b30a956c93
+          stepCounter: 2d67f85e-ba01-40ea-85a3-660bc74a16a6
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 679dfd0b-cbc6-43f8-bfdf-0e4ed621933a
+                stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
+            transform: "\"STAGE_CATEGORY_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+          - columnReferences:
+              - columnCounter: 32a90823-3004-4b64-bde9-33c670651fb8
+                stepCounter: eb5340e4-7b22-433c-99bc-61aa4464f301
+            transform: "\"STAGE_CATEGORY_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2334c0bb-daa2-41b4-8af5-12f1ac6c0db3
+          stepCounter: 2d67f85e-ba01-40ea-85a3-660bc74a16a6
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (procedure run timestamp)"
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_CATEGORY_TRADERS_NORTH: fde8b4de-076a-450d-b967-cf9fa7126e0a
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_CATEGORY_TRADERS_NORTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_CATEGORY_TRADERS_NORTH') }} "STAGE_CATEGORY_TRADERS_NORTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_CATEGORY') }} "H_CATEGORY"
+                WHERE "STAGE_CATEGORY_TRADERS_NORTH"."CATEGORY_NAME" = "H_CATEGORY"."CATEGORY_NAME"
+            )
+        name: STAGE_CATEGORY_TRADERS_NORTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_CATEGORY
+      - aliases:
+          STAGE_CATEGORY_TRADERS_SOUTH: eb5340e4-7b22-433c-99bc-61aa4464f301
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_CATEGORY_TRADERS_SOUTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_CATEGORY_TRADERS_SOUTH') }} "STAGE_CATEGORY_TRADERS_SOUTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_CATEGORY') }} "H_CATEGORY"
+                WHERE "STAGE_CATEGORY_TRADERS_SOUTH"."CATEGORY_NAME" = "H_CATEGORY"."CATEGORY_NAME"
+            )
+        name: STAGE_CATEGORY_TRADERS_SOUTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_CATEGORY
+  name: H_CATEGORY
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
