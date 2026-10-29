@@ -1,0 +1,199 @@
+fileVersion: 1
+id: df3693a2-ae42-4c28-ad02-575804014ef9
+name: STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_employee_territories_traders_south (object key 60; update procedure update_stage_employe_23d3747c, template wsl_sqlserver_proc_dv_perm) using the project Stage node type. Sources: load_employeeterritories_traders_south, joined exactly as in RED. Columns, order, nullability, joins and metadata-column sources follow the RED stage metadata and procedure; hash columns use the project's POC MD5 convention because RED wrote NULL."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 426ba288-324b-470d-8b9c-d43c2e5167a4
+          stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_l_employee_territories char(32) NOT NULL. Link hash key: MD5 of hk_h_employee, hk_h_territory joined with || (inputs per RED ws_column_relationship, in cr_order). RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention used by the existing Stages. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity. The link key hashes the hub hash keys, which are expanded inline because a Stage column cannot reference another column of the same SELECT."
+        name: HK_L_EMPLOYEE_TERRITORIES
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 10374b1d-ad39-4600-9785-ac7af211a673
+                stepCounter: 562490a9-355f-4144-ba49-efe84e854ba8
+              - columnCounter: f436eeb5-8837-497e-b329-d00775eee057
+                stepCounter: 562490a9-355f-4144-ba49-efe84e854ba8
+            transform: "MD5(COALESCE(CAST(MD5(COALESCE(CAST(\"LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH\".\"EMPLOYEEID\" AS VARCHAR), 'null')) AS VARCHAR), 'null') || '||' || COALESCE(CAST(MD5(COALESCE(CAST(\"LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH\".\"TERRITORYID\" AS VARCHAR), 'null')) AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7179e027-283b-4414-a12c-895a1a1e40a8
+          stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_employee char(32) NOT NULL. Hub hash key: MD5 of employee_id (load_employeeterritories_traders_south.employeeid) joined with || (inputs per RED ws_column_relationship, in cr_order). RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention used by the existing Stages. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity."
+        name: HK_H_EMPLOYEE
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 10374b1d-ad39-4600-9785-ac7af211a673
+                stepCounter: 562490a9-355f-4144-ba49-efe84e854ba8
+            transform: "MD5(COALESCE(CAST(\"LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH\".\"EMPLOYEEID\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3cc1c775-4699-4203-b09a-f4a18e896e23
+          stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_territory char(32) NOT NULL. Hub hash key: MD5 of territory_id (load_employeeterritories_traders_south.territoryid) joined with || (inputs per RED ws_column_relationship, in cr_order). RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention used by the existing Stages. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity."
+        name: HK_H_TERRITORY
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f436eeb5-8837-497e-b329-d00775eee057
+                stepCounter: 562490a9-355f-4144-ba49-efe84e854ba8
+            transform: "MD5(COALESCE(CAST(\"LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH\".\"TERRITORYID\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: dd08f367-30f0-4464-b47f-4d35735616c0
+          stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: employee_id int NULL <- load_employeeterritories_traders_south.employeeid"
+        name: EMPLOYEE_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 10374b1d-ad39-4600-9785-ac7af211a673
+                stepCounter: 562490a9-355f-4144-ba49-efe84e854ba8
+            transform: "\"LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH\".\"EMPLOYEEID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e2d7a722-577f-4ac5-bc1f-a419d773030b
+          stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+        config: {}
+        dataType: VARCHAR(20)
+        defaultValue: ""
+        description: "RED: territory_id nvarchar(20) NULL <- load_employeeterritories_traders_south.territoryid"
+        name: TERRITORY_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f436eeb5-8837-497e-b329-d00775eee057
+                stepCounter: 562490a9-355f-4144-ba49-efe84e854ba8
+            transform: "\"LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH\".\"TERRITORYID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c134174b-d47a-42fe-9a4f-f2296e4b34b0
+          stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: "RED: dss_record_source varchar(255) NULL <- load_employeeterritories_traders_south.dss_record_source"
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3ce26af6-4458-424d-b383-d40909434f74
+                stepCounter: 562490a9-355f-4144-ba49-efe84e854ba8
+            transform: "\"LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e6ad8d6f-94a2-42d7-8ffa-c88bf735c588
+          stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_load_date datetime NULL <- load_employeeterritories_traders_south.dss_load_date"
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ddb1f7d0-38b4-4a65-b833-248de1e87427
+                stepCounter: 562490a9-355f-4144-ba49-efe84e854ba8
+            transform: "\"LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 96002e12-f81e-43dc-b517-5008c97910a4
+          stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_create_time datetime NULL. RED: @v_current_datetime (GETDATE() captured once per procedure, SQL Server datetime). POC uses CURRENT_TIMESTAMP() evaluated by Snowflake per statement and stored as TIMESTAMP_NTZ(9), so values and precision differ from RED."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH: 562490a9-355f-4144-ba49-efe84e854ba8
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH
+        join:
+          joinCondition: FROM {{ ref('SRC', 'LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH') }} "LOAD_EMPLOYEETERRITORIES_TRADERS_SOUTH"
+        name: STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH
+        noLinkRefs: []
+  name: STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

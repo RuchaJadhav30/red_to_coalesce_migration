@@ -1,0 +1,252 @@
+fileVersion: 1
+id: 8c5e4e2f-7336-4471-b710-4b068967a540
+name: STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_products_categories_suppliers_traders_north (object key 71; update procedure update_stage_product_b60b20aa, template wsl_sqlserver_proc_dv_perm) using the project Stage node type. Sources: load_products_traders_north, load_suppliers_traders_north, load_categories_traders_north, joined exactly as in RED. Columns, order, nullability, joins and metadata-column sources follow the RED stage metadata and procedure; hash columns use the project's POC MD5 convention because RED wrote NULL."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 92aa7ecd-21f2-432f-8e03-903bdc1416c9
+          stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_l_products_categories_suppliers char(32) NOT NULL. Link hash key: MD5 of hk_h_category, hk_h_product, hk_h_supplier joined with || (inputs per RED ws_column_relationship, in cr_order). RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention used by the existing Stages. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity. The link key hashes the hub hash keys, which are expanded inline because a Stage column cannot reference another column of the same SELECT."
+        name: HK_L_PRODUCTS_CATEGORIES_SUPPLIERS
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2676983c-6934-412b-99f9-cd35035caefd
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+              - columnCounter: 983d1623-fe01-4250-8327-b954390c23cf
+                stepCounter: 6e6c8279-baa0-47d7-ba99-f2636b1e138b
+              - columnCounter: ecdf5573-287e-4f0e-affb-b299339a374b
+                stepCounter: acb4f616-8058-4f81-ac8c-5447f5983640
+            transform: "MD5(COALESCE(CAST(MD5(COALESCE(CAST(\"LOAD_CATEGORIES_TRADERS_NORTH\".\"CATEGORYNAME\" AS VARCHAR), 'null')) AS VARCHAR), 'null') || '||' || COALESCE(CAST(MD5(COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"PRODUCTNAME\" AS VARCHAR), 'null')) AS VARCHAR), 'null') || '||' || COALESCE(CAST(MD5(COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_NORTH\".\"COMPANYNAME\" AS VARCHAR), 'null')) AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ed7670c0-d341-4816-96fc-17df1284348d
+          stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_category char(32) NOT NULL. Hub hash key: MD5 of category_name (load_categories_traders_north.categoryname) joined with || (inputs per RED ws_column_relationship, in cr_order). RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention used by the existing Stages. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity."
+        name: HK_H_CATEGORY
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ecdf5573-287e-4f0e-affb-b299339a374b
+                stepCounter: acb4f616-8058-4f81-ac8c-5447f5983640
+            transform: "MD5(COALESCE(CAST(\"LOAD_CATEGORIES_TRADERS_NORTH\".\"CATEGORYNAME\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2d52a151-6397-4fef-8389-5571fb39d5f4
+          stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_product char(32) NOT NULL. Hub hash key: MD5 of product_name (load_products_traders_north.productname) joined with || (inputs per RED ws_column_relationship, in cr_order). RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention used by the existing Stages. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity."
+        name: HK_H_PRODUCT
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2676983c-6934-412b-99f9-cd35035caefd
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "MD5(COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"PRODUCTNAME\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e3135a19-1737-477f-aab9-f53758651104
+          stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_supplier char(32) NOT NULL. Hub hash key: MD5 of supplier_name (load_suppliers_traders_north.companyname) joined with || (inputs per RED ws_column_relationship, in cr_order). RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention used by the existing Stages. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity."
+        name: HK_H_SUPPLIER
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 983d1623-fe01-4250-8327-b954390c23cf
+                stepCounter: 6e6c8279-baa0-47d7-ba99-f2636b1e138b
+            transform: "MD5(COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_NORTH\".\"COMPANYNAME\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f8c871c1-0959-4fea-9637-d691866ca9f3
+          stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: ""
+        description: "RED: category_name nvarchar(15) NULL <- load_categories_traders_north.categoryname"
+        name: CATEGORY_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ecdf5573-287e-4f0e-affb-b299339a374b
+                stepCounter: acb4f616-8058-4f81-ac8c-5447f5983640
+            transform: "\"LOAD_CATEGORIES_TRADERS_NORTH\".\"CATEGORYNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cedf9806-f5d7-4262-a264-1179256c2b61
+          stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+        config: {}
+        dataType: VARCHAR(40)
+        defaultValue: ""
+        description: "RED: product_name nvarchar(40) NULL <- load_products_traders_north.productname"
+        name: PRODUCT_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2676983c-6934-412b-99f9-cd35035caefd
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"PRODUCTNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3bc0c72b-a10c-4bcd-ac81-ff1c68568815
+          stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+        config: {}
+        dataType: VARCHAR(40)
+        defaultValue: ""
+        description: "RED: supplier_name nvarchar(40) NULL <- load_suppliers_traders_north.companyname"
+        name: SUPPLIER_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 983d1623-fe01-4250-8327-b954390c23cf
+                stepCounter: 6e6c8279-baa0-47d7-ba99-f2636b1e138b
+            transform: "\"LOAD_SUPPLIERS_TRADERS_NORTH\".\"COMPANYNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e95921dc-79c9-4ad5-b4a1-58cca87ccc9f
+          stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: "RED: dss_record_source varchar(255) NULL <- load_suppliers_traders_north.dss_record_source"
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 005180a3-da7c-4551-9f71-d9cc072fccd6
+                stepCounter: 6e6c8279-baa0-47d7-ba99-f2636b1e138b
+            transform: "\"LOAD_SUPPLIERS_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 234f5b4b-1f2a-412a-bda3-706b53b327cf
+          stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_load_date datetime NULL <- load_suppliers_traders_north.dss_load_date"
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8721eb52-abe0-4ea4-ae08-aff8c1c9f2c7
+                stepCounter: 6e6c8279-baa0-47d7-ba99-f2636b1e138b
+            transform: "\"LOAD_SUPPLIERS_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f0ed3807-3e7f-4a2f-925d-e798bcabbbed
+          stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_create_time datetime NULL. RED: @v_current_datetime (GETDATE() captured once per procedure, SQL Server datetime). POC uses CURRENT_TIMESTAMP() evaluated by Snowflake per statement and stored as TIMESTAMP_NTZ(9), so values and precision differ from RED."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_PRODUCTS_TRADERS_NORTH: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+          LOAD_SUPPLIERS_TRADERS_NORTH: 6e6c8279-baa0-47d7-ba99-f2636b1e138b
+          LOAD_CATEGORIES_TRADERS_NORTH: acb4f616-8058-4f81-ac8c-5447f5983640
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_PRODUCTS_TRADERS_NORTH
+          - locationName: SRC
+            nodeName: LOAD_SUPPLIERS_TRADERS_NORTH
+          - locationName: SRC
+            nodeName: LOAD_CATEGORIES_TRADERS_NORTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC', 'LOAD_PRODUCTS_TRADERS_NORTH') }} "LOAD_PRODUCTS_TRADERS_NORTH"
+            INNER JOIN {{ ref('SRC', 'LOAD_SUPPLIERS_TRADERS_NORTH') }} "LOAD_SUPPLIERS_TRADERS_NORTH"
+            ON "LOAD_PRODUCTS_TRADERS_NORTH"."SUPPLIERID" = "LOAD_SUPPLIERS_TRADERS_NORTH"."SUPPLIERID"
+            INNER JOIN {{ ref('SRC', 'LOAD_CATEGORIES_TRADERS_NORTH') }} "LOAD_CATEGORIES_TRADERS_NORTH"
+            ON "LOAD_PRODUCTS_TRADERS_NORTH"."CATEGORYID" = "LOAD_CATEGORIES_TRADERS_NORTH"."CATEGORYID"
+        name: STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH
+        noLinkRefs: []
+  name: STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

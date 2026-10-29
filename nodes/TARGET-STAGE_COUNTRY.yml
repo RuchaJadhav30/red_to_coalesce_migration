@@ -1,0 +1,277 @@
+fileVersion: 1
+id: 81472ed1-8f5a-4f97-ae10-7955e097f263
+name: STAGE_COUNTRY
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_country (object key 56; update procedure update_stage_country_9a35e355, template wsl_sqlserver_proc_dv_perm) using the project Stage node type. Sources: load_countrycodes_file_sources, joined exactly as in RED. Columns, order, nullability, joins and metadata-column sources follow the RED stage metadata and procedure; hash columns use the project's POC MD5 convention because RED wrote NULL."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 713eed77-114a-4621-b84d-9e03c8f854f9
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: VARCHAR(64)
+        defaultValue: ""
+        description: "RED: name varchar(64) NULL <- load_countrycodes_file_sources.name"
+        name: NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b5504f10-91da-424f-8d83-c61758fb8f63
+                stepCounter: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+            transform: "\"LOAD_COUNTRYCODES_FILE_SOURCES\".\"NAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ee01be5d-59ba-4e2e-8ce9-09b3ff1cdb8f
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: VARCHAR(4)
+        defaultValue: ""
+        description: "RED: alpha_2 varchar(4) NULL <- load_countrycodes_file_sources.alpha_2"
+        name: ALPHA_2
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9cf7c705-69d1-47f0-8459-6f4786825fda
+                stepCounter: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+            transform: "\"LOAD_COUNTRYCODES_FILE_SOURCES\".\"ALPHA_2\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7e515487-0026-4577-b79e-6578fb8620a7
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: VARCHAR(4)
+        defaultValue: ""
+        description: "RED: alpha_3 varchar(4) NULL <- load_countrycodes_file_sources.alpha_3"
+        name: ALPHA_3
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 416a935f-6398-4088-bd4c-b4209b7e4953
+                stepCounter: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+            transform: "\"LOAD_COUNTRYCODES_FILE_SOURCES\".\"ALPHA_3\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a62243a6-ba06-40f9-8651-e6bdda4f8d08
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: country_code int NULL <- load_countrycodes_file_sources.country_code"
+        name: COUNTRY_CODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 94d48c1c-c94a-49da-947f-b4ea629c100a
+                stepCounter: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+            transform: "\"LOAD_COUNTRYCODES_FILE_SOURCES\".\"COUNTRY_CODE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: fdf3d7df-a83a-4844-840c-7c85a5debd2a
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: VARCHAR(16)
+        defaultValue: ""
+        description: "RED: iso_3166_2 varchar(16) NULL <- load_countrycodes_file_sources.iso_3166_2"
+        name: ISO_3166_2
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 68692813-9a1d-4d0f-8da1-dedde92b6b95
+                stepCounter: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+            transform: "\"LOAD_COUNTRYCODES_FILE_SOURCES\".\"ISO_3166_2\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0396bbf2-2aea-4129-8fd2-82774b6dfe66
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: VARCHAR(16)
+        defaultValue: ""
+        description: "RED: region varchar(16) NULL <- load_countrycodes_file_sources.region"
+        name: REGION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 09ee17ce-b509-4405-81d9-94d5d4a72535
+                stepCounter: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+            transform: "\"LOAD_COUNTRYCODES_FILE_SOURCES\".\"REGION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0baf1918-044d-4f56-bd34-d63f0235ad6e
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: VARCHAR(32)
+        defaultValue: ""
+        description: "RED: sub_region varchar(32) NULL <- load_countrycodes_file_sources.sub_region"
+        name: SUB_REGION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 669d6de6-e62a-45f5-a068-854857cd4730
+                stepCounter: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+            transform: "\"LOAD_COUNTRYCODES_FILE_SOURCES\".\"SUB_REGION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: eb9e6eee-2d84-48cd-beca-b5c20dcfd125
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: region_code int NULL <- load_countrycodes_file_sources.region_code"
+        name: REGION_CODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cbe83656-d153-4234-8f60-c4bb58620430
+                stepCounter: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+            transform: "\"LOAD_COUNTRYCODES_FILE_SOURCES\".\"REGION_CODE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 954957c0-2187-4b71-afac-9fc40695a68d
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: "RED: sub_region_code varchar(8) NULL <- load_countrycodes_file_sources.sub_region_code"
+        name: SUB_REGION_CODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6dbbc3db-c5d6-48e6-8970-093f32afb19f
+                stepCounter: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+            transform: "\"LOAD_COUNTRYCODES_FILE_SOURCES\".\"SUB_REGION_CODE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0de0a7fe-23c8-4910-9699-68ee7e79d181
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: "RED: dss_record_source varchar(255) NULL <- load_countrycodes_file_sources.dss_record_source"
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5c3a30b8-636b-4971-820f-386e87aaf5c3
+                stepCounter: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+            transform: "\"LOAD_COUNTRYCODES_FILE_SOURCES\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d146f95a-8db4-441f-b42a-880b3dc3aa1c
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_load_date datetime NULL <- load_countrycodes_file_sources.dss_load_date"
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9e47ef70-dc80-4b54-ba73-aa5b08df0770
+                stepCounter: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+            transform: "\"LOAD_COUNTRYCODES_FILE_SOURCES\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3bc6e96c-2ddd-4df6-8027-8ed2d8ba9b4e
+          stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_create_time datetime NULL. RED: @v_current_datetime (GETDATE() captured once per procedure, SQL Server datetime). POC uses CURRENT_TIMESTAMP() evaluated by Snowflake per statement and stored as TIMESTAMP_NTZ(9), so values and precision differ from RED."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_COUNTRYCODES_FILE_SOURCES: 9c57fc7b-e3e3-4225-a782-050e0f734cff
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_COUNTRYCODES_FILE_SOURCES
+        join:
+          joinCondition: FROM {{ ref('SRC', 'LOAD_COUNTRYCODES_FILE_SOURCES') }} "LOAD_COUNTRYCODES_FILE_SOURCES"
+        name: STAGE_COUNTRY
+        noLinkRefs: []
+  name: STAGE_COUNTRY
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
