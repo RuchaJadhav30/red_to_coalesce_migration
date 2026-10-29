@@ -1,0 +1,182 @@
+fileVersion: 1
+id: e534832e-b73e-4dd7-84fc-81eaaaab9f30
+name: H_PRODUCT
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: Migrated from WhereScape RED hub h_product (source mappings src_h_product_c1cba865 / update_src_h_product_c1cba865 from stage_product_traders_north, and src_h_product_1_7d832ed7 / update_src_h_product_7d832ed7 from stage_product_traders_south).
+  isMultisource: true
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 20a410fd-9c3c-4226-a1f7-76be3598d8e0
+          stepCounter: e534832e-b73e-4dd7-84fc-81eaaaab9f30
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hub key, char(32) NOT NULL, primary key h_product_b5ea8c18_idx_PK"
+        name: HK_H_PRODUCT
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3715b383-ad5f-4023-b08a-91ce978b2d64
+                stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+            transform: DISTINCT "STAGE_PRODUCT_TRADERS_NORTH"."HK_H_PRODUCT"
+          - columnReferences:
+              - columnCounter: 969f2ba2-7df4-434c-8a56-de282d384f4e
+                stepCounter: c7e38b19-b793-4d4b-9000-e1f65b90056f
+            transform: DISTINCT "STAGE_PRODUCT_TRADERS_SOUTH"."HK_H_PRODUCT"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 23e98f56-59a0-43ef-b580-6c1a05b1ee83
+          stepCounter: e534832e-b73e-4dd7-84fc-81eaaaab9f30
+        config: {}
+        dataType: VARCHAR(40)
+        defaultValue: ""
+        description: "RED: business key, unique index h_product_b5ea8c18_idx_A"
+        name: PRODUCT_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 066db992-ef89-423f-980c-21aaa6350824
+                stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+            transform: "\"STAGE_PRODUCT_TRADERS_NORTH\".\"PRODUCT_NAME\""
+          - columnReferences:
+              - columnCounter: b9659aa0-b40d-45ec-b602-0d3c35438606
+                stepCounter: c7e38b19-b793-4d4b-9000-e1f65b90056f
+            transform: "\"STAGE_PRODUCT_TRADERS_SOUTH\".\"PRODUCT_NAME\""
+        uniqueKey: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 01eb49d8-0b6d-463f-ac8e-0bcf008f636d
+          stepCounter: e534832e-b73e-4dd7-84fc-81eaaaab9f30
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d438473d-4bd4-42a9-9ad8-20cbed41e3e3
+                stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+            transform: "\"STAGE_PRODUCT_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+          - columnReferences:
+              - columnCounter: bc9de61a-69d1-4171-9af5-c4912e822cbe
+                stepCounter: c7e38b19-b793-4d4b-9000-e1f65b90056f
+            transform: "\"STAGE_PRODUCT_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5e77f380-b44b-4f34-8099-7e282f66c593
+          stepCounter: e534832e-b73e-4dd7-84fc-81eaaaab9f30
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 90d5077f-de82-4ad4-adea-7061c00e1800
+                stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+            transform: "\"STAGE_PRODUCT_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+          - columnReferences:
+              - columnCounter: 9528f113-b736-4610-91fe-a8cd8f7452de
+                stepCounter: c7e38b19-b793-4d4b-9000-e1f65b90056f
+            transform: "\"STAGE_PRODUCT_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 20778ccd-b1ba-4ed6-a6b0-f3d3df08cf18
+          stepCounter: e534832e-b73e-4dd7-84fc-81eaaaab9f30
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (procedure run timestamp)"
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_PRODUCT_TRADERS_NORTH: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_PRODUCT_TRADERS_NORTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_PRODUCT_TRADERS_NORTH') }} "STAGE_PRODUCT_TRADERS_NORTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_PRODUCT') }} "H_PRODUCT"
+                WHERE "STAGE_PRODUCT_TRADERS_NORTH"."PRODUCT_NAME" = "H_PRODUCT"."PRODUCT_NAME"
+            )
+        name: STAGE_PRODUCT_TRADERS_NORTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_PRODUCT
+      - aliases:
+          STAGE_PRODUCT_TRADERS_SOUTH: c7e38b19-b793-4d4b-9000-e1f65b90056f
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_PRODUCT_TRADERS_SOUTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_PRODUCT_TRADERS_SOUTH') }} "STAGE_PRODUCT_TRADERS_SOUTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_PRODUCT') }} "H_PRODUCT"
+                WHERE "STAGE_PRODUCT_TRADERS_SOUTH"."PRODUCT_NAME" = "H_PRODUCT"."PRODUCT_NAME"
+            )
+        name: STAGE_PRODUCT_TRADERS_SOUTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_PRODUCT
+  name: H_PRODUCT
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

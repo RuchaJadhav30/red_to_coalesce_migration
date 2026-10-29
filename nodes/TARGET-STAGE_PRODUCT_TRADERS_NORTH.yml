@@ -1,0 +1,389 @@
+fileVersion: 1
+id: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+name: STAGE_PRODUCT_TRADERS_NORTH
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_product_traders_north (source: Traders_North.dbo.Products via load_products_traders_north)."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3715b383-ad5f-4023-b08a-91ce978b2d64
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Hub hash key: MD5 of product_name (productname) per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation."
+        name: HK_H_PRODUCT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2676983c-6934-412b-99f9-cd35035caefd
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "MD5(COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"PRODUCTNAME\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 066db992-ef89-423f-980c-21aaa6350824
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: VARCHAR(40)
+        defaultValue: ""
+        description: "RED: product_name <- load_products.productname (renamed); h_product business key."
+        name: PRODUCT_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2676983c-6934-412b-99f9-cd35035caefd
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"PRODUCTNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e651e5a7-fdbf-44bb-89c6-f3be4cb496da
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: NUMBER(5,0)
+        defaultValue: ""
+        description: "RED type smallint."
+        name: UNITSINSTOCK
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a90ada8c-0dc6-4a30-9d58-7b1ab09be49b
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"UNITSINSTOCK\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1d98e670-bc6f-4865-a9ed-58179f60962b
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: NUMBER(5,0)
+        defaultValue: ""
+        description: "RED type smallint."
+        name: UNITSONORDER
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 578327b5-19c1-40c0-b898-9301232cb6ba
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"UNITSONORDER\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ba2933cb-49ad-415a-9a1b-fb9f55ab39b2
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: PRODUCTID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4914ba33-25d8-4159-97d2-90a5e976d4cc
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"PRODUCTID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 378401c6-7331-419c-9f46-a4778858a471
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: NUMBER(5,0)
+        defaultValue: ""
+        description: "RED type smallint."
+        name: REORDERLEVEL
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0806c072-4cd2-4758-94b8-fdea3117fbb7
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"REORDERLEVEL\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a3f73b48-9d64-472b-bb5f-f446d8d28ebd
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: BOOLEAN
+        defaultValue: ""
+        description: "RED type bit; kept as BOOLEAN to match the Snowflake source."
+        name: DISCONTINUED
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 922954df-43b7-4827-871d-96dbc3e0cccf
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"DISCONTINUED\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 03ae5a2b-3140-4fe7-a742-cdea3572336a
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SUPPLIERID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: eaaf66fa-a405-4343-93c8-c2b1aeca682a
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"SUPPLIERID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 93fd9b04-6f7e-4c4a-86d4-e14a3b3310e3
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: CATEGORYID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 65d03925-7cbf-40ef-8e77-69c5bc08c08f
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"CATEGORYID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e7ee458a-9c7f-4200-a689-7c111f5b9a0b
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: VARCHAR(20)
+        defaultValue: ""
+        description: ""
+        name: QUANTITYPERUNIT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ddf9eb65-aa4e-48f2-872b-bde62c362229
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"QUANTITYPERUNIT\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 722f8f09-6909-4085-8013-e0be47dad3ee
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: NUMBER(38,2)
+        defaultValue: ""
+        description: "RED type SQL Server money (4 decimal places); kept at the Snowflake source precision NUMBER(38,2), so source precision may already have been lost."
+        name: UNITPRICE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 007b7ee1-0251-4ab8-9c2e-39175d3b118a
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"UNITPRICE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 99d425cd-dadd-45ba-b42c-29f6def176f2
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of unitsinstock, unitsonorder joined with || per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation."
+        name: DSS_CHANGE_HASH_PRODUCT_HROC_TRADERS_NORTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a90ada8c-0dc6-4a30-9d58-7b1ab09be49b
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+              - columnCounter: 578327b5-19c1-40c0-b898-9301232cb6ba
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "MD5(COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"UNITSINSTOCK\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"UNITSONORDER\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 14b02332-23d2-48cb-83cd-348b47d37aa4
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of productid, reorderlevel, discontinued joined with || per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. DISCONTINUED is BOOLEAN and CAST(BOOLEAN AS VARCHAR) yields 'true'/'false' (SQL Server bit would give 1/0); this Boolean-to-text representation is a POC choice, not verified SQL Server hash parity."
+        name: DSS_CHANGE_HASH_PRODUCT_LROC_TRADERS_NORTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4914ba33-25d8-4159-97d2-90a5e976d4cc
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+              - columnCounter: 0806c072-4cd2-4758-94b8-fdea3117fbb7
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+              - columnCounter: 922954df-43b7-4827-871d-96dbc3e0cccf
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "MD5(COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"PRODUCTID\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"REORDERLEVEL\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"DISCONTINUED\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3741a575-6f42-4763-bf85-cabe2d1f91df
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of supplierid, categoryid, quantityperunit, unitprice joined with || per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. UNITPRICE is NUMBER(38,2) in the Snowflake source (RED: SQL Server money, 4 decimal places), so source precision may already have been lost before hashing."
+        name: DSS_CHANGE_HASH_PRODUCT_MROC_TRADERS_NORTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: eaaf66fa-a405-4343-93c8-c2b1aeca682a
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+              - columnCounter: 65d03925-7cbf-40ef-8e77-69c5bc08c08f
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+              - columnCounter: ddf9eb65-aa4e-48f2-872b-bde62c362229
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+              - columnCounter: 007b7ee1-0251-4ab8-9c2e-39175d3b118a
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "MD5(COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"SUPPLIERID\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"CATEGORYID\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"QUANTITYPERUNIT\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_PRODUCTS_TRADERS_NORTH\".\"UNITPRICE\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d438473d-4bd4-42a9-9ad8-20cbed41e3e3
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b2688b6c-2a17-4e06-a0e0-2e5b85cbb4f0
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 90d5077f-de82-4ad4-adea-7061c00e1800
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 39cc9edb-575e-4432-a5bb-e6efcc78967d
+                stepCounter: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+            transform: "\"LOAD_PRODUCTS_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c53b998b-08ef-4215-95b2-8fa5b3497a19
+          stepCounter: 0f72c81e-b4d5-45a1-95c3-2785539505d5
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (procedure run timestamp)"
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_PRODUCTS_TRADERS_NORTH: 26ca079c-3dd4-4888-a9ec-54a04b7d7a13
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_PRODUCTS_TRADERS_NORTH
+        join:
+          joinCondition: FROM {{ ref('SRC', 'LOAD_PRODUCTS_TRADERS_NORTH') }} "LOAD_PRODUCTS_TRADERS_NORTH"
+        name: STAGE_PRODUCT_TRADERS_NORTH
+        noLinkRefs: []
+  name: STAGE_PRODUCT_TRADERS_NORTH
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
