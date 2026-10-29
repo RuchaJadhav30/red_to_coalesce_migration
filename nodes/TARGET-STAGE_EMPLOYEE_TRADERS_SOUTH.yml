@@ -1,0 +1,499 @@
+fileVersion: 1
+id: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+name: STAGE_EMPLOYEE_TRADERS_SOUTH
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_employee_traders_south (source: Traders_South.dbo.Employees via load_employees_traders_south)."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1e039aca-568f-451b-b135-a97f2e8741d5
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Hub hash key: MD5 of employee_id (employeeid) per RED ws_column_relationship (corrects RED template defect that emitted NULL). Snowflake MD5 returns hex text and may differ from SQL Server CAST(HASHBYTES(md5) AS CHAR(32)) binary-to-CHAR output."
+        name: HK_H_EMPLOYEE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 48d4e414-96d3-486b-a2c3-9748df0e9b93
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "MD5(COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"EMPLOYEEID\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0f89b918-6a82-4682-a933-f7b00038add4
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: EMPLOYEE_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 48d4e414-96d3-486b-a2c3-9748df0e9b93
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"EMPLOYEEID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 26bb5fdc-c95c-4fb7-8e39-f4fcf26a5961
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: COUNTRY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 38093bb5-61b3-45ba-af36-b3d728bf0ca1
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"COUNTRY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8b41d9c8-d761-4b9b-9265-e6bfe6a7aa4c
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: LASTNAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b35a8e3c-bce5-4ae2-8962-b0f2a4ab5de6
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"LASTNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 40823593-d9fd-401b-9ca5-aed704b6a5ad
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: FIRSTNAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7eec7822-03a5-475f-863d-36d05d878cbb
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"FIRSTNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b35ec283-b0e2-4dec-8cf0-7018bf338be3
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: TITLE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ed4cfd38-affe-4633-85b9-64fcb4a08ee1
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"TITLE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9db9f8f4-c89b-481c-b015-ddb58e9edebc
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: TITLEOFCOURTESY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fd6bd497-2aac-49b9-8e1c-9ceba0ce029a
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"TITLEOFCOURTESY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d4860665-f16f-43b1-a815-19ad2d9ba903
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: BIRTHDATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9161cef2-ab97-4752-aae1-c3c2e0cec78f
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"BIRTHDATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d10a38e1-f863-4582-921c-85b6a1ba5121
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(60)
+        defaultValue: ""
+        description: ""
+        name: ADDRESS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8669b400-6bad-41b3-95e3-44876164c9be
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"ADDRESS\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b89c94dd-14a5-4a3b-8f30-cdb28bed4f2a
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: CITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8fa18c9a-b1a3-415c-8bcd-d209947e88f7
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"CITY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c797f5fe-a6a0-485d-9d73-037e7e8d4233
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: REGION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5237a892-415b-43cd-9858-4cea39ac20a2
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"REGION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 45754057-f702-459d-b41d-01f1e0c903cd
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: POSTALCODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 75a36638-8e30-4db9-9e7b-921e31fb8fa6
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"POSTALCODE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 82282c3c-0af7-4166-a2aa-83507b1e5052
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: HOMEPHONE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 213bd26f-2b36-4e66-925b-4a97102f088c
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"HOMEPHONE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5c588a5b-b082-49e4-a4b1-687d7bd0fe3e
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: REPORTSTO
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f83e9a9b-54c4-4556-979e-a45e2d49ee2f
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"REPORTSTO\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b7951fba-2eeb-4cd9-a1ac-3fa6b5ce0e66
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: EXTENSION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a0a1f68a-e8e3-429d-b7da-f71be5e245b7
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"EXTENSION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 90983a19-4517-49c8-8156-b2d4e361bf0b
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: HIREDATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1e97e62d-dfc7-44be-a31b-f6d4dfb6f315
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"HIREDATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 94c8eb48-9609-402d-850e-e10c223f50e3
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of country, lastname, firstname, title, titleofcourtesy, birthdate, address, city, region, postalcode, homephone, reportsto joined with || per RED ws_column_relationship (corrects RED template defect that emitted NULL). Snowflake MD5 returns hex text and may differ from SQL Server CAST(HASHBYTES(md5) AS CHAR(32)) binary-to-CHAR output. TIMESTAMP_NTZ inputs are cast to VARCHAR using the session TIMESTAMP_NTZ_OUTPUT_FORMAT parameter; when that parameter is unset (its default), Snowflake falls back to TIMESTAMP_OUTPUT_FORMAT. Changing the effective format changes the hash."
+        name: DSS_CHANGE_HASH_EMPLOYEE_GDPR_TRADERS_SOUTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 38093bb5-61b3-45ba-af36-b3d728bf0ca1
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+              - columnCounter: b35a8e3c-bce5-4ae2-8962-b0f2a4ab5de6
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+              - columnCounter: 7eec7822-03a5-475f-863d-36d05d878cbb
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+              - columnCounter: ed4cfd38-affe-4633-85b9-64fcb4a08ee1
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+              - columnCounter: fd6bd497-2aac-49b9-8e1c-9ceba0ce029a
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+              - columnCounter: 9161cef2-ab97-4752-aae1-c3c2e0cec78f
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+              - columnCounter: 8669b400-6bad-41b3-95e3-44876164c9be
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+              - columnCounter: 8fa18c9a-b1a3-415c-8bcd-d209947e88f7
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+              - columnCounter: 5237a892-415b-43cd-9858-4cea39ac20a2
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+              - columnCounter: 75a36638-8e30-4db9-9e7b-921e31fb8fa6
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+              - columnCounter: 213bd26f-2b36-4e66-925b-4a97102f088c
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+              - columnCounter: f83e9a9b-54c4-4556-979e-a45e2d49ee2f
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "MD5(COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"COUNTRY\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"LASTNAME\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"FIRSTNAME\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"TITLE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"TITLEOFCOURTESY\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"BIRTHDATE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"ADDRESS\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"CITY\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"REGION\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"POSTALCODE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"HOMEPHONE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"REPORTSTO\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b60447e9-63b4-49bc-b9eb-7fb030dc8e6c
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of extension per RED ws_column_relationship (corrects RED template defect that emitted NULL). Snowflake MD5 returns hex text and may differ from SQL Server CAST(HASHBYTES(md5) AS CHAR(32)) binary-to-CHAR output."
+        name: DSS_CHANGE_HASH_EMPLOYEE_HROC_TRADERS_SOUTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a0a1f68a-e8e3-429d-b7da-f71be5e245b7
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "MD5(COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"EXTENSION\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c7256827-c96e-454b-9988-f9b9d9510991
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of hiredate per RED ws_column_relationship (corrects RED template defect that emitted NULL). Snowflake MD5 returns hex text and may differ from SQL Server CAST(HASHBYTES(md5) AS CHAR(32)) binary-to-CHAR output. TIMESTAMP_NTZ inputs are cast to VARCHAR using the session TIMESTAMP_NTZ_OUTPUT_FORMAT parameter; when that parameter is unset (its default), Snowflake falls back to TIMESTAMP_OUTPUT_FORMAT. Changing the effective format changes the hash."
+        name: DSS_CHANGE_HASH_EMPLOYEE_LROC_TRADERS_SOUTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1e97e62d-dfc7-44be-a31b-f6d4dfb6f315
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "MD5(COALESCE(CAST(\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"HIREDATE\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9b20c69a-e8ce-4b96-90e8-be955962175f
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a46092f5-af58-413b-ad7c-39e06c46c897
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 513b20f6-8b1b-40b8-af52-cfbcddab6e4d
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0da90f84-2a6c-46d8-82e6-5678359da09c
+                stepCounter: 9a0efcc1-e49a-4443-bd34-d08840392292
+            transform: "\"LOAD_EMPLOYEES_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c690ddff-6908-4859-950f-290489a737d9
+          stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (procedure run timestamp)"
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_EMPLOYEES_TRADERS_SOUTH: 9a0efcc1-e49a-4443-bd34-d08840392292
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_EMPLOYEES_TRADERS_SOUTH
+        join:
+          joinCondition: FROM {{ ref('SRC', 'LOAD_EMPLOYEES_TRADERS_SOUTH') }} "LOAD_EMPLOYEES_TRADERS_SOUTH"
+        name: STAGE_EMPLOYEE_TRADERS_SOUTH
+        noLinkRefs: []
+  name: STAGE_EMPLOYEE_TRADERS_SOUTH
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
