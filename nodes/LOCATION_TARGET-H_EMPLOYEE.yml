@@ -1,0 +1,182 @@
+fileVersion: 1
+id: b18e20f5-310d-44ac-87f1-60784f005735
+name: H_EMPLOYEE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: Migrated from WhereScape RED hub h_employee (source mappings src_h_employee_a59e8f85 / update_src_h_employe_a59e8f85 from stage_employee_traders_north, and src_h_employee_1_b838cdf7 / update_src_h_employe_b838cdf7 from stage_employee_traders_south).
+  isMultisource: true
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2c1616e8-1cd6-4b9c-91b9-1bfacb3b7936
+          stepCounter: b18e20f5-310d-44ac-87f1-60784f005735
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hub key, char(32) NOT NULL, primary key h_employee_8a5e0ca5_idx_PK"
+        name: HK_H_EMPLOYEE
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f557d586-f9c1-41a1-96eb-2300d59ec1e6
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: DISTINCT "STAGE_EMPLOYEE_TRADERS_NORTH"."HK_H_EMPLOYEE"
+          - columnReferences:
+              - columnCounter: 1e039aca-568f-451b-b135-a97f2e8741d5
+                stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+            transform: DISTINCT "STAGE_EMPLOYEE_TRADERS_SOUTH"."HK_H_EMPLOYEE"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3e79b17c-2de5-4602-be51-8b2817165516
+          stepCounter: b18e20f5-310d-44ac-87f1-60784f005735
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: business key, unique index h_employee_8a5e0ca5_idx_A"
+        name: EMPLOYEE_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2b25b849-d30d-436f-82e9-19af1e1575ba
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"EMPLOYEE_ID\""
+          - columnReferences:
+              - columnCounter: 0f89b918-6a82-4682-a933-f7b00038add4
+                stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+            transform: "\"STAGE_EMPLOYEE_TRADERS_SOUTH\".\"EMPLOYEE_ID\""
+        uniqueKey: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3424be07-d878-470c-9686-b73d62bd91e7
+          stepCounter: b18e20f5-310d-44ac-87f1-60784f005735
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bfbe13fc-e14c-4e1b-b5b4-d9f2c31fafdf
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+          - columnReferences:
+              - columnCounter: 9b20c69a-e8ce-4b96-90e8-be955962175f
+                stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+            transform: "\"STAGE_EMPLOYEE_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ecb00d7-d273-4213-ba7a-921fc52c7099
+          stepCounter: b18e20f5-310d-44ac-87f1-60784f005735
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: baa326a0-5f62-4a50-b81a-2f7b876d2f44
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+          - columnReferences:
+              - columnCounter: 513b20f6-8b1b-40b8-af52-cfbcddab6e4d
+                stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+            transform: "\"STAGE_EMPLOYEE_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8ec347fd-9ed4-4dc3-a538-4217d3ec89b9
+          stepCounter: b18e20f5-310d-44ac-87f1-60784f005735
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (procedure run timestamp)"
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_EMPLOYEE_TRADERS_NORTH: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_EMPLOYEE_TRADERS_NORTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_EMPLOYEE_TRADERS_NORTH') }} "STAGE_EMPLOYEE_TRADERS_NORTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_EMPLOYEE') }} "H_EMPLOYEE"
+                WHERE "STAGE_EMPLOYEE_TRADERS_NORTH"."EMPLOYEE_ID" = "H_EMPLOYEE"."EMPLOYEE_ID"
+            )
+        name: STAGE_EMPLOYEE_TRADERS_NORTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_EMPLOYEE
+      - aliases:
+          STAGE_EMPLOYEE_TRADERS_SOUTH: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_EMPLOYEE_TRADERS_SOUTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_EMPLOYEE_TRADERS_SOUTH') }} "STAGE_EMPLOYEE_TRADERS_SOUTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_EMPLOYEE') }} "H_EMPLOYEE"
+                WHERE "STAGE_EMPLOYEE_TRADERS_SOUTH"."EMPLOYEE_ID" = "H_EMPLOYEE"."EMPLOYEE_ID"
+            )
+        name: STAGE_EMPLOYEE_TRADERS_SOUTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_EMPLOYEE
+  name: H_EMPLOYEE
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
