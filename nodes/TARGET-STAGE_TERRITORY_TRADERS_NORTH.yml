@@ -1,0 +1,177 @@
+fileVersion: 1
+id: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+name: STAGE_TERRITORY_TRADERS_NORTH
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_territory_traders_north (source: Traders_North.dbo.Territories via load_territories_traders_north). REGIONID is excluded, as in the RED stage metadata (it is used only by the separate Territory-Region link stage)."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5765895c-2446-4d29-b20e-7c3a7370c489
+          stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Hub hash key: MD5 of territory_id (territoryid) per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity. TERRITORYID is text (RED nvarchar(20), Snowflake VARCHAR(20)) and is hashed as text, never cast to a number; leading-zero preservation in the actual Snowflake source data has not been verified."
+        name: HK_H_TERRITORY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f9cf452d-3a1f-4e3e-a5c5-0c5adc66e920
+                stepCounter: cc33090a-782f-479e-8c9f-292e91b0b0c1
+            transform: "MD5(COALESCE(CAST(\"LOAD_TERRITORIES_TRADERS_NORTH\".\"TERRITORYID\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: aa615a6a-118a-4ae0-8101-56e47524a703
+          stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+        config: {}
+        dataType: VARCHAR(20)
+        defaultValue: ""
+        description: "RED: territory_id <- load_territories.territoryid (renamed); h_territory business key. Kept as VARCHAR(20); no numeric cast or zero-stripping. TERRITORYID is text (RED nvarchar(20), Snowflake VARCHAR(20)) and is hashed as text, never cast to a number; leading-zero preservation in the actual Snowflake source data has not been verified."
+        name: TERRITORY_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f9cf452d-3a1f-4e3e-a5c5-0c5adc66e920
+                stepCounter: cc33090a-782f-479e-8c9f-292e91b0b0c1
+            transform: "\"LOAD_TERRITORIES_TRADERS_NORTH\".\"TERRITORYID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5f8a9e12-9a27-4c1e-be1e-624e9fc32a79
+          stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED type nchar(50); Snowflake source VARCHAR(50). TERRITORYDESCRIPTION is SQL Server nchar(50) in RED (fixed length, right-padded with spaces) but VARCHAR(50) in the Snowflake source, which keeps values exactly as loaded. Trailing-space handling in the source data is not verified; padded and unpadded values produce different hashes. No TRIM or padding is applied because RED specifies none."
+        name: TERRITORYDESCRIPTION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 978ba06c-852f-41a4-afed-595bcf732b0d
+                stepCounter: cc33090a-782f-479e-8c9f-292e91b0b0c1
+            transform: "\"LOAD_TERRITORIES_TRADERS_NORTH\".\"TERRITORYDESCRIPTION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e097a0c9-1342-4296-a9c8-f78ee2a9bb66
+          stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of territorydescription per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity. TERRITORYDESCRIPTION is SQL Server nchar(50) in RED (fixed length, right-padded with spaces) but VARCHAR(50) in the Snowflake source, which keeps values exactly as loaded. Trailing-space handling in the source data is not verified; padded and unpadded values produce different hashes. No TRIM or padding is applied because RED specifies none."
+        name: DSS_CHANGE_HASH_TERRITORY_LROC_TRADERS_NORTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 978ba06c-852f-41a4-afed-595bcf732b0d
+                stepCounter: cc33090a-782f-479e-8c9f-292e91b0b0c1
+            transform: "MD5(COALESCE(CAST(\"LOAD_TERRITORIES_TRADERS_NORTH\".\"TERRITORYDESCRIPTION\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a6f4072a-2cac-4070-a813-adcd369fd3c4
+          stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b0d34637-7df5-45ee-9772-3a50458787f0
+                stepCounter: cc33090a-782f-479e-8c9f-292e91b0b0c1
+            transform: "\"LOAD_TERRITORIES_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 21fc7a50-4d35-410e-ac89-40672bf44e64
+          stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cc994f7b-f90f-446b-9743-8e7f8dc19119
+                stepCounter: cc33090a-782f-479e-8c9f-292e91b0b0c1
+            transform: "\"LOAD_TERRITORIES_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 298fdf56-5ce1-473c-8f51-644c553cbee5
+          stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (GETDATE() captured once per procedure, SQL Server datetime). POC uses CURRENT_TIMESTAMP() evaluated by Snowflake per statement and stored as TIMESTAMP_NTZ(9), so values and precision differ from RED."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_TERRITORIES_TRADERS_NORTH: cc33090a-782f-479e-8c9f-292e91b0b0c1
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_TERRITORIES_TRADERS_NORTH
+        join:
+          joinCondition: FROM {{ ref('SRC', 'LOAD_TERRITORIES_TRADERS_NORTH') }} "LOAD_TERRITORIES_TRADERS_NORTH"
+        name: STAGE_TERRITORY_TRADERS_NORTH
+        noLinkRefs: []
+  name: STAGE_TERRITORY_TRADERS_NORTH
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
