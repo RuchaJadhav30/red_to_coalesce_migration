@@ -3,14 +3,13 @@ id: aa53f6c3-ae97-4139-9370-8f0725105b83
 name: H_CUSTOMER
 operation:
   config:
-    insertStrategy: INSERT
+    disable_hwm: true
     postSQL: ""
     preSQL: ""
     testsEnabled: true
-    truncateBefore: false
   database: ""
   deployEnabled: true
-  description: Migrated from WhereScape RED hub h_customer (source mappings src_h_customer_492361e5 / update_src_h_custome_492361e5 from stage_customer_traders_north, and src_h_customer_1_8dd28857 / update_src_h_custome_8dd28857 from stage_customer_traders_south).
+  description: "Migrated from WhereScape RED hub h_customer (source mappings src_h_customer_492361e5 / update_src_h_custome_492361e5 from stage_customer_traders_north, and src_h_customer_1_8dd28857 / update_src_h_custome_8dd28857 from stage_customer_traders_south). Converted in place to the Data Vault by Scalefree Hub node type (package @coalesce/snowflake/data-vault-by-scalefree 3.0.0, data-vault-by-scalefree:::6); differences from the RED procedures and the previous Coalesce Hub: (1) the existence check is NOT EXISTS on the hash key HK_H_CUSTOMER instead of the business key CUSTOMER_NAME, which is equivalent while HK_H_CUSTOMER is the Stage's deterministic MD5 of CUSTOMER_NAME; (2) a NULL CUSTOMER_NAME hashes to MD5('null'), so it is inserted once instead of on every run, and it shares a hash key with a text business key equal to 'null'; (3) each source batch is reduced to one row per hash key by QUALIFY ROW_NUMBER() OVER (PARTITION BY HK_H_CUSTOMER ORDER BY DSS_LOAD_DATE) = 1 (ties are arbitrary), so the same key with a different DSS_RECORD_SOURCE or DSS_LOAD_DATE is no longer inserted twice; (4) high-water-mark filtering is disabled (disable_hwm: true) because RED applies none; (5) sources still load North then South, and primary/unique keys remain unenforced by Snowflake."
   isMultisource: true
   locationName: LOCATION_TARGET
   materializationType: table
@@ -24,7 +23,8 @@ operation:
         columnReference:
           columnCounter: 0d560e14-af75-4967-a5bf-81bfa0ff9eaf
           stepCounter: aa53f6c3-ae97-4139-9370-8f0725105b83
-        config: {}
+        config:
+          is_Hub_hk: true
         dataType: CHAR(32)
         defaultValue: ""
         description: "RED: hub key, char(32) NOT NULL, primary key h_customer_675ca5d5_idx_PK"
@@ -35,11 +35,11 @@ operation:
           - columnReferences:
               - columnCounter: e58f1d45-02e3-48ae-bcc1-c9a8aef1142b
                 stepCounter: faac899b-fe8c-4916-ac7e-75d805ad038c
-            transform: DISTINCT "STAGE_CUSTOMER_TRADERS_NORTH"."HK_H_CUSTOMER"
+            transform: "\"STAGE_CUSTOMER_TRADERS_NORTH\".\"HK_H_CUSTOMER\""
           - columnReferences:
               - columnCounter: e9adc19e-7365-44fc-adee-1dcaf50c6fbe
                 stepCounter: 3099c79e-0525-4527-84c0-bd2ace23067c
-            transform: DISTINCT "STAGE_CUSTOMER_TRADERS_SOUTH"."HK_H_CUSTOMER"
+            transform: "\"STAGE_CUSTOMER_TRADERS_SOUTH\".\"HK_H_CUSTOMER\""
         uniqueKey: false
       - acceptedValues:
           strictMatch: true
@@ -143,17 +143,9 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_CUSTOMER_TRADERS_NORTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_CUSTOMER_TRADERS_NORTH') }} "STAGE_CUSTOMER_TRADERS_NORTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_CUSTOMER') }} "H_CUSTOMER"
-                WHERE "STAGE_CUSTOMER_TRADERS_NORTH"."CUSTOMER_NAME" = "H_CUSTOMER"."CUSTOMER_NAME"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_CUSTOMER_TRADERS_NORTH') }} "STAGE_CUSTOMER_TRADERS_NORTH"
         name: STAGE_CUSTOMER_TRADERS_NORTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_CUSTOMER
+        noLinkRefs: []
       - aliases:
           STAGE_CUSTOMER_TRADERS_SOUTH: 3099c79e-0525-4527-84c0-bd2ace23067c
         customSQL:
@@ -162,21 +154,13 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_CUSTOMER_TRADERS_SOUTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_CUSTOMER_TRADERS_SOUTH') }} "STAGE_CUSTOMER_TRADERS_SOUTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_CUSTOMER') }} "H_CUSTOMER"
-                WHERE "STAGE_CUSTOMER_TRADERS_SOUTH"."CUSTOMER_NAME" = "H_CUSTOMER"."CUSTOMER_NAME"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_CUSTOMER_TRADERS_SOUTH') }} "STAGE_CUSTOMER_TRADERS_SOUTH"
         name: STAGE_CUSTOMER_TRADERS_SOUTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_CUSTOMER
+        noLinkRefs: []
   name: H_CUSTOMER
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: data-vault-by-scalefree:::6
   type: sql
   version: 1
 type: Node

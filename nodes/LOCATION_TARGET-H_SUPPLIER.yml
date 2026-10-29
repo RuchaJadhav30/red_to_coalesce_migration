@@ -3,14 +3,13 @@ id: 18be18b4-8f5f-4bf5-9de8-f753dba83de6
 name: H_SUPPLIER
 operation:
   config:
-    insertStrategy: INSERT
+    disable_hwm: true
     postSQL: ""
     preSQL: ""
     testsEnabled: true
-    truncateBefore: false
   database: ""
   deployEnabled: true
-  description: "Migrated from WhereScape RED hub h_supplier (object key 91; source mappings 16 src_h_supplier_ce72b9c1 / rawvault.update_src_h_supplie_ce72b9c1 (179) from stage_supplier_traders_north, and 17 src_h_supplier_1_fcab5933 / rawvault.update_src_h_supplie_fcab5933 (180) from stage_supplier_traders_south). Each source inserts SELECT DISTINCT rows WHERE NOT EXISTS a hub row with the same SUPPLIER_NAME, as in RED. Known behaviors: a NULL SUPPLIER_NAME passes the equality-based NOT EXISTS and can be inserted on every run; primaryKey/uniqueKey are metadata only and not enforced by Snowflake, so overlapping runs may insert duplicates; North runs first in this Coalesce design, so a non-NULL supplier name present in both sources keeps North's DSS_RECORD_SOURCE and DSS_LOAD_DATE (RED's original scheduler run order is unknown); DSS_CREATE_TIME uses CURRENT_TIMESTAMP() rather than RED's one GETDATE() per procedure; case and trailing-space differences in supplier names are compared exactly in Snowflake and may behave differently from SQL Server collation."
+  description: "Migrated from WhereScape RED hub h_supplier (object key 91; source mappings 16 src_h_supplier_ce72b9c1 / rawvault.update_src_h_supplie_ce72b9c1 (179) from stage_supplier_traders_north, and 17 src_h_supplier_1_fcab5933 / rawvault.update_src_h_supplie_fcab5933 (180) from stage_supplier_traders_south). Each source inserts SELECT DISTINCT rows WHERE NOT EXISTS a hub row with the same SUPPLIER_NAME, as in RED. Known behaviors: a NULL SUPPLIER_NAME passes the equality-based NOT EXISTS and can be inserted on every run; primaryKey/uniqueKey are metadata only and not enforced by Snowflake, so overlapping runs may insert duplicates; North runs first in this Coalesce design, so a non-NULL supplier name present in both sources keeps North's DSS_RECORD_SOURCE and DSS_LOAD_DATE (RED's original scheduler run order is unknown); DSS_CREATE_TIME uses CURRENT_TIMESTAMP() rather than RED's one GETDATE() per procedure; case and trailing-space differences in supplier names are compared exactly in Snowflake and may behave differently from SQL Server collation. Converted in place to the Data Vault by Scalefree Hub node type (package @coalesce/snowflake/data-vault-by-scalefree 3.0.0, data-vault-by-scalefree:::6); differences from the RED procedures and the previous Coalesce Hub: (1) the existence check is NOT EXISTS on the hash key HK_H_SUPPLIER instead of the business key SUPPLIER_NAME, which is equivalent while HK_H_SUPPLIER is the Stage's deterministic MD5 of SUPPLIER_NAME; (2) a NULL SUPPLIER_NAME hashes to MD5('null'), so it is inserted once instead of on every run, and it shares a hash key with a text business key equal to 'null'; (3) each source batch is reduced to one row per hash key by QUALIFY ROW_NUMBER() OVER (PARTITION BY HK_H_SUPPLIER ORDER BY DSS_LOAD_DATE) = 1 (ties are arbitrary), so the same key with a different DSS_RECORD_SOURCE or DSS_LOAD_DATE is no longer inserted twice; (4) high-water-mark filtering is disabled (disable_hwm: true) because RED applies none; (5) sources still load North then South, and primary/unique keys remain unenforced by Snowflake."
   isMultisource: true
   locationName: LOCATION_TARGET
   materializationType: table
@@ -24,7 +23,8 @@ operation:
         columnReference:
           columnCounter: f789755f-fbdb-49be-a9be-33853157796d
           stepCounter: 18be18b4-8f5f-4bf5-9de8-f753dba83de6
-        config: {}
+        config:
+          is_Hub_hk: true
         dataType: CHAR(32)
         defaultValue: ""
         description: "RED: hub key, char(32) NOT NULL, primary key h_supplier_e0171fc3_idx_PK. Copied from the Stage, where it is a POC MD5 of COMPANYNAME (supplier_name); RED's generated Stage procedures assigned CAST(NULL AS CHAR(32)), so there is no hash parity with RED. Primary key is metadata only (not enforced by Snowflake)."
@@ -35,11 +35,11 @@ operation:
           - columnReferences:
               - columnCounter: 46c95d29-c0d2-4bd4-a15b-fecfe83af4e5
                 stepCounter: 1eecf676-d330-44ec-b872-9402cc18ebaf
-            transform: DISTINCT "STAGE_SUPPLIER_TRADERS_NORTH"."HK_H_SUPPLIER"
+            transform: "\"STAGE_SUPPLIER_TRADERS_NORTH\".\"HK_H_SUPPLIER\""
           - columnReferences:
               - columnCounter: 19d8b785-0bdb-49b4-ad01-928de61fdaf8
                 stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
-            transform: DISTINCT "STAGE_SUPPLIER_TRADERS_SOUTH"."HK_H_SUPPLIER"
+            transform: "\"STAGE_SUPPLIER_TRADERS_SOUTH\".\"HK_H_SUPPLIER\""
         uniqueKey: false
       - acceptedValues:
           strictMatch: true
@@ -143,17 +143,9 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_SUPPLIER_TRADERS_NORTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_SUPPLIER_TRADERS_NORTH') }} "STAGE_SUPPLIER_TRADERS_NORTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_SUPPLIER') }} "H_SUPPLIER"
-                WHERE "STAGE_SUPPLIER_TRADERS_NORTH"."SUPPLIER_NAME" = "H_SUPPLIER"."SUPPLIER_NAME"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_SUPPLIER_TRADERS_NORTH') }} "STAGE_SUPPLIER_TRADERS_NORTH"
         name: STAGE_SUPPLIER_TRADERS_NORTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_SUPPLIER
+        noLinkRefs: []
       - aliases:
           STAGE_SUPPLIER_TRADERS_SOUTH: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
         customSQL:
@@ -162,21 +154,13 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_SUPPLIER_TRADERS_SOUTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_SUPPLIER_TRADERS_SOUTH') }} "STAGE_SUPPLIER_TRADERS_SOUTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_SUPPLIER') }} "H_SUPPLIER"
-                WHERE "STAGE_SUPPLIER_TRADERS_SOUTH"."SUPPLIER_NAME" = "H_SUPPLIER"."SUPPLIER_NAME"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_SUPPLIER_TRADERS_SOUTH') }} "STAGE_SUPPLIER_TRADERS_SOUTH"
         name: STAGE_SUPPLIER_TRADERS_SOUTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_SUPPLIER
+        noLinkRefs: []
   name: H_SUPPLIER
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: data-vault-by-scalefree:::6
   type: sql
   version: 1
 type: Node

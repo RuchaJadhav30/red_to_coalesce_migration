@@ -3,14 +3,13 @@ id: abbc1072-4303-4666-ae39-5613b6c313f6
 name: H_ORDER
 operation:
   config:
-    insertStrategy: INSERT
+    disable_hwm: true
     postSQL: ""
     preSQL: ""
     testsEnabled: true
-    truncateBefore: false
   database: ""
   deployEnabled: true
-  description: Migrated from WhereScape RED hub h_order (source mappings src_h_order_f0fc7205 / update_src_h_order_f0fc7205 from stage_order_traders_north, and src_h_order_1_a3a81077 / update_src_h_order_1_a3a81077 from stage_order_traders_south).
+  description: "Migrated from WhereScape RED hub h_order (source mappings src_h_order_f0fc7205 / update_src_h_order_f0fc7205 from stage_order_traders_north, and src_h_order_1_a3a81077 / update_src_h_order_1_a3a81077 from stage_order_traders_south). Converted in place to the Data Vault by Scalefree Hub node type (package @coalesce/snowflake/data-vault-by-scalefree 3.0.0, data-vault-by-scalefree:::6); differences from the RED procedures and the previous Coalesce Hub: (1) the existence check is NOT EXISTS on the hash key HK_H_ORDER instead of the business key ORDER_NUMBER, which is equivalent while HK_H_ORDER is the Stage's deterministic MD5 of ORDER_NUMBER; (2) a NULL ORDER_NUMBER hashes to MD5('null'), so it is inserted once instead of on every run, and it shares a hash key with a text business key equal to 'null'; (3) each source batch is reduced to one row per hash key by QUALIFY ROW_NUMBER() OVER (PARTITION BY HK_H_ORDER ORDER BY DSS_LOAD_DATE) = 1 (ties are arbitrary), so the same key with a different DSS_RECORD_SOURCE or DSS_LOAD_DATE is no longer inserted twice; (4) high-water-mark filtering is disabled (disable_hwm: true) because RED applies none; (5) sources still load North then South, and primary/unique keys remain unenforced by Snowflake."
   isMultisource: true
   locationName: LOCATION_TARGET
   materializationType: table
@@ -24,7 +23,8 @@ operation:
         columnReference:
           columnCounter: 00e21b33-395f-441e-a099-668502daa618
           stepCounter: abbc1072-4303-4666-ae39-5613b6c313f6
-        config: {}
+        config:
+          is_Hub_hk: true
         dataType: CHAR(32)
         defaultValue: ""
         description: "RED: hub key, char(32) NOT NULL, primary key h_order_25f5fcb7_idx_PK"
@@ -35,11 +35,11 @@ operation:
           - columnReferences:
               - columnCounter: 65619024-774d-4d6f-9ea3-79ec963fea53
                 stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
-            transform: DISTINCT "STAGE_ORDER_TRADERS_NORTH"."HK_H_ORDER"
+            transform: "\"STAGE_ORDER_TRADERS_NORTH\".\"HK_H_ORDER\""
           - columnReferences:
               - columnCounter: f8aa5007-02a1-43db-a10a-26abaaf45735
                 stepCounter: 1420aaca-7597-4a16-aefb-33f8a0e26769
-            transform: DISTINCT "STAGE_ORDER_TRADERS_SOUTH"."HK_H_ORDER"
+            transform: "\"STAGE_ORDER_TRADERS_SOUTH\".\"HK_H_ORDER\""
         uniqueKey: false
       - acceptedValues:
           strictMatch: true
@@ -143,17 +143,9 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_ORDER_TRADERS_NORTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_ORDER_TRADERS_NORTH') }} "STAGE_ORDER_TRADERS_NORTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_ORDER') }} "H_ORDER"
-                WHERE "STAGE_ORDER_TRADERS_NORTH"."ORDER_NUMBER" = "H_ORDER"."ORDER_NUMBER"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_ORDER_TRADERS_NORTH') }} "STAGE_ORDER_TRADERS_NORTH"
         name: STAGE_ORDER_TRADERS_NORTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_ORDER
+        noLinkRefs: []
       - aliases:
           STAGE_ORDER_TRADERS_SOUTH: 1420aaca-7597-4a16-aefb-33f8a0e26769
         customSQL:
@@ -162,21 +154,13 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_ORDER_TRADERS_SOUTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_ORDER_TRADERS_SOUTH') }} "STAGE_ORDER_TRADERS_SOUTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_ORDER') }} "H_ORDER"
-                WHERE "STAGE_ORDER_TRADERS_SOUTH"."ORDER_NUMBER" = "H_ORDER"."ORDER_NUMBER"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_ORDER_TRADERS_SOUTH') }} "STAGE_ORDER_TRADERS_SOUTH"
         name: STAGE_ORDER_TRADERS_SOUTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_ORDER
+        noLinkRefs: []
   name: H_ORDER
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: data-vault-by-scalefree:::6
   type: sql
   version: 1
 type: Node

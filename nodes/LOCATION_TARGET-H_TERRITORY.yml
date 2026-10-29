@@ -3,14 +3,13 @@ id: 5f423689-59a4-4665-bd54-161048e13c7a
 name: H_TERRITORY
 operation:
   config:
-    insertStrategy: INSERT
+    disable_hwm: true
     postSQL: ""
     preSQL: ""
     testsEnabled: true
-    truncateBefore: false
   database: ""
   deployEnabled: true
-  description: "Migrated from WhereScape RED hub h_territory (object key 92; source mappings 18 src_h_territory_85b8fc85 / rawvault.update_src_h_territo_85b8fc85 (181) from stage_territory_traders_north, and 19 src_h_territory_1_fb6bfaf7 / rawvault.update_src_h_territo_fb6bfaf7 (182) from stage_territory_traders_south). Each source inserts SELECT DISTINCT rows WHERE NOT EXISTS a hub row with the same TERRITORY_ID, as in RED. Known behaviors: TERRITORY_ID must remain text to preserve leading zeros; a NULL TERRITORY_ID passes the equality-based NOT EXISTS and can be inserted on every run; primaryKey/uniqueKey are metadata only and not enforced by Snowflake, so overlapping runs may insert duplicates; North runs first in this Coalesce design, so a non-NULL territory ID present in both sources keeps North's DSS_RECORD_SOURCE and DSS_LOAD_DATE (RED's original scheduler run order is unknown); DSS_CREATE_TIME uses CURRENT_TIMESTAMP() rather than RED's one GETDATE() per procedure; keys are compared exactly in Snowflake, which may differ from SQL Server collation behavior. TERRITORYDESCRIPTION (RED nchar(50), Stage VARCHAR(50)) and REGIONID are not hub columns; the nchar/VARCHAR difference affects only the Stage LROC change hash."
+  description: "Migrated from WhereScape RED hub h_territory (object key 92; source mappings 18 src_h_territory_85b8fc85 / rawvault.update_src_h_territo_85b8fc85 (181) from stage_territory_traders_north, and 19 src_h_territory_1_fb6bfaf7 / rawvault.update_src_h_territo_fb6bfaf7 (182) from stage_territory_traders_south). Each source inserts SELECT DISTINCT rows WHERE NOT EXISTS a hub row with the same TERRITORY_ID, as in RED. Known behaviors: TERRITORY_ID must remain text to preserve leading zeros; a NULL TERRITORY_ID passes the equality-based NOT EXISTS and can be inserted on every run; primaryKey/uniqueKey are metadata only and not enforced by Snowflake, so overlapping runs may insert duplicates; North runs first in this Coalesce design, so a non-NULL territory ID present in both sources keeps North's DSS_RECORD_SOURCE and DSS_LOAD_DATE (RED's original scheduler run order is unknown); DSS_CREATE_TIME uses CURRENT_TIMESTAMP() rather than RED's one GETDATE() per procedure; keys are compared exactly in Snowflake, which may differ from SQL Server collation behavior. TERRITORYDESCRIPTION (RED nchar(50), Stage VARCHAR(50)) and REGIONID are not hub columns; the nchar/VARCHAR difference affects only the Stage LROC change hash. Converted in place to the Data Vault by Scalefree Hub node type (package @coalesce/snowflake/data-vault-by-scalefree 3.0.0, data-vault-by-scalefree:::6); differences from the RED procedures and the previous Coalesce Hub: (1) the existence check is NOT EXISTS on the hash key HK_H_TERRITORY instead of the business key TERRITORY_ID, which is equivalent while HK_H_TERRITORY is the Stage's deterministic MD5 of TERRITORY_ID; (2) a NULL TERRITORY_ID hashes to MD5('null'), so it is inserted once instead of on every run, and it shares a hash key with a text business key equal to 'null'; (3) each source batch is reduced to one row per hash key by QUALIFY ROW_NUMBER() OVER (PARTITION BY HK_H_TERRITORY ORDER BY DSS_LOAD_DATE) = 1 (ties are arbitrary), so the same key with a different DSS_RECORD_SOURCE or DSS_LOAD_DATE is no longer inserted twice; (4) high-water-mark filtering is disabled (disable_hwm: true) because RED applies none; (5) sources still load North then South, and primary/unique keys remain unenforced by Snowflake."
   isMultisource: true
   locationName: LOCATION_TARGET
   materializationType: table
@@ -24,7 +23,8 @@ operation:
         columnReference:
           columnCounter: 7fc4acf6-9c30-4d03-a6cd-c2a417058a50
           stepCounter: 5f423689-59a4-4665-bd54-161048e13c7a
-        config: {}
+        config:
+          is_Hub_hk: true
         dataType: CHAR(32)
         defaultValue: ""
         description: "RED: hub key, char(32) NOT NULL, primary key h_territory_a60f8103_idx_PK. Copied from the Stage, where it is a POC MD5 of TERRITORYID (territory_id) hashed as text; RED's generated Stage procedures assigned CAST(NULL AS CHAR(32)), so there is no hash parity with RED. Primary key is metadata only (not enforced by Snowflake)."
@@ -35,11 +35,11 @@ operation:
           - columnReferences:
               - columnCounter: 5765895c-2446-4d29-b20e-7c3a7370c489
                 stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
-            transform: DISTINCT "STAGE_TERRITORY_TRADERS_NORTH"."HK_H_TERRITORY"
+            transform: "\"STAGE_TERRITORY_TRADERS_NORTH\".\"HK_H_TERRITORY\""
           - columnReferences:
               - columnCounter: d900423f-e8e8-40f2-984a-d90a592bed66
                 stepCounter: 69508e9a-e6c5-4771-8d04-d660638fc041
-            transform: DISTINCT "STAGE_TERRITORY_TRADERS_SOUTH"."HK_H_TERRITORY"
+            transform: "\"STAGE_TERRITORY_TRADERS_SOUTH\".\"HK_H_TERRITORY\""
         uniqueKey: false
       - acceptedValues:
           strictMatch: true
@@ -143,17 +143,9 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_TERRITORY_TRADERS_NORTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_TERRITORY_TRADERS_NORTH') }} "STAGE_TERRITORY_TRADERS_NORTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_TERRITORY') }} "H_TERRITORY"
-                WHERE "STAGE_TERRITORY_TRADERS_NORTH"."TERRITORY_ID" = "H_TERRITORY"."TERRITORY_ID"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_TERRITORY_TRADERS_NORTH') }} "STAGE_TERRITORY_TRADERS_NORTH"
         name: STAGE_TERRITORY_TRADERS_NORTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_TERRITORY
+        noLinkRefs: []
       - aliases:
           STAGE_TERRITORY_TRADERS_SOUTH: 69508e9a-e6c5-4771-8d04-d660638fc041
         customSQL:
@@ -162,21 +154,13 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_TERRITORY_TRADERS_SOUTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_TERRITORY_TRADERS_SOUTH') }} "STAGE_TERRITORY_TRADERS_SOUTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_TERRITORY') }} "H_TERRITORY"
-                WHERE "STAGE_TERRITORY_TRADERS_SOUTH"."TERRITORY_ID" = "H_TERRITORY"."TERRITORY_ID"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_TERRITORY_TRADERS_SOUTH') }} "STAGE_TERRITORY_TRADERS_SOUTH"
         name: STAGE_TERRITORY_TRADERS_SOUTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_TERRITORY
+        noLinkRefs: []
   name: H_TERRITORY
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: data-vault-by-scalefree:::6
   type: sql
   version: 1
 type: Node

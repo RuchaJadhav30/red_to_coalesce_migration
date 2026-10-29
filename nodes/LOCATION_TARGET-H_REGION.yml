@@ -3,14 +3,13 @@ id: 5e1c09ba-e8a7-4f50-b988-46f767b30d67
 name: H_REGION
 operation:
   config:
-    insertStrategy: INSERT
+    disable_hwm: true
     postSQL: ""
     preSQL: ""
     testsEnabled: true
-    truncateBefore: false
   database: ""
   deployEnabled: true
-  description: Migrated from WhereScape RED hub h_region (source mappings src_h_region_1954911 / update_src_h_region_1954911 from stage_region_traders_north, and src_h_region_1_f1675483 / update_src_h_region__f1675483 from stage_region_traders_south).
+  description: "Migrated from WhereScape RED hub h_region (source mappings src_h_region_1954911 / update_src_h_region_1954911 from stage_region_traders_north, and src_h_region_1_f1675483 / update_src_h_region__f1675483 from stage_region_traders_south). Converted in place to the Data Vault by Scalefree Hub node type (package @coalesce/snowflake/data-vault-by-scalefree 3.0.0, data-vault-by-scalefree:::6); differences from the RED procedures and the previous Coalesce Hub: (1) the existence check is NOT EXISTS on the hash key HK_H_REGION instead of the business key REGION_ID, which is equivalent while HK_H_REGION is the Stage's deterministic MD5 of REGION_ID; (2) a NULL REGION_ID hashes to MD5('null'), so it is inserted once instead of on every run, and it shares a hash key with a text business key equal to 'null'; (3) each source batch is reduced to one row per hash key by QUALIFY ROW_NUMBER() OVER (PARTITION BY HK_H_REGION ORDER BY DSS_LOAD_DATE) = 1 (ties are arbitrary), so the same key with a different DSS_RECORD_SOURCE or DSS_LOAD_DATE is no longer inserted twice; (4) high-water-mark filtering is disabled (disable_hwm: true) because RED applies none; (5) sources still load North then South, and primary/unique keys remain unenforced by Snowflake."
   isMultisource: true
   locationName: LOCATION_TARGET
   materializationType: table
@@ -24,7 +23,8 @@ operation:
         columnReference:
           columnCounter: 22abc8cf-f652-4d4d-a427-c28e2abf2d7d
           stepCounter: 5e1c09ba-e8a7-4f50-b988-46f767b30d67
-        config: {}
+        config:
+          is_Hub_hk: true
         dataType: CHAR(32)
         defaultValue: ""
         description: "RED: hub key, char(32) NOT NULL, primary key h_region_9d325eab_idx_PK"
@@ -35,11 +35,11 @@ operation:
           - columnReferences:
               - columnCounter: ffd97e2e-1ced-4fec-8a16-80fc28f11dcf
                 stepCounter: 80b10232-1959-40d9-be3a-e5570998f2b9
-            transform: DISTINCT "STAGE_REGION_TRADERS_NORTH"."HK_H_REGION"
+            transform: "\"STAGE_REGION_TRADERS_NORTH\".\"HK_H_REGION\""
           - columnReferences:
               - columnCounter: ecfa7fc0-6a90-4a64-b1ad-7ca3a7025614
                 stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
-            transform: DISTINCT "STAGE_REGION_TRADERS_SOUTH"."HK_H_REGION"
+            transform: "\"STAGE_REGION_TRADERS_SOUTH\".\"HK_H_REGION\""
         uniqueKey: false
       - acceptedValues:
           strictMatch: true
@@ -143,17 +143,9 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_REGION_TRADERS_NORTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_REGION_TRADERS_NORTH') }} "STAGE_REGION_TRADERS_NORTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_REGION') }} "H_REGION"
-                WHERE "STAGE_REGION_TRADERS_NORTH"."REGION_ID" = "H_REGION"."REGION_ID"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_REGION_TRADERS_NORTH') }} "STAGE_REGION_TRADERS_NORTH"
         name: STAGE_REGION_TRADERS_NORTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_REGION
+        noLinkRefs: []
       - aliases:
           STAGE_REGION_TRADERS_SOUTH: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
         customSQL:
@@ -162,21 +154,13 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_REGION_TRADERS_SOUTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_REGION_TRADERS_SOUTH') }} "STAGE_REGION_TRADERS_SOUTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_REGION') }} "H_REGION"
-                WHERE "STAGE_REGION_TRADERS_SOUTH"."REGION_ID" = "H_REGION"."REGION_ID"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_REGION_TRADERS_SOUTH') }} "STAGE_REGION_TRADERS_SOUTH"
         name: STAGE_REGION_TRADERS_SOUTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_REGION
+        noLinkRefs: []
   name: H_REGION
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: data-vault-by-scalefree:::6
   type: sql
   version: 1
 type: Node

@@ -3,14 +3,13 @@ id: 0a5ea130-fd06-47ad-b8b5-424162939cb0
 name: H_SHIPPER
 operation:
   config:
-    insertStrategy: INSERT
+    disable_hwm: true
     postSQL: ""
     preSQL: ""
     testsEnabled: true
-    truncateBefore: false
   database: ""
   deployEnabled: true
-  description: "Migrated from WhereScape RED hub h_shipper (object key 90; source mappings 14 src_h_shipper_a23e7625 / update_src_h_shipper_a23e7625 from stage_shipper_traders_north, and 15 src_h_shipper_1_c798c97 / update_src_h_shipper__c798c97 from stage_shipper_traders_south). Each source inserts SELECT DISTINCT rows WHERE NOT EXISTS a hub row with the same SHIPPER_NAME, as in RED. Known behaviors: North runs first, so a non-NULL shipper name present in both sources keeps North's DSS_RECORD_SOURCE and DSS_LOAD_DATE; NULL SHIPPER_NAME values are not excluded by the equality-based NOT EXISTS and can be inserted on every run; primaryKey/uniqueKey are metadata only and are not enforced by Snowflake; DSS_CREATE_TIME uses CURRENT_TIMESTAMP() rather than RED's single per-procedure timestamp."
+  description: "Migrated from WhereScape RED hub h_shipper (object key 90; source mappings 14 src_h_shipper_a23e7625 / update_src_h_shipper_a23e7625 from stage_shipper_traders_north, and 15 src_h_shipper_1_c798c97 / update_src_h_shipper__c798c97 from stage_shipper_traders_south). Each source inserts SELECT DISTINCT rows WHERE NOT EXISTS a hub row with the same SHIPPER_NAME, as in RED. Known behaviors: North runs first, so a non-NULL shipper name present in both sources keeps North's DSS_RECORD_SOURCE and DSS_LOAD_DATE; NULL SHIPPER_NAME values are not excluded by the equality-based NOT EXISTS and can be inserted on every run; primaryKey/uniqueKey are metadata only and are not enforced by Snowflake; DSS_CREATE_TIME uses CURRENT_TIMESTAMP() rather than RED's single per-procedure timestamp. Converted in place to the Data Vault by Scalefree Hub node type (package @coalesce/snowflake/data-vault-by-scalefree 3.0.0, data-vault-by-scalefree:::6); differences from the RED procedures and the previous Coalesce Hub: (1) the existence check is NOT EXISTS on the hash key HK_H_SHIPPER instead of the business key SHIPPER_NAME, which is equivalent while HK_H_SHIPPER is the Stage's deterministic MD5 of SHIPPER_NAME; (2) a NULL SHIPPER_NAME hashes to MD5('null'), so it is inserted once instead of on every run, and it shares a hash key with a text business key equal to 'null'; (3) each source batch is reduced to one row per hash key by QUALIFY ROW_NUMBER() OVER (PARTITION BY HK_H_SHIPPER ORDER BY DSS_LOAD_DATE) = 1 (ties are arbitrary), so the same key with a different DSS_RECORD_SOURCE or DSS_LOAD_DATE is no longer inserted twice; (4) high-water-mark filtering is disabled (disable_hwm: true) because RED applies none; (5) sources still load North then South, and primary/unique keys remain unenforced by Snowflake."
   isMultisource: true
   locationName: LOCATION_TARGET
   materializationType: table
@@ -24,7 +23,8 @@ operation:
         columnReference:
           columnCounter: 86c7fe66-714b-4a18-b5b1-253faf61d665
           stepCounter: 0a5ea130-fd06-47ad-b8b5-424162939cb0
-        config: {}
+        config:
+          is_Hub_hk: true
         dataType: CHAR(32)
         defaultValue: ""
         description: "RED: hub key, char(32) NOT NULL, primary key h_shipper_433d9c8a_idx_PK. Copied from the Stage, where it is a POC MD5 of COMPANYNAME (shipper_name); RED's generated Stage procedure assigned CAST(NULL AS CHAR(32)), so there is no hash parity with RED. Primary key is metadata only (not enforced by Snowflake)."
@@ -35,11 +35,11 @@ operation:
           - columnReferences:
               - columnCounter: ae3f51bf-3482-4963-8075-80ad4f137822
                 stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
-            transform: DISTINCT "STAGE_SHIPPER_TRADERS_NORTH"."HK_H_SHIPPER"
+            transform: "\"STAGE_SHIPPER_TRADERS_NORTH\".\"HK_H_SHIPPER\""
           - columnReferences:
               - columnCounter: 4f3f25ac-c954-4c4d-9dd6-b61f028922f5
                 stepCounter: a1656170-084b-4d6d-b09a-7d509d8896ef
-            transform: DISTINCT "STAGE_SHIPPER_TRADERS_SOUTH"."HK_H_SHIPPER"
+            transform: "\"STAGE_SHIPPER_TRADERS_SOUTH\".\"HK_H_SHIPPER\""
         uniqueKey: false
       - acceptedValues:
           strictMatch: true
@@ -143,17 +143,9 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_SHIPPER_TRADERS_NORTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_SHIPPER_TRADERS_NORTH') }} "STAGE_SHIPPER_TRADERS_NORTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_SHIPPER') }} "H_SHIPPER"
-                WHERE "STAGE_SHIPPER_TRADERS_NORTH"."SHIPPER_NAME" = "H_SHIPPER"."SHIPPER_NAME"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_SHIPPER_TRADERS_NORTH') }} "STAGE_SHIPPER_TRADERS_NORTH"
         name: STAGE_SHIPPER_TRADERS_NORTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_SHIPPER
+        noLinkRefs: []
       - aliases:
           STAGE_SHIPPER_TRADERS_SOUTH: a1656170-084b-4d6d-b09a-7d509d8896ef
         customSQL:
@@ -162,21 +154,13 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_SHIPPER_TRADERS_SOUTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_SHIPPER_TRADERS_SOUTH') }} "STAGE_SHIPPER_TRADERS_SOUTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_SHIPPER') }} "H_SHIPPER"
-                WHERE "STAGE_SHIPPER_TRADERS_SOUTH"."SHIPPER_NAME" = "H_SHIPPER"."SHIPPER_NAME"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_SHIPPER_TRADERS_SOUTH') }} "STAGE_SHIPPER_TRADERS_SOUTH"
         name: STAGE_SHIPPER_TRADERS_SOUTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_SHIPPER
+        noLinkRefs: []
   name: H_SHIPPER
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: data-vault-by-scalefree:::6
   type: sql
   version: 1
 type: Node

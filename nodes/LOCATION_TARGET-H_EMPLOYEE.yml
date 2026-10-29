@@ -3,14 +3,13 @@ id: b18e20f5-310d-44ac-87f1-60784f005735
 name: H_EMPLOYEE
 operation:
   config:
-    insertStrategy: INSERT
+    disable_hwm: true
     postSQL: ""
     preSQL: ""
     testsEnabled: true
-    truncateBefore: false
   database: ""
   deployEnabled: true
-  description: Migrated from WhereScape RED hub h_employee (source mappings src_h_employee_a59e8f85 / update_src_h_employe_a59e8f85 from stage_employee_traders_north, and src_h_employee_1_b838cdf7 / update_src_h_employe_b838cdf7 from stage_employee_traders_south).
+  description: "Migrated from WhereScape RED hub h_employee (source mappings src_h_employee_a59e8f85 / update_src_h_employe_a59e8f85 from stage_employee_traders_north, and src_h_employee_1_b838cdf7 / update_src_h_employe_b838cdf7 from stage_employee_traders_south). Converted in place to the Data Vault by Scalefree Hub node type (package @coalesce/snowflake/data-vault-by-scalefree 3.0.0, data-vault-by-scalefree:::6); differences from the RED procedures and the previous Coalesce Hub: (1) the existence check is NOT EXISTS on the hash key HK_H_EMPLOYEE instead of the business key EMPLOYEE_ID, which is equivalent while HK_H_EMPLOYEE is the Stage's deterministic MD5 of EMPLOYEE_ID; (2) a NULL EMPLOYEE_ID hashes to MD5('null'), so it is inserted once instead of on every run, and it shares a hash key with a text business key equal to 'null'; (3) each source batch is reduced to one row per hash key by QUALIFY ROW_NUMBER() OVER (PARTITION BY HK_H_EMPLOYEE ORDER BY DSS_LOAD_DATE) = 1 (ties are arbitrary), so the same key with a different DSS_RECORD_SOURCE or DSS_LOAD_DATE is no longer inserted twice; (4) high-water-mark filtering is disabled (disable_hwm: true) because RED applies none; (5) sources still load North then South, and primary/unique keys remain unenforced by Snowflake."
   isMultisource: true
   locationName: LOCATION_TARGET
   materializationType: table
@@ -24,7 +23,8 @@ operation:
         columnReference:
           columnCounter: 2c1616e8-1cd6-4b9c-91b9-1bfacb3b7936
           stepCounter: b18e20f5-310d-44ac-87f1-60784f005735
-        config: {}
+        config:
+          is_Hub_hk: true
         dataType: CHAR(32)
         defaultValue: ""
         description: "RED: hub key, char(32) NOT NULL, primary key h_employee_8a5e0ca5_idx_PK"
@@ -35,11 +35,11 @@ operation:
           - columnReferences:
               - columnCounter: f557d586-f9c1-41a1-96eb-2300d59ec1e6
                 stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
-            transform: DISTINCT "STAGE_EMPLOYEE_TRADERS_NORTH"."HK_H_EMPLOYEE"
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"HK_H_EMPLOYEE\""
           - columnReferences:
               - columnCounter: 1e039aca-568f-451b-b135-a97f2e8741d5
                 stepCounter: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
-            transform: DISTINCT "STAGE_EMPLOYEE_TRADERS_SOUTH"."HK_H_EMPLOYEE"
+            transform: "\"STAGE_EMPLOYEE_TRADERS_SOUTH\".\"HK_H_EMPLOYEE\""
         uniqueKey: false
       - acceptedValues:
           strictMatch: true
@@ -143,17 +143,9 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_EMPLOYEE_TRADERS_NORTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_EMPLOYEE_TRADERS_NORTH') }} "STAGE_EMPLOYEE_TRADERS_NORTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_EMPLOYEE') }} "H_EMPLOYEE"
-                WHERE "STAGE_EMPLOYEE_TRADERS_NORTH"."EMPLOYEE_ID" = "H_EMPLOYEE"."EMPLOYEE_ID"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_EMPLOYEE_TRADERS_NORTH') }} "STAGE_EMPLOYEE_TRADERS_NORTH"
         name: STAGE_EMPLOYEE_TRADERS_NORTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_EMPLOYEE
+        noLinkRefs: []
       - aliases:
           STAGE_EMPLOYEE_TRADERS_SOUTH: ac53b698-a56a-437c-8ac9-c7bf5d5b3c69
         customSQL:
@@ -162,21 +154,13 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_EMPLOYEE_TRADERS_SOUTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_EMPLOYEE_TRADERS_SOUTH') }} "STAGE_EMPLOYEE_TRADERS_SOUTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_EMPLOYEE') }} "H_EMPLOYEE"
-                WHERE "STAGE_EMPLOYEE_TRADERS_SOUTH"."EMPLOYEE_ID" = "H_EMPLOYEE"."EMPLOYEE_ID"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_EMPLOYEE_TRADERS_SOUTH') }} "STAGE_EMPLOYEE_TRADERS_SOUTH"
         name: STAGE_EMPLOYEE_TRADERS_SOUTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_EMPLOYEE
+        noLinkRefs: []
   name: H_EMPLOYEE
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: data-vault-by-scalefree:::6
   type: sql
   version: 1
 type: Node

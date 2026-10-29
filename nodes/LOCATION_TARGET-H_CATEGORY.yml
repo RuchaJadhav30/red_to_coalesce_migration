@@ -3,14 +3,13 @@ id: 2d67f85e-ba01-40ea-85a3-660bc74a16a6
 name: H_CATEGORY
 operation:
   config:
-    insertStrategy: INSERT
+    disable_hwm: true
     postSQL: ""
     preSQL: ""
     testsEnabled: true
-    truncateBefore: false
   database: ""
   deployEnabled: true
-  description: Migrated from WhereScape RED hub h_category (source mappings src_h_category_b4079c25 / update_src_h_categor_b4079c25 from stage_category_traders_north, and src_h_category_1_d0913297 / update_src_h_categor_d0913297 from stage_category_traders_south).
+  description: "Migrated from WhereScape RED hub h_category (source mappings src_h_category_b4079c25 / update_src_h_categor_b4079c25 from stage_category_traders_north, and src_h_category_1_d0913297 / update_src_h_categor_d0913297 from stage_category_traders_south). Converted in place to the Data Vault by Scalefree Hub node type (package @coalesce/snowflake/data-vault-by-scalefree 3.0.0, data-vault-by-scalefree:::6); differences from the RED procedures and the previous Coalesce Hub: (1) the existence check is NOT EXISTS on the hash key HK_H_CATEGORY instead of the business key CATEGORY_NAME, which is equivalent while HK_H_CATEGORY is the Stage's deterministic MD5 of CATEGORY_NAME; (2) a NULL CATEGORY_NAME hashes to MD5('null'), so it is inserted once instead of on every run, and it shares a hash key with a text business key equal to 'null'; (3) each source batch is reduced to one row per hash key by QUALIFY ROW_NUMBER() OVER (PARTITION BY HK_H_CATEGORY ORDER BY DSS_LOAD_DATE) = 1 (ties are arbitrary), so the same key with a different DSS_RECORD_SOURCE or DSS_LOAD_DATE is no longer inserted twice; (4) high-water-mark filtering is disabled (disable_hwm: true) because RED applies none; (5) sources still load North then South, and primary/unique keys remain unenforced by Snowflake."
   isMultisource: true
   locationName: LOCATION_TARGET
   materializationType: table
@@ -24,7 +23,8 @@ operation:
         columnReference:
           columnCounter: 1d40542e-8d6c-45f1-9ade-97740e1b4578
           stepCounter: 2d67f85e-ba01-40ea-85a3-660bc74a16a6
-        config: {}
+        config:
+          is_Hub_hk: true
         dataType: CHAR(32)
         defaultValue: ""
         description: "RED: hub key, char(32) NOT NULL, primary key h_category_463de2f5_idx_PK"
@@ -35,11 +35,11 @@ operation:
           - columnReferences:
               - columnCounter: c544f929-5b84-48d5-a566-a40fe7a99ff4
                 stepCounter: fde8b4de-076a-450d-b967-cf9fa7126e0a
-            transform: DISTINCT "STAGE_CATEGORY_TRADERS_NORTH"."HK_H_CATEGORY"
+            transform: "\"STAGE_CATEGORY_TRADERS_NORTH\".\"HK_H_CATEGORY\""
           - columnReferences:
               - columnCounter: 7a97ceca-b0cf-4a1f-9d84-55a0d5bc23ef
                 stepCounter: eb5340e4-7b22-433c-99bc-61aa4464f301
-            transform: DISTINCT "STAGE_CATEGORY_TRADERS_SOUTH"."HK_H_CATEGORY"
+            transform: "\"STAGE_CATEGORY_TRADERS_SOUTH\".\"HK_H_CATEGORY\""
         uniqueKey: false
       - acceptedValues:
           strictMatch: true
@@ -143,17 +143,9 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_CATEGORY_TRADERS_NORTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_CATEGORY_TRADERS_NORTH') }} "STAGE_CATEGORY_TRADERS_NORTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_CATEGORY') }} "H_CATEGORY"
-                WHERE "STAGE_CATEGORY_TRADERS_NORTH"."CATEGORY_NAME" = "H_CATEGORY"."CATEGORY_NAME"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_CATEGORY_TRADERS_NORTH') }} "STAGE_CATEGORY_TRADERS_NORTH"
         name: STAGE_CATEGORY_TRADERS_NORTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_CATEGORY
+        noLinkRefs: []
       - aliases:
           STAGE_CATEGORY_TRADERS_SOUTH: eb5340e4-7b22-433c-99bc-61aa4464f301
         customSQL:
@@ -162,21 +154,13 @@ operation:
           - locationName: TARGET
             nodeName: STAGE_CATEGORY_TRADERS_SOUTH
         join:
-          joinCondition: |-
-            FROM {{ ref('TARGET', 'STAGE_CATEGORY_TRADERS_SOUTH') }} "STAGE_CATEGORY_TRADERS_SOUTH"
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM {{ ref_no_link('LOCATION_TARGET', 'H_CATEGORY') }} "H_CATEGORY"
-                WHERE "STAGE_CATEGORY_TRADERS_SOUTH"."CATEGORY_NAME" = "H_CATEGORY"."CATEGORY_NAME"
-            )
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_CATEGORY_TRADERS_SOUTH') }} "STAGE_CATEGORY_TRADERS_SOUTH"
         name: STAGE_CATEGORY_TRADERS_SOUTH
-        noLinkRefs:
-          - locationName: LOCATION_TARGET
-            nodeName: H_CATEGORY
+        noLinkRefs: []
   name: H_CATEGORY
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: data-vault-by-scalefree:::6
   type: sql
   version: 1
 type: Node
