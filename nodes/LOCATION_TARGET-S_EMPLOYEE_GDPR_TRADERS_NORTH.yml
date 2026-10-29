@@ -1,0 +1,432 @@
+fileVersion: 1
+id: 7bc0e385-775a-4425-947d-3775e6195a97
+name: S_EMPLOYEE_GDPR_TRADERS_NORTH
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED satellite s_employee_gdpr_traders_north (object key 99; update procedure update_s_employee_gd_89ab31b0, key 189, template wsl_sqlserver_proc_dv_perm 8.5.1.0) using the Data Vault by Scalefree Satellite v0 node type (data-vault-by-scalefree:::8, package 3.0.0) with the project V0B extension in the source join. Parent hub H_EMPLOYEE via HK_H_EMPLOYEE; source Stage STAGE_EMPLOYEE_TRADERS_NORTH. Logic: the package inserts rows whose change hash differs from the latest Satellite row by DSS_LOAD_DATE, after collapsing identical consecutive change hashes per HK_H_EMPLOYEE (LAG ordered by DSS_LOAD_DATE); the V0B source join adds RED's LEFT OUTER JOIN to current rows (MAX(DSS_START_DATE) and MAX(DSS_VERSION) per HK_H_EMPLOYEE) and RED's NOT EXISTS on hash key, change hash and current start date; DSS_VERSION = COALESCE(MAX(DSS_VERSION), 0) + 1; high-water mark disabled; no UPDATE, MERGE, DELETE or TRUNCATE. Differences from RED: (1) a row is inserted only if both the package check (latest row by DSS_LOAD_DATE) and RED's check (latest row by DSS_START_DATE) pass, so back-dated deliveries or reloads with the same DSS_LOAD_DATE can be skipped where RED would insert, and ties on DSS_LOAD_DATE are resolved arbitrarily; (2) identical consecutive change hashes for one key within a load are collapsed to one row, where RED would insert both and fail on its unique index; (3) primary and unique key metadata is not enforced (RED unique indexes s_employee_gd_89ab31b0_idx_PK and s_employee_gd_89ab31b0_idx_CK), so duplicate rows for the same hash key and start date may be inserted where RED would fail and roll back; (4) DSS_START_DATE and DSS_CREATE_TIME use CURRENT_TIMESTAMP(), whose precision and time-zone conversion may differ from SQL Server datetime; (5) the Stage hash key and change hash are POC MD5 values and do not establish RED hash parity. Run coa create only once, on an empty target, before the first load."
+  isMultisource: false
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a91b7a5c-406b-495a-a5c8-c7dd9e0f73e7
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config:
+          is_hk: true
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_employee char(32) NOT NULL; parent hub hash key of H_EMPLOYEE. Part of RED unique indexes s_employee_gd_89ab31b0_idx_PK (hk_h_employee, dss_start_date) and s_employee_gd_89ab31b0_idx_CK (hk_h_employee, dss_change_hash, dss_start_date)."
+        name: HK_H_EMPLOYEE
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f557d586-f9c1-41a1-96eb-2300d59ec1e6
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"HK_H_EMPLOYEE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 099423a2-8de4-4f8d-9858-4bfe8df2c289
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED: country varchar(50) NULL"
+        name: COUNTRY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 20e9c0cb-0281-4f24-b66c-aae1564bfd5a
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"COUNTRY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0dd87e07-78d1-4781-8e96-b8d39bff154e
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED: lastname varchar(50) NULL"
+        name: LASTNAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0e0ce284-60e4-4a6f-9c76-352b49e335b3
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"LASTNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1966533-3e59-49c6-bbf7-cae85cd2a8fb
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED: firstname varchar(50) NULL"
+        name: FIRSTNAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dcf712e3-861b-4178-a5a6-9292ca81d643
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"FIRSTNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c138caaf-6409-4901-a539-a6452458dfee
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED: title varchar(50) NULL"
+        name: TITLE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f8b1dc75-56c4-4f9a-ba12-0b19c766b85f
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"TITLE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8a22096f-bd29-4118-8a95-fcf756926eb8
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED: titleofcourtesy varchar(50) NULL"
+        name: TITLEOFCOURTESY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 88cef09d-1489-45b4-99e8-bd610aa918c1
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"TITLEOFCOURTESY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8b59bb54-5c2d-445b-abf0-bf6cc20a3d4f
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: birthdate datetime2 NULL"
+        name: BIRTHDATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 41136ca5-0492-4697-92ae-790be81e5e2e
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"BIRTHDATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 35b9b430-d4dc-4625-800b-e08cd50838f7
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: VARCHAR(60)
+        defaultValue: ""
+        description: "RED: address varchar(60) NULL"
+        name: ADDRESS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a7bf5936-51dd-4dd4-a0fb-22a9dfbbc6b3
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"ADDRESS\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cb05ab7e-8fbc-455e-86ae-5b442f30a805
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED: city varchar(50) NULL"
+        name: CITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f15bf068-c5d0-479c-a4d9-5720c8bddc38
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"CITY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0a8b759e-294f-4aec-90fa-2990d16ab7c1
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED: region varchar(50) NULL"
+        name: REGION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e36ec31e-16bb-42aa-8d2b-6aa00bef4fd9
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"REGION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0c9a427c-fdf2-4d8c-a809-2651d8619344
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED: postalcode varchar(50) NULL"
+        name: POSTALCODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0505ec35-28ae-4b82-9ad5-59fe8faf7eaf
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"POSTALCODE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ce617aaa-2ff0-4666-94c7-dfebbff8f53e
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED: homephone varchar(50) NULL"
+        name: HOMEPHONE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 506906ea-1a9c-4f4e-b5b2-2c9d2602c31f
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"HOMEPHONE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 034badf1-5210-4a0f-acde-42acd7f36b5a
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: reportsto int NULL"
+        name: REPORTSTO
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3876a65f-d5bd-4e78-b049-9d62a503f0f3
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"REPORTSTO\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4cdd4d7c-1b5e-4e9e-8878-a38c5a043a0e
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config:
+          is_hd: true
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: dss_change_hash char(32) NOT NULL <- stage_employee_traders_north.dss_change_hash_employee_gdpr_traders_north; change hash taken from the Stage, not recalculated. The Stage value is a POC MD5 and does not establish RED hash parity."
+        name: DSS_CHANGE_HASH
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7b2b0d60-5098-49d1-9dc4-b16ecf4a37b0
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"DSS_CHANGE_HASH_EMPLOYEE_GDPR_TRADERS_NORTH\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1fc7eec7-34d7-49d6-8ec0-86cb6bc7d2f3
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: "RED: dss_record_source varchar(255) NULL"
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bfbe13fc-e14c-4e1b-b5b4-d9f2c31fafdf
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 32c9b7b7-b46e-4428-8548-8adac30ab2c7
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_load_date datetime NULL"
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: baa326a0-5f62-4a50-b81a-2f7b876d2f44
+                stepCounter: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+            transform: "\"STAGE_EMPLOYEE_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ead3176f-72c2-4c74-b6f3-3491ed59b196
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_start_date datetime NULL; RED procedure: @v_current_datetime (one GETDATE() per run). Set to CURRENT_TIMESTAMP(), one value per statement and equal to DSS_CREATE_TIME; precision and time-zone conversion may differ from SQL Server datetime. Part of RED unique index s_employee_gd_89ab31b0_idx_PK."
+        name: DSS_START_DATE
+        nullable: true
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: edf961d5-75e8-4aa7-8bf5-79d8368811a9
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: dss_version int NULL; RED procedure: ISNULL(current_rows.dss_version,0) + 1, where current_rows holds MAX(dss_version) per hk_h_employee. Computed from the source-join current rows (CURRENT_ROWS.CURRENT_VERSION), as in RED."
+        name: DSS_VERSION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "COALESCE(\"CURRENT_ROWS\".\"CURRENT_VERSION\", 0) + 1"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 67f97c04-df75-4d2c-a4d2-5da714b7b0b7
+          stepCounter: 7bc0e385-775a-4425-947d-3775e6195a97
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_create_time datetime NULL; RED procedure: @v_current_datetime. CURRENT_TIMESTAMP() is one value per statement, equal to DSS_START_DATE; precision and time-zone conversion may differ from SQL Server datetime."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_EMPLOYEE_TRADERS_NORTH: bef00f54-c7ac-4fbd-9691-a844b2808ed3
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_EMPLOYEE_TRADERS_NORTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_EMPLOYEE_TRADERS_NORTH') }} "STAGE_EMPLOYEE_TRADERS_NORTH"
+            LEFT OUTER JOIN (
+                SELECT "HK_H_EMPLOYEE" AS "CURRENT_HK"
+                     , MAX("DSS_START_DATE") AS "CURRENT_START_DATE"
+                     , MAX("DSS_VERSION") AS "CURRENT_VERSION"
+                FROM {{ ref_no_link('LOCATION_TARGET', 'S_EMPLOYEE_GDPR_TRADERS_NORTH') }}
+                GROUP BY "HK_H_EMPLOYEE"
+            ) "CURRENT_ROWS"
+              ON "STAGE_EMPLOYEE_TRADERS_NORTH"."HK_H_EMPLOYEE" = "CURRENT_ROWS"."CURRENT_HK"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'S_EMPLOYEE_GDPR_TRADERS_NORTH') }} "S"
+                WHERE "STAGE_EMPLOYEE_TRADERS_NORTH"."HK_H_EMPLOYEE" = "S"."HK_H_EMPLOYEE"
+                AND "STAGE_EMPLOYEE_TRADERS_NORTH"."DSS_CHANGE_HASH_EMPLOYEE_GDPR_TRADERS_NORTH" = "S"."DSS_CHANGE_HASH"
+                AND "CURRENT_ROWS"."CURRENT_START_DATE" = "S"."DSS_START_DATE"
+            )
+        name: S_EMPLOYEE_GDPR_TRADERS_NORTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: S_EMPLOYEE_GDPR_TRADERS_NORTH
+  name: S_EMPLOYEE_GDPR_TRADERS_NORTH
+  overrideSQL: false
+  schema: ""
+  sqlType: data-vault-by-scalefree:::8
+  type: sql
+  version: 1
+type: Node

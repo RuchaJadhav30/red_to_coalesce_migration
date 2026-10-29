@@ -1,0 +1,272 @@
+fileVersion: 1
+id: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+name: S_SUPPLIER_MROC_TRADERS_NORTH
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED satellite s_supplier_mroc_traders_north (object key 127; update procedure update_s_supplier_mro_67ab6ec, key 217, template wsl_sqlserver_proc_dv_perm 8.5.1.0) using the Data Vault by Scalefree Satellite v0 node type (data-vault-by-scalefree:::8, package 3.0.0) with the project V0B extension in the source join. Parent hub H_SUPPLIER via HK_H_SUPPLIER; source Stage STAGE_SUPPLIER_TRADERS_NORTH. Logic: the package inserts rows whose change hash differs from the latest Satellite row by DSS_LOAD_DATE, after collapsing identical consecutive change hashes per HK_H_SUPPLIER (LAG ordered by DSS_LOAD_DATE); the V0B source join adds RED's LEFT OUTER JOIN to current rows (MAX(DSS_START_DATE) and MAX(DSS_VERSION) per HK_H_SUPPLIER) and RED's NOT EXISTS on hash key, change hash and current start date; DSS_VERSION = COALESCE(MAX(DSS_VERSION), 0) + 1; high-water mark disabled; no UPDATE, MERGE, DELETE or TRUNCATE. Differences from RED: (1) a row is inserted only if both the package check (latest row by DSS_LOAD_DATE) and RED's check (latest row by DSS_START_DATE) pass, so back-dated deliveries or reloads with the same DSS_LOAD_DATE can be skipped where RED would insert, and ties on DSS_LOAD_DATE are resolved arbitrarily; (2) identical consecutive change hashes for one key within a load are collapsed to one row, where RED would insert both and fail on its unique index; (3) primary and unique key metadata is not enforced (RED unique indexes s_supplier_mro_67ab6ec_idx_PK and s_supplier_mro_67ab6ec_idx_CK), so duplicate rows for the same hash key and start date may be inserted where RED would fail and roll back; (4) DSS_START_DATE and DSS_CREATE_TIME use CURRENT_TIMESTAMP(), whose precision and time-zone conversion may differ from SQL Server datetime; (5) the Stage hash key and change hash are POC MD5 values and do not establish RED hash parity. Run coa create only once, on an empty target, before the first load."
+  isMultisource: false
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: fca3ec9b-1d25-4df3-8417-5f1fa6f1446a
+          stepCounter: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+        config:
+          is_hk: true
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_supplier char(32) NOT NULL; parent hub hash key of H_SUPPLIER. Part of RED unique indexes s_supplier_mro_67ab6ec_idx_PK (hk_h_supplier, dss_start_date) and s_supplier_mro_67ab6ec_idx_CK (hk_h_supplier, dss_change_hash, dss_start_date)."
+        name: HK_H_SUPPLIER
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 46c95d29-c0d2-4bd4-a15b-fecfe83af4e5
+                stepCounter: 1eecf676-d330-44ec-b872-9402cc18ebaf
+            transform: "\"STAGE_SUPPLIER_TRADERS_NORTH\".\"HK_H_SUPPLIER\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b000a693-f1ed-47e4-88bf-054691f300b5
+          stepCounter: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+        config: {}
+        dataType: VARCHAR(30)
+        defaultValue: ""
+        description: "RED: contactname nvarchar(30) NULL"
+        name: CONTACTNAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 86df27b9-b9a9-4d1c-8f3a-7f9db561f715
+                stepCounter: 1eecf676-d330-44ec-b872-9402cc18ebaf
+            transform: "\"STAGE_SUPPLIER_TRADERS_NORTH\".\"CONTACTNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1b88e264-9563-4dd2-acf2-d7450ee0cffc
+          stepCounter: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+        config: {}
+        dataType: VARCHAR(30)
+        defaultValue: ""
+        description: "RED: contacttitle nvarchar(30) NULL"
+        name: CONTACTTITLE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cd9052c6-57de-4b19-bf11-fbda5a617603
+                stepCounter: 1eecf676-d330-44ec-b872-9402cc18ebaf
+            transform: "\"STAGE_SUPPLIER_TRADERS_NORTH\".\"CONTACTTITLE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4d06d65c-9aa9-42ff-a9df-33e096ad07dd
+          stepCounter: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+        config: {}
+        dataType: VARCHAR(24)
+        defaultValue: ""
+        description: "RED: phone nvarchar(24) NULL"
+        name: PHONE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ab0ba891-50fe-42c5-8def-0ee5c27f74db
+                stepCounter: 1eecf676-d330-44ec-b872-9402cc18ebaf
+            transform: "\"STAGE_SUPPLIER_TRADERS_NORTH\".\"PHONE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0aeb80b3-03d8-48eb-ab13-19da02c20324
+          stepCounter: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+        config: {}
+        dataType: VARCHAR(24)
+        defaultValue: ""
+        description: "RED: fax nvarchar(24) NULL"
+        name: FAX
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6a9b7095-3d5b-440f-816b-3ed0a80a69a2
+                stepCounter: 1eecf676-d330-44ec-b872-9402cc18ebaf
+            transform: "\"STAGE_SUPPLIER_TRADERS_NORTH\".\"FAX\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 81c029e5-c7c6-4496-8149-c6eab64df7a9
+          stepCounter: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+        config:
+          is_hd: true
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: dss_change_hash char(32) NOT NULL <- stage_supplier_traders_north.dss_change_hash_supplier_mroc_traders_north; change hash taken from the Stage, not recalculated. The Stage value is a POC MD5 and does not establish RED hash parity."
+        name: DSS_CHANGE_HASH
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ea8601fb-a5ee-4fcf-b8be-2cbbace10e9b
+                stepCounter: 1eecf676-d330-44ec-b872-9402cc18ebaf
+            transform: "\"STAGE_SUPPLIER_TRADERS_NORTH\".\"DSS_CHANGE_HASH_SUPPLIER_MROC_TRADERS_NORTH\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6575db6d-fb41-4f2a-a503-3b62256e48ee
+          stepCounter: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: "RED: dss_record_source varchar(255) NULL"
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a8a89c0e-5da3-4dc5-b924-9dbcf02e56d7
+                stepCounter: 1eecf676-d330-44ec-b872-9402cc18ebaf
+            transform: "\"STAGE_SUPPLIER_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0804d68e-68e5-4a1e-9647-4bee025f99d0
+          stepCounter: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_load_date datetime NULL"
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 69d5813d-eaeb-4d45-8302-8e585829ddea
+                stepCounter: 1eecf676-d330-44ec-b872-9402cc18ebaf
+            transform: "\"STAGE_SUPPLIER_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 31734f2e-4d36-413c-98ac-8cf4df667e91
+          stepCounter: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_start_date datetime NULL; RED procedure: @v_current_datetime (one GETDATE() per run). Set to CURRENT_TIMESTAMP(), one value per statement and equal to DSS_CREATE_TIME; precision and time-zone conversion may differ from SQL Server datetime. Part of RED unique index s_supplier_mro_67ab6ec_idx_PK."
+        name: DSS_START_DATE
+        nullable: true
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 74435704-8927-41af-9971-5821cd835480
+          stepCounter: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: dss_version int NULL; RED procedure: ISNULL(current_rows.dss_version,0) + 1, where current_rows holds MAX(dss_version) per hk_h_supplier. Computed from the source-join current rows (CURRENT_ROWS.CURRENT_VERSION), as in RED."
+        name: DSS_VERSION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "COALESCE(\"CURRENT_ROWS\".\"CURRENT_VERSION\", 0) + 1"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 41094da6-02fb-4c0a-b706-f9c3779db5af
+          stepCounter: b1ebb1b1-4e5f-46c7-a112-4fe25097517b
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_create_time datetime NULL; RED procedure: @v_current_datetime. CURRENT_TIMESTAMP() is one value per statement, equal to DSS_START_DATE; precision and time-zone conversion may differ from SQL Server datetime."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_SUPPLIER_TRADERS_NORTH: 1eecf676-d330-44ec-b872-9402cc18ebaf
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_SUPPLIER_TRADERS_NORTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_SUPPLIER_TRADERS_NORTH') }} "STAGE_SUPPLIER_TRADERS_NORTH"
+            LEFT OUTER JOIN (
+                SELECT "HK_H_SUPPLIER" AS "CURRENT_HK"
+                     , MAX("DSS_START_DATE") AS "CURRENT_START_DATE"
+                     , MAX("DSS_VERSION") AS "CURRENT_VERSION"
+                FROM {{ ref_no_link('LOCATION_TARGET', 'S_SUPPLIER_MROC_TRADERS_NORTH') }}
+                GROUP BY "HK_H_SUPPLIER"
+            ) "CURRENT_ROWS"
+              ON "STAGE_SUPPLIER_TRADERS_NORTH"."HK_H_SUPPLIER" = "CURRENT_ROWS"."CURRENT_HK"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'S_SUPPLIER_MROC_TRADERS_NORTH') }} "S"
+                WHERE "STAGE_SUPPLIER_TRADERS_NORTH"."HK_H_SUPPLIER" = "S"."HK_H_SUPPLIER"
+                AND "STAGE_SUPPLIER_TRADERS_NORTH"."DSS_CHANGE_HASH_SUPPLIER_MROC_TRADERS_NORTH" = "S"."DSS_CHANGE_HASH"
+                AND "CURRENT_ROWS"."CURRENT_START_DATE" = "S"."DSS_START_DATE"
+            )
+        name: S_SUPPLIER_MROC_TRADERS_NORTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: S_SUPPLIER_MROC_TRADERS_NORTH
+  name: S_SUPPLIER_MROC_TRADERS_NORTH
+  overrideSQL: false
+  schema: ""
+  sqlType: data-vault-by-scalefree:::8
+  type: sql
+  version: 1
+type: Node

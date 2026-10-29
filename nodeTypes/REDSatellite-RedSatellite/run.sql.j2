@@ -1,0 +1,84 @@
+{#- Reproduces the WhereScape RED 8.6 wsl_sqlserver_proc_dv_perm Satellite update procedure:
+    one INSERT ... SELECT DISTINCT from the Stage, inserting a row only when its change hash
+    differs from the Satellite row with the latest start date for the same hash key.
+    The start-date column gets the statement timestamp and the version column gets
+    COALESCE(MAX(version), 0) + 1 per hash key; every other column uses its node transform.
+    No UPDATE, MERGE, DELETE or TRUNCATE. -#}
+{% if config.preSQL %}
+  {{ stage('Pre-SQL') }}
+  {{ config.preSQL }}
+{% endif %}
+
+{% for test in node.tests if config.testsEnabled %}
+  {% if test.runOrder == 'Before' %}
+    {{ test_stage(test.name, test.continueOnFailure) }}
+    {{ test.templateString }}
+  {% endif %}
+{% endfor %}
+
+{%- set hk = get_value_by_column_attribute("is_hk") -%}
+{%- set hd = get_value_by_column_attribute("is_hd") -%}
+{%- set sd = get_value_by_column_attribute("is_start_date") -%}
+{%- set ver = get_value_by_column_attribute("is_version") -%}
+{%- set target = ref_no_link(node.location.name, node.name) -%}
+
+{% for source in sources %}
+{%- set hk_src = get_source_transform(source.columns | selectattr("name", "equalto", hk) | first) -%}
+{%- set hd_src = get_source_transform(source.columns | selectattr("name", "equalto", hd) | first) -%}
+
+{{ stage('Insert New Rows - ' ~ source.name) }}
+
+INSERT INTO {{ target }}
+(
+  {% for col in source.columns %}
+    "{{ col.name }}"{{ "," if not loop.last }}
+  {% endfor %}
+)
+SELECT DISTINCT
+  {% for col in source.columns %}
+    {%- if col.name == sd %}
+    CURRENT_TIMESTAMP() AS "{{ col.name }}"
+    {%- elif col.name == ver %}
+    COALESCE("CURRENT_ROWS"."{{ ver }}", 0) + 1 AS "{{ col.name }}"
+    {%- else %}
+    {{ get_source_transform(col) }} AS "{{ col.name }}"
+    {%- endif %}
+    {%- if not loop.last -%}, {% endif %}
+  {% endfor %}
+{{ source.join }}
+LEFT OUTER JOIN (
+    SELECT "SAT"."{{ hk }}"
+         , MAX("SAT"."{{ sd }}") AS "{{ sd }}"
+         , MAX("SAT"."{{ ver }}") AS "{{ ver }}"
+    FROM {{ target }} "SAT"
+    GROUP BY "SAT"."{{ hk }}"
+) AS "CURRENT_ROWS"
+  ON {{ hk_src }} = "CURRENT_ROWS"."{{ hk }}"
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM {{ target }} "SAT"
+    WHERE {{ hk_src }} = "SAT"."{{ hk }}"
+    AND {{ hd_src }} = "SAT"."{{ hd }}"
+    AND "CURRENT_ROWS"."{{ sd }}" = "SAT"."{{ sd }}"
+)
+{% endfor %}
+
+{% if config.postSQL %}
+  {{ stage('Post-SQL') }}
+  {{ config.postSQL }}
+{% endif %}
+
+{% if config.testsEnabled %}
+  {% for test in node.tests %}
+    {% if test.runOrder == 'After' %}
+      {{ test_stage(test.name, test.continueOnFailure) }}
+      {{ test.templateString }}
+    {% endif %}
+  {% endfor %}
+  {% for column in columns %}
+    {% for test in column.tests %}
+      {{ test_stage(column.name + ": " + test.name) }}
+      {{ test.templateString }}
+    {% endfor %}
+  {% endfor %}
+{% endif %}

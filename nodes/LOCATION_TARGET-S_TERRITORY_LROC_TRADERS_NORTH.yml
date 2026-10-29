@@ -1,0 +1,212 @@
+fileVersion: 1
+id: d7d91c85-fe6a-46c7-b799-fae4a2d3c79a
+name: S_TERRITORY_LROC_TRADERS_NORTH
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED satellite s_territory_lroc_traders_north (object key 129; update procedure update_s_territory_l_849cf9d7, key 219, template wsl_sqlserver_proc_dv_perm 8.5.1.0) using the Data Vault by Scalefree Satellite v0 node type (data-vault-by-scalefree:::8, package 3.0.0) with the project V0B extension in the source join. Parent hub H_TERRITORY via HK_H_TERRITORY; source Stage STAGE_TERRITORY_TRADERS_NORTH. Logic: the package inserts rows whose change hash differs from the latest Satellite row by DSS_LOAD_DATE, after collapsing identical consecutive change hashes per HK_H_TERRITORY (LAG ordered by DSS_LOAD_DATE); the V0B source join adds RED's LEFT OUTER JOIN to current rows (MAX(DSS_START_DATE) and MAX(DSS_VERSION) per HK_H_TERRITORY) and RED's NOT EXISTS on hash key, change hash and current start date; DSS_VERSION = COALESCE(MAX(DSS_VERSION), 0) + 1; high-water mark disabled; no UPDATE, MERGE, DELETE or TRUNCATE. Differences from RED: (1) a row is inserted only if both the package check (latest row by DSS_LOAD_DATE) and RED's check (latest row by DSS_START_DATE) pass, so back-dated deliveries or reloads with the same DSS_LOAD_DATE can be skipped where RED would insert, and ties on DSS_LOAD_DATE are resolved arbitrarily; (2) identical consecutive change hashes for one key within a load are collapsed to one row, where RED would insert both and fail on its unique index; (3) primary and unique key metadata is not enforced (RED unique indexes s_territory_l_849cf9d7_idx_PK and s_territory_l_849cf9d7_idx_CK), so duplicate rows for the same hash key and start date may be inserted where RED would fail and roll back; (4) DSS_START_DATE and DSS_CREATE_TIME use CURRENT_TIMESTAMP(), whose precision and time-zone conversion may differ from SQL Server datetime; (5) the Stage hash key and change hash are POC MD5 values and do not establish RED hash parity. Run coa create only once, on an empty target, before the first load."
+  isMultisource: false
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5d4e3b09-d5e9-49b8-8179-3d5c75d25ced
+          stepCounter: d7d91c85-fe6a-46c7-b799-fae4a2d3c79a
+        config:
+          is_hk: true
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_territory char(32) NOT NULL; parent hub hash key of H_TERRITORY. Part of RED unique indexes s_territory_l_849cf9d7_idx_PK (hk_h_territory, dss_start_date) and s_territory_l_849cf9d7_idx_CK (hk_h_territory, dss_change_hash, dss_start_date)."
+        name: HK_H_TERRITORY
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5765895c-2446-4d29-b20e-7c3a7370c489
+                stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+            transform: "\"STAGE_TERRITORY_TRADERS_NORTH\".\"HK_H_TERRITORY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6852b186-bb13-43c1-bf27-c62ca09782ed
+          stepCounter: d7d91c85-fe6a-46c7-b799-fae4a2d3c79a
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED: territorydescription nchar(50) NULL RED type nchar(50) (fixed length, space-padded); the Stage carries VARCHAR(50)."
+        name: TERRITORYDESCRIPTION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5f8a9e12-9a27-4c1e-be1e-624e9fc32a79
+                stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+            transform: "\"STAGE_TERRITORY_TRADERS_NORTH\".\"TERRITORYDESCRIPTION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8ba36ad0-809f-4dfb-8a13-fb4449b1db51
+          stepCounter: d7d91c85-fe6a-46c7-b799-fae4a2d3c79a
+        config:
+          is_hd: true
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: dss_change_hash char(32) NOT NULL <- stage_territory_traders_north.dss_change_hash_territory_lroc_traders_north; change hash taken from the Stage, not recalculated. The Stage value is a POC MD5 and does not establish RED hash parity."
+        name: DSS_CHANGE_HASH
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e097a0c9-1342-4296-a9c8-f78ee2a9bb66
+                stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+            transform: "\"STAGE_TERRITORY_TRADERS_NORTH\".\"DSS_CHANGE_HASH_TERRITORY_LROC_TRADERS_NORTH\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4102a464-fa6a-4b9d-9a06-da1c7dd6a2d2
+          stepCounter: d7d91c85-fe6a-46c7-b799-fae4a2d3c79a
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: "RED: dss_record_source varchar(255) NULL"
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a6f4072a-2cac-4070-a813-adcd369fd3c4
+                stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+            transform: "\"STAGE_TERRITORY_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 67d7c8b3-1899-4c7a-999b-489860d20d0b
+          stepCounter: d7d91c85-fe6a-46c7-b799-fae4a2d3c79a
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_load_date datetime NULL"
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 21fc7a50-4d35-410e-ac89-40672bf44e64
+                stepCounter: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+            transform: "\"STAGE_TERRITORY_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5f1acedd-6a58-49a6-89c2-47113772a5f6
+          stepCounter: d7d91c85-fe6a-46c7-b799-fae4a2d3c79a
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_start_date datetime NULL; RED procedure: @v_current_datetime (one GETDATE() per run). Set to CURRENT_TIMESTAMP(), one value per statement and equal to DSS_CREATE_TIME; precision and time-zone conversion may differ from SQL Server datetime. Part of RED unique index s_territory_l_849cf9d7_idx_PK."
+        name: DSS_START_DATE
+        nullable: true
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 42d31ed3-229c-45f4-a2bc-50e1f2c4f768
+          stepCounter: d7d91c85-fe6a-46c7-b799-fae4a2d3c79a
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: dss_version int NULL; RED procedure: ISNULL(current_rows.dss_version,0) + 1, where current_rows holds MAX(dss_version) per hk_h_territory. Computed from the source-join current rows (CURRENT_ROWS.CURRENT_VERSION), as in RED."
+        name: DSS_VERSION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "COALESCE(\"CURRENT_ROWS\".\"CURRENT_VERSION\", 0) + 1"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7a2ec840-6613-4a6c-b92f-2d7511033992
+          stepCounter: d7d91c85-fe6a-46c7-b799-fae4a2d3c79a
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_create_time datetime NULL; RED procedure: @v_current_datetime. CURRENT_TIMESTAMP() is one value per statement, equal to DSS_START_DATE; precision and time-zone conversion may differ from SQL Server datetime."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_TERRITORY_TRADERS_NORTH: 74a1f96b-cf15-4552-bccb-d862f9f02e80
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_TERRITORY_TRADERS_NORTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_TERRITORY_TRADERS_NORTH') }} "STAGE_TERRITORY_TRADERS_NORTH"
+            LEFT OUTER JOIN (
+                SELECT "HK_H_TERRITORY" AS "CURRENT_HK"
+                     , MAX("DSS_START_DATE") AS "CURRENT_START_DATE"
+                     , MAX("DSS_VERSION") AS "CURRENT_VERSION"
+                FROM {{ ref_no_link('LOCATION_TARGET', 'S_TERRITORY_LROC_TRADERS_NORTH') }}
+                GROUP BY "HK_H_TERRITORY"
+            ) "CURRENT_ROWS"
+              ON "STAGE_TERRITORY_TRADERS_NORTH"."HK_H_TERRITORY" = "CURRENT_ROWS"."CURRENT_HK"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'S_TERRITORY_LROC_TRADERS_NORTH') }} "S"
+                WHERE "STAGE_TERRITORY_TRADERS_NORTH"."HK_H_TERRITORY" = "S"."HK_H_TERRITORY"
+                AND "STAGE_TERRITORY_TRADERS_NORTH"."DSS_CHANGE_HASH_TERRITORY_LROC_TRADERS_NORTH" = "S"."DSS_CHANGE_HASH"
+                AND "CURRENT_ROWS"."CURRENT_START_DATE" = "S"."DSS_START_DATE"
+            )
+        name: S_TERRITORY_LROC_TRADERS_NORTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: S_TERRITORY_LROC_TRADERS_NORTH
+  name: S_TERRITORY_LROC_TRADERS_NORTH
+  overrideSQL: false
+  schema: ""
+  sqlType: data-vault-by-scalefree:::8
+  type: sql
+  version: 1
+type: Node
