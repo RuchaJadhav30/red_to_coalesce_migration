@@ -1,0 +1,177 @@
+fileVersion: 1
+id: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+name: STAGE_REGION_TRADERS_SOUTH
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_region_traders_south (source: Traders_South.dbo.Region via load_region_traders_south)."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ecfa7fc0-6a90-4a64-b1ad-7ca3a7025614
+          stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Hub hash key: MD5 of region_id (regionid) per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation."
+        name: HK_H_REGION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 965be52d-4297-4804-969f-c4c0c407f074
+                stepCounter: 542743e8-b993-4d51-8b2e-9c2ebb14c6c5
+            transform: "MD5(COALESCE(CAST(\"LOAD_REGION_TRADERS_SOUTH\".\"REGIONID\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2d972955-01b7-40cc-adef-6b05e8577df5
+          stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: region_id <- load_region.regionid (renamed); h_region business key."
+        name: REGION_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 965be52d-4297-4804-969f-c4c0c407f074
+                stepCounter: 542743e8-b993-4d51-8b2e-9c2ebb14c6c5
+            transform: "\"LOAD_REGION_TRADERS_SOUTH\".\"REGIONID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 71816136-8d2e-4879-990c-23a47874e3b4
+          stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: "RED type nchar(50) (fixed length, space-padded); Snowflake source is VARCHAR(50), so trailing-space handling may differ from RED."
+        name: REGIONDESCRIPTION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e5b216d7-98ee-47b8-a261-0520badf42d0
+                stepCounter: 542743e8-b993-4d51-8b2e-9c2ebb14c6c5
+            transform: "\"LOAD_REGION_TRADERS_SOUTH\".\"REGIONDESCRIPTION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 547da289-3cec-41ab-95c1-e7a49f10ae20
+          stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of regiondescription per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. REGIONDESCRIPTION is SQL Server nchar(50) in RED (fixed length, right-padded with spaces to 50 characters) but VARCHAR(50) in the Snowflake source, which keeps values exactly as loaded. Whether trailing spaces survived the load is not verified; padded and unpadded values produce different hashes, and no TRIM is applied because RED metadata does not specify one."
+        name: DSS_CHANGE_HASH_REGION_LROC_TRADERS_SOUTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e5b216d7-98ee-47b8-a261-0520badf42d0
+                stepCounter: 542743e8-b993-4d51-8b2e-9c2ebb14c6c5
+            transform: "MD5(COALESCE(CAST(\"LOAD_REGION_TRADERS_SOUTH\".\"REGIONDESCRIPTION\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 49014c6d-c3fd-4df7-8a63-62a129e00212
+          stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 411c802a-5c1c-4869-b8ea-76fc3a504005
+                stepCounter: 542743e8-b993-4d51-8b2e-9c2ebb14c6c5
+            transform: "\"LOAD_REGION_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 388cc98e-a896-4359-bb22-96b55f4baa51
+          stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6b9585b6-ee0f-4d57-bb27-5623c810ed48
+                stepCounter: 542743e8-b993-4d51-8b2e-9c2ebb14c6c5
+            transform: "\"LOAD_REGION_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2c6c11d7-30f2-4ea0-87c6-6213b8e87771
+          stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (procedure run timestamp)"
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_REGION_TRADERS_SOUTH: 542743e8-b993-4d51-8b2e-9c2ebb14c6c5
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_REGION_TRADERS_SOUTH
+        join:
+          joinCondition: FROM {{ ref('SRC', 'LOAD_REGION_TRADERS_SOUTH') }} "LOAD_REGION_TRADERS_SOUTH"
+        name: STAGE_REGION_TRADERS_SOUTH
+        noLinkRefs: []
+  name: STAGE_REGION_TRADERS_SOUTH
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

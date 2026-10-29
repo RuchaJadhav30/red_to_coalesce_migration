@@ -1,0 +1,182 @@
+fileVersion: 1
+id: 5e1c09ba-e8a7-4f50-b988-46f767b30d67
+name: H_REGION
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: Migrated from WhereScape RED hub h_region (source mappings src_h_region_1954911 / update_src_h_region_1954911 from stage_region_traders_north, and src_h_region_1_f1675483 / update_src_h_region__f1675483 from stage_region_traders_south).
+  isMultisource: true
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 22abc8cf-f652-4d4d-a427-c28e2abf2d7d
+          stepCounter: 5e1c09ba-e8a7-4f50-b988-46f767b30d67
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hub key, char(32) NOT NULL, primary key h_region_9d325eab_idx_PK"
+        name: HK_H_REGION
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ffd97e2e-1ced-4fec-8a16-80fc28f11dcf
+                stepCounter: 80b10232-1959-40d9-be3a-e5570998f2b9
+            transform: DISTINCT "STAGE_REGION_TRADERS_NORTH"."HK_H_REGION"
+          - columnReferences:
+              - columnCounter: ecfa7fc0-6a90-4a64-b1ad-7ca3a7025614
+                stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+            transform: DISTINCT "STAGE_REGION_TRADERS_SOUTH"."HK_H_REGION"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0f365976-3b86-4adc-b834-3f00e91d4c00
+          stepCounter: 5e1c09ba-e8a7-4f50-b988-46f767b30d67
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: business key, unique index h_region_9d325eab_idx_A"
+        name: REGION_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 295de3d6-0ee3-4650-b4d2-c8f033b1aea7
+                stepCounter: 80b10232-1959-40d9-be3a-e5570998f2b9
+            transform: "\"STAGE_REGION_TRADERS_NORTH\".\"REGION_ID\""
+          - columnReferences:
+              - columnCounter: 2d972955-01b7-40cc-adef-6b05e8577df5
+                stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+            transform: "\"STAGE_REGION_TRADERS_SOUTH\".\"REGION_ID\""
+        uniqueKey: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 03897f89-f719-45e3-978e-e5a42818f646
+          stepCounter: 5e1c09ba-e8a7-4f50-b988-46f767b30d67
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ca93cd46-5176-4d3e-9614-142e88e15a1a
+                stepCounter: 80b10232-1959-40d9-be3a-e5570998f2b9
+            transform: "\"STAGE_REGION_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+          - columnReferences:
+              - columnCounter: 49014c6d-c3fd-4df7-8a63-62a129e00212
+                stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+            transform: "\"STAGE_REGION_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 16017f16-1295-4145-a7a8-74d2509dbe0e
+          stepCounter: 5e1c09ba-e8a7-4f50-b988-46f767b30d67
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a122180f-eb6b-4785-b972-209133433567
+                stepCounter: 80b10232-1959-40d9-be3a-e5570998f2b9
+            transform: "\"STAGE_REGION_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+          - columnReferences:
+              - columnCounter: 388cc98e-a896-4359-bb22-96b55f4baa51
+                stepCounter: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+            transform: "\"STAGE_REGION_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: aa317391-1a77-4b7e-899f-3cc9b8ae9541
+          stepCounter: 5e1c09ba-e8a7-4f50-b988-46f767b30d67
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (procedure run timestamp)"
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_REGION_TRADERS_NORTH: 80b10232-1959-40d9-be3a-e5570998f2b9
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_REGION_TRADERS_NORTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_REGION_TRADERS_NORTH') }} "STAGE_REGION_TRADERS_NORTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_REGION') }} "H_REGION"
+                WHERE "STAGE_REGION_TRADERS_NORTH"."REGION_ID" = "H_REGION"."REGION_ID"
+            )
+        name: STAGE_REGION_TRADERS_NORTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_REGION
+      - aliases:
+          STAGE_REGION_TRADERS_SOUTH: d1f195b2-a180-41e2-9dd6-6bb1b7b6148c
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_REGION_TRADERS_SOUTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_REGION_TRADERS_SOUTH') }} "STAGE_REGION_TRADERS_SOUTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_REGION') }} "H_REGION"
+                WHERE "STAGE_REGION_TRADERS_SOUTH"."REGION_ID" = "H_REGION"."REGION_ID"
+            )
+        name: STAGE_REGION_TRADERS_SOUTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_REGION
+  name: H_REGION
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
