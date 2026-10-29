@@ -1,0 +1,433 @@
+fileVersion: 1
+id: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+name: STAGE_SUPPLIER_TRADERS_SOUTH
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_supplier_traders_south (source: Traders_South.dbo.Suppliers via load_suppliers_traders_south)."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 19d8b785-0bdb-49b4-ad01-928de61fdaf8
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Hub hash key: MD5 of supplier_name (companyname) per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity."
+        name: HK_H_SUPPLIER
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f9139317-d25d-42af-8e0e-d7700cb48ca8
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "MD5(COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"COMPANYNAME\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e9891147-0b74-46f0-8d0c-428fba5d6a24
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(40)
+        defaultValue: ""
+        description: "RED: supplier_name <- load_suppliers.companyname (renamed); h_supplier business key (not supplierid)."
+        name: SUPPLIER_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f9139317-d25d-42af-8e0e-d7700cb48ca8
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"COMPANYNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e6c65667-c6e9-474b-8c2b-1b15880b2fda
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(4000)
+        defaultValue: ""
+        description: "RED type nvarchar(4000). HOMEPAGE is RED nvarchar(4000) and Snowflake VARCHAR(4000); the original Northwind HomePage is unbounded text, so RED's load may already have truncated values longer than 4000 characters (not verifiable here)."
+        name: HOMEPAGE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 92ef45c1-8e78-4842-b283-118b1a53a14d
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"HOMEPAGE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5e431637-26a3-439e-989e-104cc1e171b4
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: COUNTRY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 45e5e945-fdeb-4f19-aba5-4b0a248e3664
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"COUNTRY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e84588f2-85ad-49d4-a27b-6cea945d67c3
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED type int."
+        name: SUPPLIERID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 350b2a4b-4fca-4210-8cf5-9aa9cafc4313
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"SUPPLIERID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6168e7a2-c471-4b93-8af6-d1f8cfdc3dc1
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(60)
+        defaultValue: ""
+        description: ""
+        name: ADDRESS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dc60e71b-931a-4369-8234-007d60673772
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"ADDRESS\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 27cb5e59-5077-4471-a244-d50219634b02
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: CITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c49dd231-8963-41a1-a58d-75ac28cea79b
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"CITY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6bee34d3-1387-4d61-be18-96fe0468b597
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: REGION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 433aceab-38da-43a3-9740-1d7e9f1d1404
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"REGION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 849f2f50-7cbb-41b4-9b8d-71b1c851fe89
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(10)
+        defaultValue: ""
+        description: ""
+        name: POSTALCODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a6dcd0e9-4094-487a-8101-4c7d6286f259
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"POSTALCODE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b02af80f-19d1-4f07-b1b1-101b0b3e91ff
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(30)
+        defaultValue: ""
+        description: ""
+        name: CONTACTNAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 741501f9-b8f2-4f40-b992-ec422911ee63
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"CONTACTNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 65928d99-ebeb-4397-bf38-a25b61b487e8
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(30)
+        defaultValue: ""
+        description: ""
+        name: CONTACTTITLE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3842f235-94f8-46d3-91d7-3cb5c04a215d
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"CONTACTTITLE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1f1cc0e9-d6d3-4621-bd8f-c754ef5edb75
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(24)
+        defaultValue: ""
+        description: ""
+        name: PHONE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 280923b3-a084-457d-9635-02360f54045e
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"PHONE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: deea3546-011f-4613-a2f1-5a0227531387
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(24)
+        defaultValue: ""
+        description: ""
+        name: FAX
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3c58fcc1-141d-4260-a285-63854724aa60
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"FAX\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 281b7627-4a67-40e2-881a-62d11fbab9ee
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of homepage per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity. HOMEPAGE is RED nvarchar(4000) and Snowflake VARCHAR(4000); the original Northwind HomePage is unbounded text, so RED's load may already have truncated values longer than 4000 characters (not verifiable here)."
+        name: DSS_CHANGE_HASH_SUPPLIER_HROC_TRADERS_SOUTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 92ef45c1-8e78-4842-b283-118b1a53a14d
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "MD5(COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"HOMEPAGE\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d9648c98-30cd-4fc1-bac2-cd1637f5b2ee
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of country, supplierid, address, city, region, postalcode joined with || per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity."
+        name: DSS_CHANGE_HASH_SUPPLIER_LROC_TRADERS_SOUTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 45e5e945-fdeb-4f19-aba5-4b0a248e3664
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+              - columnCounter: 350b2a4b-4fca-4210-8cf5-9aa9cafc4313
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+              - columnCounter: dc60e71b-931a-4369-8234-007d60673772
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+              - columnCounter: c49dd231-8963-41a1-a58d-75ac28cea79b
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+              - columnCounter: 433aceab-38da-43a3-9740-1d7e9f1d1404
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+              - columnCounter: a6dcd0e9-4094-487a-8101-4c7d6286f259
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "MD5(COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"COUNTRY\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"SUPPLIERID\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"ADDRESS\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"CITY\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"REGION\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"POSTALCODE\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 027de4a1-efe6-4ad3-bdc2-46d5c6a5958c
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of contactname, contacttitle, phone, fax joined with || per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity."
+        name: DSS_CHANGE_HASH_SUPPLIER_MROC_TRADERS_SOUTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 741501f9-b8f2-4f40-b992-ec422911ee63
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+              - columnCounter: 3842f235-94f8-46d3-91d7-3cb5c04a215d
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+              - columnCounter: 280923b3-a084-457d-9635-02360f54045e
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+              - columnCounter: 3c58fcc1-141d-4260-a285-63854724aa60
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "MD5(COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"CONTACTNAME\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"CONTACTTITLE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"PHONE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"FAX\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: bf8d559a-b273-40a5-9270-17e937a2338a
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1fc8d156-9f0b-4369-853b-214a87b1f5fb
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 43e55798-ed0c-4bb9-b0b8-b9fe63110211
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ff07b486-0b9b-4396-9daf-6b40c08c3e6b
+                stepCounter: 0a0e2623-0303-415f-a381-08a3dad5ef51
+            transform: "\"LOAD_SUPPLIERS_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8845161c-1db7-4353-bee1-38b57e085063
+          stepCounter: 0cd95050-79ba-4ab7-882d-8acccb8d4f28
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (GETDATE() captured once at procedure start, SQL Server datetime). POC uses CURRENT_TIMESTAMP() evaluated by Snowflake at statement run time and stored as TIMESTAMP_NTZ(9), so values and precision differ from RED."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_SUPPLIERS_TRADERS_SOUTH: 0a0e2623-0303-415f-a381-08a3dad5ef51
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_SUPPLIERS_TRADERS_SOUTH
+        join:
+          joinCondition: FROM {{ ref('SRC', 'LOAD_SUPPLIERS_TRADERS_SOUTH') }} "LOAD_SUPPLIERS_TRADERS_SOUTH"
+        name: STAGE_SUPPLIER_TRADERS_SOUTH
+        noLinkRefs: []
+  name: STAGE_SUPPLIER_TRADERS_SOUTH
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

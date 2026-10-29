@@ -1,0 +1,199 @@
+fileVersion: 1
+id: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+name: STAGE_SHIPPER_TRADERS_NORTH
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_shipper_traders_north (source: Traders_North.dbo.Shippers via load_shippers_traders_north)."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ae3f51bf-3482-4963-8075-80ad4f137822
+          stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Hub hash key: MD5 of shipper_name (companyname) per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity."
+        name: HK_H_SHIPPER
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8a6ea4ab-3629-4511-9ee4-d466a43b8182
+                stepCounter: a3c4572f-2bdb-4226-9062-8f501aad4ca6
+            transform: "MD5(COALESCE(CAST(\"LOAD_SHIPPERS_TRADERS_NORTH\".\"COMPANYNAME\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c967f5e5-c0fd-45d5-86bf-276161be0715
+          stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+        config: {}
+        dataType: VARCHAR(40)
+        defaultValue: ""
+        description: "RED: shipper_name <- load_shippers.companyname (renamed); h_shipper business key (not shipperid)."
+        name: SHIPPER_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8a6ea4ab-3629-4511-9ee4-d466a43b8182
+                stepCounter: a3c4572f-2bdb-4226-9062-8f501aad4ca6
+            transform: "\"LOAD_SHIPPERS_TRADERS_NORTH\".\"COMPANYNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 60f99420-09ca-4e45-a721-5048c8c06713
+          stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED type int."
+        name: SHIPPERID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2605e4ba-88d2-4226-a5e2-a9bb066e2c53
+                stepCounter: a3c4572f-2bdb-4226-9062-8f501aad4ca6
+            transform: "\"LOAD_SHIPPERS_TRADERS_NORTH\".\"SHIPPERID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 809f3986-9f98-43d4-a151-c91a2070a182
+          stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+        config: {}
+        dataType: VARCHAR(24)
+        defaultValue: ""
+        description: "RED type nvarchar(24)."
+        name: PHONE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 08b3c995-8942-4df6-8ab3-1b6861adc7be
+                stepCounter: a3c4572f-2bdb-4226-9062-8f501aad4ca6
+            transform: "\"LOAD_SHIPPERS_TRADERS_NORTH\".\"PHONE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c8d5fa73-aaf2-4d60-85f4-c0160fbe875b
+          stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of shipperid, phone joined with || per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. This is POC behavior, not proven RED hash parity."
+        name: DSS_CHANGE_HASH_SHIPPER_LROC_TRADERS_NORTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2605e4ba-88d2-4226-a5e2-a9bb066e2c53
+                stepCounter: a3c4572f-2bdb-4226-9062-8f501aad4ca6
+              - columnCounter: 08b3c995-8942-4df6-8ab3-1b6861adc7be
+                stepCounter: a3c4572f-2bdb-4226-9062-8f501aad4ca6
+            transform: "MD5(COALESCE(CAST(\"LOAD_SHIPPERS_TRADERS_NORTH\".\"SHIPPERID\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_SHIPPERS_TRADERS_NORTH\".\"PHONE\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 57e96149-2d35-4d01-b978-a9720ccf2b27
+          stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bf602959-b97b-4426-99c6-5a2e855588be
+                stepCounter: a3c4572f-2bdb-4226-9062-8f501aad4ca6
+            transform: "\"LOAD_SHIPPERS_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 90562b80-f70d-46e5-9612-ba75659d53ae
+          stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b8f37a6c-46a3-4b63-b7ae-8e237a0ee278
+                stepCounter: a3c4572f-2bdb-4226-9062-8f501aad4ca6
+            transform: "\"LOAD_SHIPPERS_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 41bb74d2-8dc6-4d00-8110-424c09f795e5
+          stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (GETDATE() captured once at procedure start, SQL Server datetime). POC uses CURRENT_TIMESTAMP() evaluated by Snowflake at statement run time and stored as TIMESTAMP_NTZ(9), so values and precision differ from RED."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_SHIPPERS_TRADERS_NORTH: a3c4572f-2bdb-4226-9062-8f501aad4ca6
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_SHIPPERS_TRADERS_NORTH
+        join:
+          joinCondition: FROM {{ ref('SRC', 'LOAD_SHIPPERS_TRADERS_NORTH') }} "LOAD_SHIPPERS_TRADERS_NORTH"
+        name: STAGE_SHIPPER_TRADERS_NORTH
+        noLinkRefs: []
+  name: STAGE_SHIPPER_TRADERS_NORTH
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

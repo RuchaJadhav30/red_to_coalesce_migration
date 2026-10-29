@@ -1,0 +1,182 @@
+fileVersion: 1
+id: 0a5ea130-fd06-47ad-b8b5-424162939cb0
+name: H_SHIPPER
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED hub h_shipper (object key 90; source mappings 14 src_h_shipper_a23e7625 / update_src_h_shipper_a23e7625 from stage_shipper_traders_north, and 15 src_h_shipper_1_c798c97 / update_src_h_shipper__c798c97 from stage_shipper_traders_south). Each source inserts SELECT DISTINCT rows WHERE NOT EXISTS a hub row with the same SHIPPER_NAME, as in RED. Known behaviors: North runs first, so a non-NULL shipper name present in both sources keeps North's DSS_RECORD_SOURCE and DSS_LOAD_DATE; NULL SHIPPER_NAME values are not excluded by the equality-based NOT EXISTS and can be inserted on every run; primaryKey/uniqueKey are metadata only and are not enforced by Snowflake; DSS_CREATE_TIME uses CURRENT_TIMESTAMP() rather than RED's single per-procedure timestamp."
+  isMultisource: true
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 86c7fe66-714b-4a18-b5b1-253faf61d665
+          stepCounter: 0a5ea130-fd06-47ad-b8b5-424162939cb0
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hub key, char(32) NOT NULL, primary key h_shipper_433d9c8a_idx_PK. Copied from the Stage, where it is a POC MD5 of COMPANYNAME (shipper_name); RED's generated Stage procedure assigned CAST(NULL AS CHAR(32)), so there is no hash parity with RED. Primary key is metadata only (not enforced by Snowflake)."
+        name: HK_H_SHIPPER
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ae3f51bf-3482-4963-8075-80ad4f137822
+                stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+            transform: DISTINCT "STAGE_SHIPPER_TRADERS_NORTH"."HK_H_SHIPPER"
+          - columnReferences:
+              - columnCounter: 4f3f25ac-c954-4c4d-9dd6-b61f028922f5
+                stepCounter: a1656170-084b-4d6d-b09a-7d509d8896ef
+            transform: DISTINCT "STAGE_SHIPPER_TRADERS_SOUTH"."HK_H_SHIPPER"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6079d494-8ba0-48d5-b8a8-a06887c6ac84
+          stepCounter: 0a5ea130-fd06-47ad-b8b5-424162939cb0
+        config: {}
+        dataType: VARCHAR(40)
+        defaultValue: ""
+        description: "RED: business key, unique index h_shipper_433d9c8a_idx_A (nvarchar(40) in RED). Unique key is metadata only (not enforced by Snowflake); NULL values are not excluded by the NOT EXISTS check."
+        name: SHIPPER_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c967f5e5-c0fd-45d5-86bf-276161be0715
+                stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+            transform: "\"STAGE_SHIPPER_TRADERS_NORTH\".\"SHIPPER_NAME\""
+          - columnReferences:
+              - columnCounter: 9f527089-ebc5-4b20-89ba-aea66cff985b
+                stepCounter: a1656170-084b-4d6d-b09a-7d509d8896ef
+            transform: "\"STAGE_SHIPPER_TRADERS_SOUTH\".\"SHIPPER_NAME\""
+        uniqueKey: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a55bdee1-f047-4881-93f5-d24a1c751caf
+          stepCounter: 0a5ea130-fd06-47ad-b8b5-424162939cb0
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 57e96149-2d35-4d01-b978-a9720ccf2b27
+                stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+            transform: "\"STAGE_SHIPPER_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+          - columnReferences:
+              - columnCounter: 0c5e9279-cd89-4773-9042-cff33f299006
+                stepCounter: a1656170-084b-4d6d-b09a-7d509d8896ef
+            transform: "\"STAGE_SHIPPER_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 25884650-1e68-490d-b109-e2438b87e1e1
+          stepCounter: 0a5ea130-fd06-47ad-b8b5-424162939cb0
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 90562b80-f70d-46e5-9612-ba75659d53ae
+                stepCounter: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+            transform: "\"STAGE_SHIPPER_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+          - columnReferences:
+              - columnCounter: 75e57a28-9fc9-4ef3-8719-f685b2e59566
+                stepCounter: a1656170-084b-4d6d-b09a-7d509d8896ef
+            transform: "\"STAGE_SHIPPER_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 14fab0d9-d2c9-472f-a3b5-4cfabf55cb31
+          stepCounter: 0a5ea130-fd06-47ad-b8b5-424162939cb0
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (one GETDATE() per procedure, SQL Server datetime). POC uses CURRENT_TIMESTAMP() per statement, stored as TIMESTAMP_NTZ(9)."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_SHIPPER_TRADERS_NORTH: b36823fe-f2ce-43f8-bdf8-32fb180126bc
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_SHIPPER_TRADERS_NORTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_SHIPPER_TRADERS_NORTH') }} "STAGE_SHIPPER_TRADERS_NORTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_SHIPPER') }} "H_SHIPPER"
+                WHERE "STAGE_SHIPPER_TRADERS_NORTH"."SHIPPER_NAME" = "H_SHIPPER"."SHIPPER_NAME"
+            )
+        name: STAGE_SHIPPER_TRADERS_NORTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_SHIPPER
+      - aliases:
+          STAGE_SHIPPER_TRADERS_SOUTH: a1656170-084b-4d6d-b09a-7d509d8896ef
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_SHIPPER_TRADERS_SOUTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_SHIPPER_TRADERS_SOUTH') }} "STAGE_SHIPPER_TRADERS_SOUTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_SHIPPER') }} "H_SHIPPER"
+                WHERE "STAGE_SHIPPER_TRADERS_SOUTH"."SHIPPER_NAME" = "H_SHIPPER"."SHIPPER_NAME"
+            )
+        name: STAGE_SHIPPER_TRADERS_SOUTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_SHIPPER
+  name: H_SHIPPER
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
