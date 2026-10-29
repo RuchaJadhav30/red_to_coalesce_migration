@@ -1,0 +1,455 @@
+fileVersion: 1
+id: a1d963c3-23d8-478c-a8de-e408ddfdc620
+name: STAGE_ORDER_TRADERS_NORTH
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED stage table stage_order_traders_north (source: Traders_North.dbo.Orders via load_orders_traders_north). ORDERDATE is excluded, as in the RED stage metadata."
+  isMultisource: false
+  locationName: TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 65619024-774d-4d6f-9ea3-79ec963fea53
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Hub hash key: MD5 of order_number (orderid) per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation."
+        name: HK_H_ORDER
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4c728bc3-12d2-4d79-b5d1-cf53a2b6a332
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "MD5(COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"ORDERID\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9826eec9-39ba-4047-97f6-71e19752f5a5
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: order_number <- load_orders.orderid (renamed)"
+        name: ORDER_NUMBER
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4c728bc3-12d2-4d79-b5d1-cf53a2b6a332
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"ORDERID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 46b86862-bb8b-43d9-8e66-7bbcb6ee7c8e
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: NUMBER(38,2)
+        defaultValue: ""
+        description: "RED type money (4 decimal places); kept at the Snowflake source precision NUMBER(38,2)."
+        name: FREIGHT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4a7a94ba-ef59-4bfe-a41a-5a69d1dabd0e
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"FREIGHT\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d30759f1-f573-48f2-a3b9-d16910ba9dc7
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: VARCHAR(5)
+        defaultValue: ""
+        description: "RED type nchar(5) (fixed length, space-padded); Snowflake source is VARCHAR(5)."
+        name: CUSTOMERID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 973ff013-63fa-4c00-a46e-10b8635439cc
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"CUSTOMERID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 66ad4e10-0296-4eec-bea3-0b36b26a5d37
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: EMPLOYEEID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e5b7716c-a0d8-42d0-b34c-a19e8843c66f
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"EMPLOYEEID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 59c41478-8a20-46e4-822f-1997e631b923
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SHIPVIA
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3618bcd0-edc9-4a1d-90c4-333e5cd1ee9c
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPVIA\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ab3ae99d-d32b-46f2-8d1d-81b35e26e06f
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: REQUIREDDATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d0a87865-1b1e-4ffa-ba3e-15ab92e51889
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"REQUIREDDATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1a9eddb5-2796-421d-b918-f6e26eafcc4c
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: SHIPPEDDATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0b507c45-0445-40db-a7a1-6c19ae6b8ae9
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPPEDDATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 996f5fea-50ea-42f9-9ede-95752c8d2938
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: VARCHAR(40)
+        defaultValue: ""
+        description: ""
+        name: SHIPNAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0ad53daa-2d7a-470a-a46f-04a6338f829d
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPNAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9e66c131-5d9c-4dd6-b431-7b440439cb0a
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: VARCHAR(60)
+        defaultValue: ""
+        description: ""
+        name: SHIPADDRESS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 010a28e0-c312-4eb6-bda3-cea000af7df0
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPADDRESS\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 506106b1-2218-4e2a-a7f5-5b600e74c596
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: SHIPCITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8529686a-b572-44dd-b550-e0fc81bd632a
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPCITY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: dc99d74a-b57d-4f9a-9053-5e09d60ee9fc
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: SHIPREGION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 831f4867-9b8d-47a2-8d01-385192f028b5
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPREGION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 93f5432f-72a9-4eba-88bc-dea8e37ba9b3
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: VARCHAR(10)
+        defaultValue: ""
+        description: ""
+        name: SHIPPOSTALCODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 77b90743-1a0b-4888-86ac-2ab16bb8b2ee
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPPOSTALCODE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c8bd0b9e-7a73-4ea4-8478-3143186c127c
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: SHIPCOUNTRY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 504e218b-f0a1-4f71-bf00-0b5865d071a7
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPCOUNTRY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8ad6c4bb-c269-4721-a1e5-d7c78ae3d47a
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of freight per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation."
+        name: DSS_CHANGE_HASH_ORDER_HROC_TRADERS_NORTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4a7a94ba-ef59-4bfe-a41a-5a69d1dabd0e
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "MD5(COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"FREIGHT\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 774c1a3b-ac3a-4dd8-aa6b-6678c4adee56
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of customerid, employeeid, shipvia joined with || per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation."
+        name: DSS_CHANGE_HASH_ORDER_LROC_TRADERS_NORTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 973ff013-63fa-4c00-a46e-10b8635439cc
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+              - columnCounter: e5b7716c-a0d8-42d0-b34c-a19e8843c66f
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+              - columnCounter: 3618bcd0-edc9-4a1d-90c4-333e5cd1ee9c
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "MD5(COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"CUSTOMERID\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"EMPLOYEEID\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPVIA\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cd822526-db9e-43c6-8a84-2902dcef911f
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "Change hash: MD5 of requireddate, shippeddate, shipname, shipaddress, shipcity, shipregion, shippostalcode, shipcountry joined with || per RED ws_column_relationship. RED's generated procedure wrote CAST(NULL AS CHAR(32)) and RED metadata does not specify a hash algorithm; MD5 is the POC convention. Snowflake MD5 returns hex text and may differ from any SQL Server HASHBYTES-based implementation. TIMESTAMP_NTZ inputs are cast to VARCHAR using the session TIMESTAMP_NTZ_OUTPUT_FORMAT parameter; when that parameter is unset (its default), Snowflake falls back to TIMESTAMP_OUTPUT_FORMAT. Changing the effective format changes the hash."
+        name: DSS_CHANGE_HASH_ORDER_MROC_TRADERS_NORTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d0a87865-1b1e-4ffa-ba3e-15ab92e51889
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+              - columnCounter: 0b507c45-0445-40db-a7a1-6c19ae6b8ae9
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+              - columnCounter: 0ad53daa-2d7a-470a-a46f-04a6338f829d
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+              - columnCounter: 010a28e0-c312-4eb6-bda3-cea000af7df0
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+              - columnCounter: 8529686a-b572-44dd-b550-e0fc81bd632a
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+              - columnCounter: 831f4867-9b8d-47a2-8d01-385192f028b5
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+              - columnCounter: 77b90743-1a0b-4888-86ac-2ab16bb8b2ee
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+              - columnCounter: 504e218b-f0a1-4f71-bf00-0b5865d071a7
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "MD5(COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"REQUIREDDATE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPPEDDATE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPNAME\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPADDRESS\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPCITY\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPREGION\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPPOSTALCODE\" AS VARCHAR), 'null') || '||' || COALESCE(CAST(\"LOAD_ORDERS_TRADERS_NORTH\".\"SHIPCOUNTRY\" AS VARCHAR), 'null'))"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9e53fffb-b961-4304-9955-4f5f1553f417
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 54f3a143-91cc-46e7-94af-6e8c349ebe6d
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5bf65465-7f15-4915-97de-4bc9191cd877
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bc837587-f89c-402a-968b-7129613439d0
+                stepCounter: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+            transform: "\"LOAD_ORDERS_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 453b6e40-5270-4462-8f14-7d4e83e604db
+          stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (procedure run timestamp)"
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_ORDERS_TRADERS_NORTH: 7dd065e5-df76-4d5c-a3d1-77e2bd48b037
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: LOAD_ORDERS_TRADERS_NORTH
+        join:
+          joinCondition: FROM {{ ref('SRC', 'LOAD_ORDERS_TRADERS_NORTH') }} "LOAD_ORDERS_TRADERS_NORTH"
+        name: STAGE_ORDER_TRADERS_NORTH
+        noLinkRefs: []
+  name: STAGE_ORDER_TRADERS_NORTH
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

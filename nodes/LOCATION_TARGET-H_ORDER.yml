@@ -1,0 +1,182 @@
+fileVersion: 1
+id: abbc1072-4303-4666-ae39-5613b6c313f6
+name: H_ORDER
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: Migrated from WhereScape RED hub h_order (source mappings src_h_order_f0fc7205 / update_src_h_order_f0fc7205 from stage_order_traders_north, and src_h_order_1_a3a81077 / update_src_h_order_1_a3a81077 from stage_order_traders_south).
+  isMultisource: true
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 00e21b33-395f-441e-a099-668502daa618
+          stepCounter: abbc1072-4303-4666-ae39-5613b6c313f6
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hub key, char(32) NOT NULL, primary key h_order_25f5fcb7_idx_PK"
+        name: HK_H_ORDER
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 65619024-774d-4d6f-9ea3-79ec963fea53
+                stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+            transform: DISTINCT "STAGE_ORDER_TRADERS_NORTH"."HK_H_ORDER"
+          - columnReferences:
+              - columnCounter: f8aa5007-02a1-43db-a10a-26abaaf45735
+                stepCounter: 1420aaca-7597-4a16-aefb-33f8a0e26769
+            transform: DISTINCT "STAGE_ORDER_TRADERS_SOUTH"."HK_H_ORDER"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 31563746-81e8-45ab-ac72-f4e1eebfbf14
+          stepCounter: abbc1072-4303-4666-ae39-5613b6c313f6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED: business key, unique index h_order_25f5fcb7_idx_A"
+        name: ORDER_NUMBER
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9826eec9-39ba-4047-97f6-71e19752f5a5
+                stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+            transform: "\"STAGE_ORDER_TRADERS_NORTH\".\"ORDER_NUMBER\""
+          - columnReferences:
+              - columnCounter: e44eea19-afee-4a33-a871-4b22a8b5c9b0
+                stepCounter: 1420aaca-7597-4a16-aefb-33f8a0e26769
+            transform: "\"STAGE_ORDER_TRADERS_SOUTH\".\"ORDER_NUMBER\""
+        uniqueKey: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d8c2f9d0-73da-4430-86e0-b487df146fd4
+          stepCounter: abbc1072-4303-4666-ae39-5613b6c313f6
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9e53fffb-b961-4304-9955-4f5f1553f417
+                stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+            transform: "\"STAGE_ORDER_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+          - columnReferences:
+              - columnCounter: b697cf6c-093c-4641-975d-859793b58c9f
+                stepCounter: 1420aaca-7597-4a16-aefb-33f8a0e26769
+            transform: "\"STAGE_ORDER_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0ad3313b-a298-41ed-9976-06b0fad357bd
+          stepCounter: abbc1072-4303-4666-ae39-5613b6c313f6
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5bf65465-7f15-4915-97de-4bc9191cd877
+                stepCounter: a1d963c3-23d8-478c-a8de-e408ddfdc620
+            transform: "\"STAGE_ORDER_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+          - columnReferences:
+              - columnCounter: b672ccd0-830c-4cce-9a19-a11facdc21e3
+                stepCounter: 1420aaca-7597-4a16-aefb-33f8a0e26769
+            transform: "\"STAGE_ORDER_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7f6afacf-9f59-4ed8-89df-b686ecaa02f8
+          stepCounter: abbc1072-4303-4666-ae39-5613b6c313f6
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: @v_current_datetime (procedure run timestamp)"
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_ORDER_TRADERS_NORTH: a1d963c3-23d8-478c-a8de-e408ddfdc620
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_ORDER_TRADERS_NORTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_ORDER_TRADERS_NORTH') }} "STAGE_ORDER_TRADERS_NORTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_ORDER') }} "H_ORDER"
+                WHERE "STAGE_ORDER_TRADERS_NORTH"."ORDER_NUMBER" = "H_ORDER"."ORDER_NUMBER"
+            )
+        name: STAGE_ORDER_TRADERS_NORTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_ORDER
+      - aliases:
+          STAGE_ORDER_TRADERS_SOUTH: 1420aaca-7597-4a16-aefb-33f8a0e26769
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_ORDER_TRADERS_SOUTH
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'STAGE_ORDER_TRADERS_SOUTH') }} "STAGE_ORDER_TRADERS_SOUTH"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM {{ ref_no_link('LOCATION_TARGET', 'H_ORDER') }} "H_ORDER"
+                WHERE "STAGE_ORDER_TRADERS_SOUTH"."ORDER_NUMBER" = "H_ORDER"."ORDER_NUMBER"
+            )
+        name: STAGE_ORDER_TRADERS_SOUTH
+        noLinkRefs:
+          - locationName: LOCATION_TARGET
+            nodeName: H_ORDER
+  name: H_ORDER
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
