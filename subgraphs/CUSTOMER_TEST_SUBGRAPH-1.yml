@@ -1,0 +1,15 @@
+fileVersion: 1
+id: "1"
+name: CUSTOMER_TEST_SUBGRAPH
+steps:
+  - faac899b-fe8c-4916-ac7e-75d805ad038c
+  - 3099c79e-0525-4527-84c0-bd2ace23067c
+  - e5e4e3b1-cdd8-4fb0-8e3d-f5bc5e696fc2
+  - f392e0e6-6246-423b-a610-e2f96643f4c8
+  - aa53f6c3-ae97-4139-9370-8f0725105b83
+  - 172a1123-978d-48f6-b49b-3569a5f69719
+  - 2402f98d-a87d-4b81-b5b4-ef286c0250a7
+  - ea2edd65-de48-407e-81bc-59cbcf370c26
+  - b23caf18-812c-44db-afe4-abf21557f7c6
+  - 459b962a-aa2a-4c00-a94f-0529d923b09f
+type: Subgraph

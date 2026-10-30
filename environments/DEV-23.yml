@@ -1,0 +1,14 @@
+fileVersion: 1
+id: "23"
+mappingDefinitions:
+  LOCATION_TARGET:
+    database: WS_REDC_MIGRATION_DEV
+    schema: RAWVAULT_DEV
+  SRC:
+    database: WS_REDC_MIGRATION_DEV
+    schema: SOURCE_DATA
+  TARGET:
+    database: WS_REDC_MIGRATION_DEV
+    schema: STAGING_DEV
+name: DEV
+type: Environment
