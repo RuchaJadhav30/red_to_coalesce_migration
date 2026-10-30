@@ -1,0 +1,6 @@
+excludeSelector: ""
+fileVersion: 1
+id: "3"
+includeSelector: "{ subgraph: \"EMPLOYEE_TERRITORY_SUBGRAPH\" }"
+name: EMPLOYEE_TERRITORY_JOB
+type: Job

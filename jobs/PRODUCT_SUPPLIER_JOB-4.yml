@@ -1,0 +1,6 @@
+excludeSelector: ""
+fileVersion: 1
+id: "4"
+includeSelector: "{ subgraph: \"PRODUCT_SUPPLIER_SUBGRAPH\" }"
+name: PRODUCT_SUPPLIER_JOB
+type: Job
