@@ -1,0 +1,214 @@
+fileVersion: 1
+id: 7fbcb8f2-d3c5-4510-a784-b3f1f2121ef1
+name: L_PRODUCTS_CATEGORIES_SUPPLIERS
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED link l_products_categories_suppliers (object key 134; source mappings src_l_products_categories_suppliers_bcf77d25 / update_src_l_product_bcf77d25 from stage_products_categories_suppliers_traders_north, and src_l_products_categories_suppliers_1_5d0cd397 / update_src_l_product_5d0cd397 from stage_products_categories_suppliers_traders_south) using the Data Vault by Scalefree Link node type (data-vault-by-scalefree:::7, package 3.0.0). Parent hubs: H_CATEGORY, H_PRODUCT, H_SUPPLIER. Both RED procedures insert SELECT DISTINCT from their Stage with NOT EXISTS on the combination of hub hash keys (hk_h_category, hk_h_product, hk_h_supplier). Differences from RED: (1) the package checks existence on the link hash key HK_L_PRODUCTS_CATEGORIES_SUPPLIERS instead of the hub-key combination, which is equivalent while HK_L_PRODUCTS_CATEGORIES_SUPPLIERS is the Stage's deterministic MD5 of those hub keys in this order; (2) each source batch is reduced to one row per HK_L_PRODUCTS_CATEGORIES_SUPPLIERS by QUALIFY ROW_NUMBER() OVER (PARTITION BY HK_L_PRODUCTS_CATEGORIES_SUPPLIERS ORDER BY DSS_LOAD_DATE) = 1 (ties are arbitrary), so rows with the same hub-key combination but a different DSS_RECORD_SOURCE or DSS_LOAD_DATE are inserted once, where RED's DISTINCT would insert both and fail on unique index l_products_ca_a5a8892c_idx_PK; (3) high-water-mark filtering is disabled (disable_hwm: true) because RED applies none; (4) sources load North then South (RED does not define an order); (5) DSS_CREATE_TIME uses CURRENT_TIMESTAMP(); (6) primary and unique keys are not enforced by Snowflake, and the hash keys are POC MD5 values with no RED hash parity."
+  isMultisource: true
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 282b7687-ef8e-4143-bda7-7d8323cef824
+          stepCounter: 7fbcb8f2-d3c5-4510-a784-b3f1f2121ef1
+        config:
+          is_Link_hk: true
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_l_products_categories_suppliers char(32) NOT NULL. Link hash key (unique index l_products_ca_a5a8892c_idx_PK), taken from the Stage, where it is the POC MD5 of hk_h_category, hk_h_product, hk_h_supplier in this order; not recalculated here."
+        name: HK_L_PRODUCTS_CATEGORIES_SUPPLIERS
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 92aa7ecd-21f2-432f-8e03-903bdc1416c9
+                stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH\".\"HK_L_PRODUCTS_CATEGORIES_SUPPLIERS\""
+          - columnReferences:
+              - columnCounter: 5ed5d12d-f1ea-4226-abfb-d6d1733c7baa
+                stepCounter: 71d8e49d-a016-4307-ad26-8099797de2c9
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_SOUTH\".\"HK_L_PRODUCTS_CATEGORIES_SUPPLIERS\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 30e29b18-ffdd-4192-be17-98677e165149
+          stepCounter: 7fbcb8f2-d3c5-4510-a784-b3f1f2121ef1
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_category char(32) NOT NULL. Hub hash key of H_CATEGORY (RED index l_products_ca_a5a8892c_idx_1), taken from the Stage."
+        name: HK_H_CATEGORY
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ed7670c0-d341-4816-96fc-17df1284348d
+                stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH\".\"HK_H_CATEGORY\""
+          - columnReferences:
+              - columnCounter: 6f52f53f-1d8e-459d-9c7c-17a4521189fd
+                stepCounter: 71d8e49d-a016-4307-ad26-8099797de2c9
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_SOUTH\".\"HK_H_CATEGORY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 77d8941f-e914-4f4f-a6fa-1e6846e41a53
+          stepCounter: 7fbcb8f2-d3c5-4510-a784-b3f1f2121ef1
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_product char(32) NOT NULL. Hub hash key of H_PRODUCT (RED index l_products_ca_a5a8892c_idx_2), taken from the Stage."
+        name: HK_H_PRODUCT
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2d52a151-6397-4fef-8389-5571fb39d5f4
+                stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH\".\"HK_H_PRODUCT\""
+          - columnReferences:
+              - columnCounter: 79352eb8-6de8-4bfd-b2b6-b8f1f9234f85
+                stepCounter: 71d8e49d-a016-4307-ad26-8099797de2c9
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_SOUTH\".\"HK_H_PRODUCT\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 79e6f3b2-8ef9-463f-8b10-023e73289918
+          stepCounter: 7fbcb8f2-d3c5-4510-a784-b3f1f2121ef1
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_supplier char(32) NOT NULL. Hub hash key of H_SUPPLIER (RED index l_products_ca_a5a8892c_idx_3), taken from the Stage."
+        name: HK_H_SUPPLIER
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e3135a19-1737-477f-aab9-f53758651104
+                stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH\".\"HK_H_SUPPLIER\""
+          - columnReferences:
+              - columnCounter: daecaa56-8386-4290-b060-e95c44bfb6e5
+                stepCounter: 71d8e49d-a016-4307-ad26-8099797de2c9
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_SOUTH\".\"HK_H_SUPPLIER\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1215a0d3-14de-4074-b88c-816bc1f06188
+          stepCounter: 7fbcb8f2-d3c5-4510-a784-b3f1f2121ef1
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: "RED: dss_record_source varchar(255) NULL"
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e95921dc-79c9-4ad5-b4a1-58cca87ccc9f
+                stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+          - columnReferences:
+              - columnCounter: c4dd6345-490b-4d40-bc60-05daf6021df2
+                stepCounter: 71d8e49d-a016-4307-ad26-8099797de2c9
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d323fc8e-3679-491b-aea7-b9f0bcdd4a6c
+          stepCounter: 7fbcb8f2-d3c5-4510-a784-b3f1f2121ef1
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_load_date datetime NULL"
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 234f5b4b-1f2a-412a-bda3-706b53b327cf
+                stepCounter: 8c5e4e2f-7336-4471-b710-4b068967a540
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+          - columnReferences:
+              - columnCounter: e1e8e02d-bc22-4c85-a2c7-73558fb8fe07
+                stepCounter: 71d8e49d-a016-4307-ad26-8099797de2c9
+            transform: "\"STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: dc9bf8c5-dd3d-42fc-8d68-996be3988aae
+          stepCounter: 7fbcb8f2-d3c5-4510-a784-b3f1f2121ef1
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_create_time datetime NULL. RED procedure: @v_current_datetime (one GETDATE() per procedure). POC uses CURRENT_TIMESTAMP() per statement, stored as TIMESTAMP_NTZ(9)."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH: 8c5e4e2f-7336-4471-b710-4b068967a540
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH') }} "STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH"
+        name: STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_NORTH
+        noLinkRefs: []
+      - aliases:
+          STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_SOUTH: 71d8e49d-a016-4307-ad26-8099797de2c9
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_SOUTH
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_SOUTH') }} "STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_SOUTH"
+        name: STAGE_PRODUCTS_CATEGORIES_SUPPLIERS_TRADERS_SOUTH
+        noLinkRefs: []
+  name: L_PRODUCTS_CATEGORIES_SUPPLIERS
+  overrideSQL: false
+  schema: ""
+  sqlType: data-vault-by-scalefree:::7
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,190 @@
+fileVersion: 1
+id: 4946193a-809d-4eb3-8ba8-b4bc52a77109
+name: L_EMPLOYEE_TERRITORIES
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED link l_employee_territories (object key 131; source mappings src_l_employee_territories_764014ef / update_src_l_employe_764014ef from stage_employee_territories_traders_north, and src_l_employee_territories_1_e68ea0e1 / update_src_l_employe_e68ea0e1 from stage_employee_territories_traders_south) using the Data Vault by Scalefree Link node type (data-vault-by-scalefree:::7, package 3.0.0). Parent hubs: H_EMPLOYEE, H_TERRITORY. Both RED procedures insert SELECT DISTINCT from their Stage with NOT EXISTS on the combination of hub hash keys (hk_h_employee, hk_h_territory). Differences from RED: (1) the package checks existence on the link hash key HK_L_EMPLOYEE_TERRITORIES instead of the hub-key combination, which is equivalent while HK_L_EMPLOYEE_TERRITORIES is the Stage's deterministic MD5 of those hub keys in this order; (2) each source batch is reduced to one row per HK_L_EMPLOYEE_TERRITORIES by QUALIFY ROW_NUMBER() OVER (PARTITION BY HK_L_EMPLOYEE_TERRITORIES ORDER BY DSS_LOAD_DATE) = 1 (ties are arbitrary), so rows with the same hub-key combination but a different DSS_RECORD_SOURCE or DSS_LOAD_DATE are inserted once, where RED's DISTINCT would insert both and fail on unique index l_employee_te_612ea01a_idx_PK; (3) high-water-mark filtering is disabled (disable_hwm: true) because RED applies none; (4) sources load North then South (RED does not define an order); (5) DSS_CREATE_TIME uses CURRENT_TIMESTAMP(); (6) primary and unique keys are not enforced by Snowflake, and the hash keys are POC MD5 values with no RED hash parity."
+  isMultisource: true
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f3407957-4fb5-4981-81ae-7b41229851f8
+          stepCounter: 4946193a-809d-4eb3-8ba8-b4bc52a77109
+        config:
+          is_Link_hk: true
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_l_employee_territories char(32) NOT NULL. Link hash key (unique index l_employee_te_612ea01a_idx_PK), taken from the Stage, where it is the POC MD5 of hk_h_employee, hk_h_territory in this order; not recalculated here."
+        name: HK_L_EMPLOYEE_TERRITORIES
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 817ad635-17a0-471b-9472-6d3aa4ba977e
+                stepCounter: 23a2cd59-f366-41a5-8a49-5b5d052779d1
+            transform: "\"STAGE_EMPLOYEE_TERRITORIES_TRADERS_NORTH\".\"HK_L_EMPLOYEE_TERRITORIES\""
+          - columnReferences:
+              - columnCounter: 426ba288-324b-470d-8b9c-d43c2e5167a4
+                stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+            transform: "\"STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH\".\"HK_L_EMPLOYEE_TERRITORIES\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c2f1dbbe-23c1-4054-a3d7-a7c8f1ac6b86
+          stepCounter: 4946193a-809d-4eb3-8ba8-b4bc52a77109
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_employee char(32) NOT NULL. Hub hash key of H_EMPLOYEE (RED index l_employee_te_612ea01a_idx_1), taken from the Stage."
+        name: HK_H_EMPLOYEE
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f74c8849-af5b-41b9-8aa1-aa23f1d54ebe
+                stepCounter: 23a2cd59-f366-41a5-8a49-5b5d052779d1
+            transform: "\"STAGE_EMPLOYEE_TERRITORIES_TRADERS_NORTH\".\"HK_H_EMPLOYEE\""
+          - columnReferences:
+              - columnCounter: 7179e027-283b-4414-a12c-895a1a1e40a8
+                stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+            transform: "\"STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH\".\"HK_H_EMPLOYEE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a8deba6b-041a-4cac-8ff2-6e67d62977d7
+          stepCounter: 4946193a-809d-4eb3-8ba8-b4bc52a77109
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_territory char(32) NOT NULL. Hub hash key of H_TERRITORY (RED index l_employee_te_612ea01a_idx_2), taken from the Stage."
+        name: HK_H_TERRITORY
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9cee3946-79f9-4c33-8550-9fb8db52f0fe
+                stepCounter: 23a2cd59-f366-41a5-8a49-5b5d052779d1
+            transform: "\"STAGE_EMPLOYEE_TERRITORIES_TRADERS_NORTH\".\"HK_H_TERRITORY\""
+          - columnReferences:
+              - columnCounter: 3cc1c775-4699-4203-b09a-f4a18e896e23
+                stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+            transform: "\"STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH\".\"HK_H_TERRITORY\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e7e25a7e-1b20-42c8-a8a6-f3c51f8d4902
+          stepCounter: 4946193a-809d-4eb3-8ba8-b4bc52a77109
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: "RED: dss_record_source varchar(255) NULL"
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9962f8fc-21d5-427e-b57c-7b3958aea62b
+                stepCounter: 23a2cd59-f366-41a5-8a49-5b5d052779d1
+            transform: "\"STAGE_EMPLOYEE_TERRITORIES_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+          - columnReferences:
+              - columnCounter: c134174b-d47a-42fe-9a4f-f2296e4b34b0
+                stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+            transform: "\"STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8fffd711-e06c-4d79-bfd4-04fc4290a1d5
+          stepCounter: 4946193a-809d-4eb3-8ba8-b4bc52a77109
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_load_date datetime NULL"
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dcac094f-b5cf-4d2d-bb36-a8f55a705b0c
+                stepCounter: 23a2cd59-f366-41a5-8a49-5b5d052779d1
+            transform: "\"STAGE_EMPLOYEE_TERRITORIES_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+          - columnReferences:
+              - columnCounter: e6ad8d6f-94a2-42d7-8ffa-c88bf735c588
+                stepCounter: df3693a2-ae42-4c28-ad02-575804014ef9
+            transform: "\"STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4a735137-4fc0-405f-9cf7-147dc689e61a
+          stepCounter: 4946193a-809d-4eb3-8ba8-b4bc52a77109
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_create_time datetime NULL. RED procedure: @v_current_datetime (one GETDATE() per procedure). POC uses CURRENT_TIMESTAMP() per statement, stored as TIMESTAMP_NTZ(9)."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_EMPLOYEE_TERRITORIES_TRADERS_NORTH: 23a2cd59-f366-41a5-8a49-5b5d052779d1
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_EMPLOYEE_TERRITORIES_TRADERS_NORTH
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_EMPLOYEE_TERRITORIES_TRADERS_NORTH') }} "STAGE_EMPLOYEE_TERRITORIES_TRADERS_NORTH"
+        name: STAGE_EMPLOYEE_TERRITORIES_TRADERS_NORTH
+        noLinkRefs: []
+      - aliases:
+          STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH: df3693a2-ae42-4c28-ad02-575804014ef9
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH') }} "STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH"
+        name: STAGE_EMPLOYEE_TERRITORIES_TRADERS_SOUTH
+        noLinkRefs: []
+  name: L_EMPLOYEE_TERRITORIES
+  overrideSQL: false
+  schema: ""
+  sqlType: data-vault-by-scalefree:::7
+  type: sql
+  version: 1
+type: Node

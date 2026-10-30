@@ -1,0 +1,277 @@
+fileVersion: 1
+id: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+name: R_COUNTRY
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED EDW 3NF table r_country (object key 83, target rawvault), a country reference table copied 1:1 from stage_country (RED nt_where: FROM stage_country; no joins or filters). RED defines no loading procedure for r_country (update, build and get procedure keys are 0, and no RED or compiled SQL Server procedure references it), so the load strategy is a migration design decision: full refresh (truncateBefore: true, then INSERT ... SELECT from STAGE_COUNTRY on each run). DSS_CREATE_TIME uses the project convention CURRENT_TIMESTAMP(). No hash keys, surrogate keys, history or extra columns; RED defines no primary key, unique index or constraint (NAME is the business key in metadata only), and all columns are nullable as in RED."
+  isMultisource: false
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0c310669-1f07-4d79-85f6-a4ccbfce53c6
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: VARCHAR(64)
+        defaultValue: ""
+        description: "RED r_country.name varchar(64) NULL <- stage_country.name. RED business key (key type A); no unique index or constraint exists in RED, so none is set here."
+        name: NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 713eed77-114a-4621-b84d-9e03c8f854f9
+                stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+            transform: "\"STAGE_COUNTRY\".\"NAME\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 153d01ba-2b12-4777-bddc-b63aff2f21fa
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: VARCHAR(4)
+        defaultValue: ""
+        description: "RED r_country.alpha_2 varchar(4) NULL <- stage_country.alpha_2"
+        name: ALPHA_2
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ee01be5d-59ba-4e2e-8ce9-09b3ff1cdb8f
+                stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+            transform: "\"STAGE_COUNTRY\".\"ALPHA_2\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e894021f-9f5c-45b9-8945-51b804fb9939
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: VARCHAR(4)
+        defaultValue: ""
+        description: "RED r_country.alpha_3 varchar(4) NULL <- stage_country.alpha_3"
+        name: ALPHA_3
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7e515487-0026-4577-b79e-6578fb8620a7
+                stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+            transform: "\"STAGE_COUNTRY\".\"ALPHA_3\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6f35ecd8-05e9-45dc-859f-284dfe9e7b6f
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED r_country.country_code int NULL <- stage_country.country_code"
+        name: COUNTRY_CODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a62243a6-ba06-40f9-8651-e6bdda4f8d08
+                stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+            transform: "\"STAGE_COUNTRY\".\"COUNTRY_CODE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1086e709-9416-458b-9757-2d25fe4d8859
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: VARCHAR(16)
+        defaultValue: ""
+        description: "RED r_country.iso_3166_2 varchar(16) NULL <- stage_country.iso_3166_2"
+        name: ISO_3166_2
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fdf3d7df-a83a-4844-840c-7c85a5debd2a
+                stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+            transform: "\"STAGE_COUNTRY\".\"ISO_3166_2\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e46fa513-4eee-421f-ac30-9130073938a4
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: VARCHAR(16)
+        defaultValue: ""
+        description: "RED r_country.region varchar(16) NULL <- stage_country.region"
+        name: REGION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0396bbf2-2aea-4129-8fd2-82774b6dfe66
+                stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+            transform: "\"STAGE_COUNTRY\".\"REGION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: db2bc780-8db5-4b28-b626-c0cb5a221536
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: VARCHAR(32)
+        defaultValue: ""
+        description: "RED r_country.sub_region varchar(32) NULL <- stage_country.sub_region"
+        name: SUB_REGION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0baf1918-044d-4f56-bd34-d63f0235ad6e
+                stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+            transform: "\"STAGE_COUNTRY\".\"SUB_REGION\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 500c8835-98d2-4ce2-a74f-193f37a51578
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: "RED r_country.region_code int NULL <- stage_country.region_code"
+        name: REGION_CODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: eb9e6eee-2d84-48cd-beca-b5c20dcfd125
+                stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+            transform: "\"STAGE_COUNTRY\".\"REGION_CODE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0cf7795d-e4c0-4376-b9d6-40dee36ed0cb
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: "RED r_country.sub_region_code varchar(8) NULL <- stage_country.sub_region_code"
+        name: SUB_REGION_CODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 954957c0-2187-4b71-afac-9fc40695a68d
+                stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+            transform: "\"STAGE_COUNTRY\".\"SUB_REGION_CODE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b87b3fe3-3e90-47e0-ac7d-6cff80dd60ae
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: "RED r_country.dss_record_source varchar(255) NULL <- stage_country.dss_record_source"
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0de0a7fe-23c8-4910-9699-68ee7e79d181
+                stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+            transform: "\"STAGE_COUNTRY\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: eda835af-3cf8-46b3-99f3-e043ca328dee
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED r_country.dss_load_date datetime NULL <- stage_country.dss_load_date"
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d146f95a-8db4-441f-b42a-880b3dc3aa1c
+                stepCounter: 81472ed1-8f5a-4f97-ae10-7955e097f263
+            transform: "\"STAGE_COUNTRY\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 80278ff4-05b3-4178-9cc0-c9d6e0c9c521
+          stepCounter: 91fd7ed6-7977-4fdf-9db1-7196c498dfac
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED r_country.dss_create_time datetime NULL. RED defines no expression (no loading procedure exists); project convention CURRENT_TIMESTAMP(), evaluated per statement and stored as TIMESTAMP_NTZ(9)."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "CURRENT_TIMESTAMP()"
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_COUNTRY: 81472ed1-8f5a-4f97-ae10-7955e097f263
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_COUNTRY
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_COUNTRY') }} "STAGE_COUNTRY"
+        name: R_COUNTRY
+        noLinkRefs: []
+  name: R_COUNTRY
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

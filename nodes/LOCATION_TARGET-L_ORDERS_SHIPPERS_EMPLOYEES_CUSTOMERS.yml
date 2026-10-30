@@ -1,0 +1,238 @@
+fileVersion: 1
+id: 459b962a-aa2a-4c00-a94f-0529d923b09f
+name: L_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: "Migrated from WhereScape RED link l_orders_shippers_employees_customers (object key 133; source mappings src_l_orders_shippers_employees_customers_9dc2bec5 / update_src_l_orders__9dc2bec5 from stage_orders_shippers_employees_customers_traders_north, and src_l_orders_shippers_employees_customers_1_380e2d37 / update_src_l_orders__380e2d37 from stage_orders_shippers_employees_customers_traders_south) using the Data Vault by Scalefree Link node type (data-vault-by-scalefree:::7, package 3.0.0). Parent hubs: H_CUSTOMER, H_EMPLOYEE, H_ORDER, H_SHIPPER. Both RED procedures insert SELECT DISTINCT from their Stage with NOT EXISTS on the combination of hub hash keys (hk_h_customer, hk_h_employee, hk_h_order, hk_h_shipper). Differences from RED: (1) the package checks existence on the link hash key HK_L_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS instead of the hub-key combination, which is equivalent while HK_L_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS is the Stage's deterministic MD5 of those hub keys in this order; (2) each source batch is reduced to one row per HK_L_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS by QUALIFY ROW_NUMBER() OVER (PARTITION BY HK_L_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS ORDER BY DSS_LOAD_DATE) = 1 (ties are arbitrary), so rows with the same hub-key combination but a different DSS_RECORD_SOURCE or DSS_LOAD_DATE are inserted once, where RED's DISTINCT would insert both and fail on unique index l_orders_ship_3c39a855_idx_PK; (3) high-water-mark filtering is disabled (disable_hwm: true) because RED applies none; (4) sources load North then South (RED does not define an order); (5) DSS_CREATE_TIME uses CURRENT_TIMESTAMP(); (6) primary and unique keys are not enforced by Snowflake, and the hash keys are POC MD5 values with no RED hash parity."
+  isMultisource: true
+  locationName: LOCATION_TARGET
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1b50f9bf-9882-49d2-beee-247940b0bae4
+          stepCounter: 459b962a-aa2a-4c00-a94f-0529d923b09f
+        config:
+          is_Link_hk: true
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_l_orders_shippers_employees_customers char(32) NOT NULL. Link hash key (unique index l_orders_ship_3c39a855_idx_PK), taken from the Stage, where it is the POC MD5 of hk_h_customer, hk_h_employee, hk_h_order, hk_h_shipper in this order; not recalculated here."
+        name: HK_L_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f230e6cd-d6fa-4e5a-95d4-b487596eb725
+                stepCounter: e5e4e3b1-cdd8-4fb0-8e3d-f5bc5e696fc2
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH\".\"HK_L_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS\""
+          - columnReferences:
+              - columnCounter: 596e7267-444c-42be-a6bc-4ff79067bb2f
+                stepCounter: f392e0e6-6246-423b-a610-e2f96643f4c8
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH\".\"HK_L_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6328bef4-145e-4115-90d9-04ebc084dbd1
+          stepCounter: 459b962a-aa2a-4c00-a94f-0529d923b09f
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_customer char(32) NOT NULL. Hub hash key of H_CUSTOMER (RED index l_orders_ship_3c39a855_idx_1), taken from the Stage."
+        name: HK_H_CUSTOMER
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d3d04d1c-8c64-4136-abbb-1b3edab17241
+                stepCounter: e5e4e3b1-cdd8-4fb0-8e3d-f5bc5e696fc2
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH\".\"HK_H_CUSTOMER\""
+          - columnReferences:
+              - columnCounter: dbc4caac-1cb7-46ff-ad75-44052cc3e1c3
+                stepCounter: f392e0e6-6246-423b-a610-e2f96643f4c8
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH\".\"HK_H_CUSTOMER\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 871619e7-4946-4513-80d5-f6fe34885c20
+          stepCounter: 459b962a-aa2a-4c00-a94f-0529d923b09f
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_employee char(32) NOT NULL. Hub hash key of H_EMPLOYEE (RED index l_orders_ship_3c39a855_idx_2), taken from the Stage."
+        name: HK_H_EMPLOYEE
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ca0e59fa-0012-412b-8ddb-b734107e1851
+                stepCounter: e5e4e3b1-cdd8-4fb0-8e3d-f5bc5e696fc2
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH\".\"HK_H_EMPLOYEE\""
+          - columnReferences:
+              - columnCounter: b7d0b417-7441-4343-93f7-a2bc94657d65
+                stepCounter: f392e0e6-6246-423b-a610-e2f96643f4c8
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH\".\"HK_H_EMPLOYEE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ca07a29d-fbae-4660-b4f4-929967961933
+          stepCounter: 459b962a-aa2a-4c00-a94f-0529d923b09f
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_order char(32) NOT NULL. Hub hash key of H_ORDER (RED index l_orders_ship_3c39a855_idx_3), taken from the Stage."
+        name: HK_H_ORDER
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 50b15923-a393-4cd0-bc58-1cafaf4943f1
+                stepCounter: e5e4e3b1-cdd8-4fb0-8e3d-f5bc5e696fc2
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH\".\"HK_H_ORDER\""
+          - columnReferences:
+              - columnCounter: 8e386c02-5fc2-49e0-8185-4531cc7c346e
+                stepCounter: f392e0e6-6246-423b-a610-e2f96643f4c8
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH\".\"HK_H_ORDER\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 53db12c5-64be-497b-bfc3-f194f624fc9c
+          stepCounter: 459b962a-aa2a-4c00-a94f-0529d923b09f
+        config: {}
+        dataType: CHAR(32)
+        defaultValue: ""
+        description: "RED: hk_h_shipper char(32) NOT NULL. Hub hash key of H_SHIPPER (RED index l_orders_ship_3c39a855_idx_4), taken from the Stage."
+        name: HK_H_SHIPPER
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fdf19148-1dba-4bd3-92e9-f13dbfd5a4ee
+                stepCounter: e5e4e3b1-cdd8-4fb0-8e3d-f5bc5e696fc2
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH\".\"HK_H_SHIPPER\""
+          - columnReferences:
+              - columnCounter: f92cc91f-8fda-4c87-b022-371147f9139a
+                stepCounter: f392e0e6-6246-423b-a610-e2f96643f4c8
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH\".\"HK_H_SHIPPER\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 745e6c13-3181-4225-ae9a-399457f365bc
+          stepCounter: 459b962a-aa2a-4c00-a94f-0529d923b09f
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: "RED: dss_record_source varchar(255) NULL"
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 07b06a66-aff6-4bdc-b3d1-75bbbde9ce96
+                stepCounter: e5e4e3b1-cdd8-4fb0-8e3d-f5bc5e696fc2
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH\".\"DSS_RECORD_SOURCE\""
+          - columnReferences:
+              - columnCounter: ac96eb0c-b56d-4ded-8f89-6fc48564dc9b
+                stepCounter: f392e0e6-6246-423b-a610-e2f96643f4c8
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH\".\"DSS_RECORD_SOURCE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2722eee3-57f2-407b-9a50-9eff3e65ad88
+          stepCounter: 459b962a-aa2a-4c00-a94f-0529d923b09f
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_load_date datetime NULL"
+        name: DSS_LOAD_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7c9368ad-958b-4976-b54b-101709dd076a
+                stepCounter: e5e4e3b1-cdd8-4fb0-8e3d-f5bc5e696fc2
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH\".\"DSS_LOAD_DATE\""
+          - columnReferences:
+              - columnCounter: f778e464-7f4e-43f0-a828-6352a0326f99
+                stepCounter: f392e0e6-6246-423b-a610-e2f96643f4c8
+            transform: "\"STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH\".\"DSS_LOAD_DATE\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f9aa6435-afb3-4da0-93b9-1f40d0824e3b
+          stepCounter: 459b962a-aa2a-4c00-a94f-0529d923b09f
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: "RED: dss_create_time datetime NULL. RED procedure: @v_current_datetime (one GETDATE() per procedure). POC uses CURRENT_TIMESTAMP() per statement, stored as TIMESTAMP_NTZ(9)."
+        name: DSS_CREATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+        uniqueKey: false
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH: e5e4e3b1-cdd8-4fb0-8e3d-f5bc5e696fc2
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH') }} "STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH"
+        name: STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_NORTH
+        noLinkRefs: []
+      - aliases:
+          STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH: f392e0e6-6246-423b-a610-e2f96643f4c8
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH') }} "STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH"
+        name: STAGE_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS_TRADERS_SOUTH
+        noLinkRefs: []
+  name: L_ORDERS_SHIPPERS_EMPLOYEES_CUSTOMERS
+  overrideSQL: false
+  schema: ""
+  sqlType: data-vault-by-scalefree:::7
+  type: sql
+  version: 1
+type: Node
